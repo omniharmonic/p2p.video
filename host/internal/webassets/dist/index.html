@@ -1,0 +1,183 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#f4f6f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
+  <title>p2p.video</title>
+  <script type="module" crossorigin src="/assets/main-BYEMgQG_.js"></script>
+  <link rel="modulepreload" crossorigin href="/assets/clock-BgJDluMF.js">
+  <link rel="modulepreload" crossorigin href="/assets/pcm-recorder-Dmmhug7k.js">
+  <link rel="modulepreload" crossorigin href="/assets/backoff-B7uGZptN.js">
+  <link rel="stylesheet" crossorigin href="/assets/clock-CL5RPJ8F.css">
+  <link rel="stylesheet" crossorigin href="/assets/main-BBErdqvU.css">
+</head>
+<body>
+  <header class="app-header">
+    <div class="brand" aria-label="p2p.video">
+      <span class="brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><circle cx="10.5" cy="14" r="6.5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="14" r="6.5" stroke="currentColor" stroke-width="2"/><path class="brand-lens" d="M14 8.52A6.5 6.5 0 0 1 14 19.48A6.5 6.5 0 0 1 14 8.52Z"/></svg></span>
+      <span class="brand-name wordmark">p2p<span class="wordmark-tld">.video</span></span>
+    </div>
+    <div class="header-right">
+      <button id="wizard-btn" class="btn btn-quiet">Setup guide</button>
+    </div>
+  </header>
+
+  <div id="countdown-overlay" role="status" aria-live="polite"><span class="countdown-caption">Recording starts in</span><div class="countdown-number" id="countdown-val">3</div><p>Everyone is recorded on their own device</p></div>
+
+  <div id="export-modal" role="dialog" aria-modal="true" aria-labelledby="export-heading">
+    <div class="modal-card export-card">
+      <div class="modal-header"><h2 id="export-heading">Your files for editing are ready</h2><button id="close-modal-btn" class="icon-button" aria-label="Close files for editing">×</button></div>
+      <p class="modal-intro">Each person’s camera and microphone is a separate file, lined up on one timeline. Check the timing in your editor before you cut.</p>
+      <div class="artifact-list">
+        <div class="export-item"><span class="file-glyph" aria-hidden="true">FCP</span><div><strong>Final Cut Pro</strong><span>Multicam project (FCPXML 1.10)</span></div><span class="badge badge-success">Ready</span></div>
+        <div class="export-item"><span class="file-glyph" aria-hidden="true">XML</span><div><strong>Premiere Pro and DaVinci Resolve</strong><span>Timeline with one track per person (xmeml v4)</span></div><span class="badge badge-success">Ready</span></div>
+        <div class="export-item"><span class="file-glyph" aria-hidden="true">{ }</span><div><strong>Recording details</strong><span>Which file is whose, and how they were lined up</span></div><span class="badge">JSON</span></div>
+      </div>
+      <details class="delivery-location"><summary>Where the files are on the host</summary><p id="export-location"></p><p id="export-files"></p></details>
+      <section id="ecosystem-actions"></section>
+      <div class="modal-footer"><p>Unzip the download, then open the project file in your editor.</p><button id="open-folder-btn" class="btn btn-primary">Download files for editing</button></div>
+    </div>
+  </div>
+  <div id="toast-container" role="status" aria-live="polite"></div>
+
+  <main id="main-container">
+    <section id="green-room" class="ready" aria-labelledby="ready-title">
+      <button type="button" id="ready-back-btn" class="btn btn-quiet ready-back" hidden><span class="ui-icon" data-ready-icon="back" aria-hidden="true"></span><span>Back to home</span></button>
+      <div class="ready-grid">
+        <div class="ready-stage">
+          <div class="preview-box ready-preview">
+            <video id="preview-video" autoplay playsinline muted></video>
+            <div class="preview-off" aria-hidden="true"><span class="preview-off-avatar" id="preview-initial"></span><span>Your camera is off</span></div>
+            <div class="preview-controls" role="group" aria-label="Before you join">
+              <button type="button" id="ready-mic-btn" class="round-btn sound-ring" aria-pressed="false" aria-label="Turn off microphone"><span class="ui-icon" data-ready-icon="mic" aria-hidden="true"></span></button>
+              <button type="button" id="ready-cam-btn" class="round-btn" aria-pressed="false" aria-label="Turn off camera"><span class="ui-icon" data-ready-icon="cam" aria-hidden="true"></span></button>
+              <button type="button" id="ready-bg-btn" class="round-btn" aria-expanded="false" aria-controls="ready-bg-panel" aria-label="Background"><span class="ui-icon" data-ready-icon="sparkle" aria-hidden="true"></span></button>
+            </div>
+          </div>
+          <div class="device-row ready-devices" role="group" aria-label="Devices">
+            <label class="device-chip" for="mic-select"><span class="ui-icon" data-ready-icon="mic" aria-hidden="true"></span><span class="visually-hidden">Microphone</span><select id="mic-select"></select><span class="device-chip-level" aria-hidden="true"><span id="vu-bar-l" class="vu-level"></span><span id="vu-bar-r" class="vu-level" hidden></span></span></label>
+            <label class="device-chip" for="camera-select"><span class="ui-icon" data-ready-icon="cam" aria-hidden="true"></span><span class="visually-hidden">Camera</span><select id="camera-select"></select></label>
+            <label class="device-chip" for="speaker-select" id="speaker-chip" hidden><span class="ui-icon" data-ready-icon="speaker" aria-hidden="true"></span><span class="visually-hidden">Speaker</span><select id="speaker-select"></select></label>
+          </div>
+          <div id="ready-bg-panel" class="ready-bg-panel" role="region" aria-label="Background" hidden></div>
+        </div>
+        <div class="ready-side">
+          <div class="workspace-heading ready-heading"><div><span class="section-kicker" id="ready-kicker"></span><h1 id="ready-title">Ready to join?</h1><p>Check your camera and microphone, then join.</p></div><span class="workspace-index"></span></div>
+          <div class="form-group ready-name"><label for="name-input">Your name</label><input type="text" id="name-input" placeholder="How others will see you" autocomplete="name" maxlength="80"></div>
+          <button id="join-btn" class="btn btn-primary btn-block">Join now</button>
+          <p id="device-status" class="device-status" role="status" aria-live="polite">Asking for your camera and microphone…</p>
+          <div class="ready-readiness" id="ready-readiness"></div>
+          <div class="ready-headphones" id="ready-headphones"></div>
+          <details class="ready-options" id="recording-options">
+            <summary><span>Recording options</span><span class="ui-icon ready-options-chevron" data-ready-icon="chevronDown" aria-hidden="true"></span></summary>
+            <div class="ready-options-body">
+              <div class="form-group ready-role"><label for="role-select">Join as</label><select id="role-select"><option value="host">Host</option><option value="guest">Guest</option></select></div>
+              <label class="pcm-option"><input type="checkbox" id="pcm-audio-toggle"><span><strong>Studio-quality audio (larger files)</strong><span id="pcm-option-status">Also saves an uncompressed WAV of your microphone next to the video, for the editor. Asks the browser to switch off its sound processing; what it actually used is noted with the file.</span></span></label>
+              <div class="ready-details">
+                <p><span>Camera</span><span id="preview-spec">Waiting for camera</span></p>
+                <p>Recordings are made on this device at full quality, separate from how the call sounds, then sent to the host. Keep this tab open until the host has them.</p>
+              </div>
+            </div>
+          </details>
+          <p class="source-note">p2p.video is open source. <a class="source-link" data-source-link href="https://github.com/omniharmonic/p2p.video" target="_blank" rel="noopener noreferrer">Source code</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="waiting-room" class="waiting-room ready" style="display:none" aria-labelledby="waiting-title">
+      <div class="ready-grid">
+        <div class="ready-stage">
+          <div class="preview-box ready-preview"><video id="waiting-preview-video" autoplay playsinline muted></video><span class="preview-chip">Only you can see this</span></div>
+        </div>
+        <div class="ready-side">
+          <div class="workspace-heading ready-heading waiting-heading"><div><span class="section-kicker">Meeting</span><h1 id="waiting-title">Asking to join…</h1><p>The host will let you in soon. Keep this tab open.</p></div><span class="badge badge-waiting">Asking the host</span></div>
+          <details class="ready-options waiting-tools">
+            <summary><span>Check your picture and sound</span><span class="ui-icon ready-options-chevron" data-ready-icon="chevronDown" aria-hidden="true"></span></summary>
+            <div class="ready-options-body">
+              <div class="panel-heading"><p class="field-hint">Record a 10-second clip and play it back. It stays on this device and is gone when you clear it.</p><span id="diagnostic-status" class="small-muted">Ready to test</span></div>
+              <button id="diagnostic-rec-btn" class="btn btn-secondary btn-block">Record a 10-second test</button>
+              <div id="diagnostic-progress-container" class="progress-track" style="display:none"><div id="diagnostic-progress-bar" class="progress-fill"></div></div>
+              <div id="diagnostic-playback-container" class="diagnostic-playback" style="display:none"><video id="diagnostic-playback-video" controls playsinline></video><div class="playback-meta"><span>Test clip, on this device only</span><button id="diagnostic-clear-btn" class="btn btn-quiet">Clear test</button></div></div>
+              <div class="allowance-panel"><span class="field-label">Space for recordings</span><div id="waiting-storage-quota">Checking space…</div></div>
+              <p class="field-hint">Headphones keep other voices out of your recording.</p>
+            </div>
+          </details>
+          <p class="source-note">p2p.video is open source. <a class="source-link" data-source-link href="https://github.com/omniharmonic/p2p.video" target="_blank" rel="noopener noreferrer">Source code</a></p>
+        </div>
+      </div>
+    </section>
+
+    <section id="studio-view" style="display:none">
+      <header class="call-bar">
+        <div class="call-bar-start">
+          <span class="call-clock" id="call-clock"></span>
+          <span class="call-bar-sep" aria-hidden="true"></span>
+          <button type="button" id="call-details-btn" class="call-title-btn" aria-haspopup="dialog" aria-expanded="false" aria-controls="call-details"><h1 id="display-session-title" class="session-title">Meeting</h1><span class="ui-icon call-title-info" data-icon="info" aria-hidden="true"></span><span class="visually-hidden">Meeting details</span></button>
+          <div id="rec-indicator" class="rec-pill"><span class="rec-dot" aria-hidden="true"></span><span id="rec-label">Recording</span><span id="rec-timer">0:00</span></div>
+          <span id="live-chip" class="live-chip" hidden><span class="rec-dot" aria-hidden="true"></span>Live</span>
+        </div>
+        <div class="call-bar-end">
+          <div id="connection-pill" class="status-pill" role="status" aria-live="polite"><span class="status-dot"></span><span id="conn-text">Not connected</span></div>
+          <button id="copy-invite-btn" class="btn btn-quiet call-add-btn"><span class="ui-icon" data-icon="invite" aria-hidden="true"></span><span>Add others</span></button>
+          <button type="button" id="call-avatars" class="call-avatars" aria-label="People"><span class="call-avatar-stack" aria-hidden="true"></span><span class="call-avatar-count" aria-hidden="true"></span></button>
+        </div>
+        <div id="call-details" class="call-details popover-surface" role="dialog" aria-labelledby="call-details-title" hidden>
+          <div class="call-details-head"><h2 id="call-details-title">Meeting details</h2><button type="button" class="icon-button" data-close aria-label="Close meeting details">×</button></div>
+          <div class="call-details-section" data-host-only><h3>Meeting link</h3><p class="call-details-hint">People who use this meeting link must get your permission before they can join.</p><div class="call-details-row"><button type="button" class="btn btn-secondary btn-compact" data-copy-link><span class="ui-icon" data-icon="copy" aria-hidden="true"></span><span>Copy meeting link</span></button><button type="button" class="btn btn-quiet btn-compact" data-add-others>Add others</button></div><p class="call-details-status" data-link-status role="status"></p></div>
+          <div class="call-details-section"><h3>Recording</h3><p class="call-details-hint">Each person is recorded on their own device at full quality, and the files are sent to the host computer. A shaky connection doesn’t spoil the recording.</p></div>
+          <div class="call-details-section"><h3>Connection</h3><p class="call-details-hint" data-conn-mirror>Not connected</p></div>
+          <button type="button" class="btn btn-quiet btn-compact call-details-ready" data-show-ready data-host-only>Show “Your meeting’s ready” again</button>
+        </div>
+      </header>
+      <div class="call-notices">
+        <div id="host-admission-banner" class="admission-banner" style="display:none"><div><span class="admission-avatar" aria-hidden="true"></span><strong id="admission-guest-name">Participant</strong><span>wants to join</span></div><div><button id="deny-btn" class="btn btn-quiet btn-compact">Deny</button><button id="admit-btn" class="btn btn-primary btn-compact">Admit</button></div></div>
+      </div>
+      <div class="stage-with-inspector"><div class="video-grid layout-split" id="video-grid"><div class="tile" id="local-tile"><video id="local-video" autoplay playsinline muted></video><div class="tile-name" id="local-name-tag">You</div><div class="tile-state"><span class="tile-state-mic" hidden>Mic off</span><span class="tile-state-cam" hidden>Camera off</span></div><div class="tile-iso-badge" id="local-iso-badge">Recording</div></div></div>
+        <div id="health-section" class="health-section"><button type="button" id="toggle-health-btn" class="btn health-toggle" aria-controls="session-health-aside"><span class="ui-icon" data-icon="health" aria-hidden="true"></span><span>Connection &amp; recording</span></button><aside id="session-health-aside" class="health-inspector" style="display:none"><div class="panel-heading"><h3>Connection &amp; recording</h3><button id="close-health-btn" class="icon-button" aria-label="Hide connection and recording">×</button></div><div id="health-participants-list"></div><button id="view-transfers-aside-btn" class="btn btn-secondary btn-compact">Uploads</button></aside></div>
+        <aside id="studio-panel" class="studio-panel" aria-labelledby="studio-panel-title" hidden>
+          <div class="call-panel-head"><h2 id="studio-panel-title">Studio</h2><button type="button" class="icon-button" data-close aria-label="Close Studio">×</button></div>
+          <div class="studio-panel-body">
+            <section class="studio-section studio-rec" aria-labelledby="studio-rec-title">
+              <h3 id="studio-rec-title" class="studio-heading">Recording</h3>
+              <div class="studio-rec-status"><span class="studio-rec-dot" aria-hidden="true"></span><div><strong id="studio-rec-headline">Not recording</strong><span id="take-status-badge" class="studio-rec-sub">No recording yet</span></div></div>
+              <div class="studio-tools"></div>
+              <div class="studio-uploads">
+                <p id="studio-upload-summary" class="studio-upload-summary">Nothing to upload yet</p>
+                <div class="studio-upload-bar" hidden><div class="studio-upload-fill"></div></div>
+                <p id="telemetry-status" class="studio-telemetry">Not recording</p>
+                <details class="studio-details"><summary>Technical details</summary><p id="telemetry-chunks">No track uploaded yet</p><p id="telemetry-storage">Browser private storage required for recording</p><p id="resolution-spec">Waiting for device settings</p></details>
+              </div>
+              <div class="studio-list" data-group="recording">
+                <button id="dock-transfers-btn" class="btn studio-item">Uploads</button>
+                <button id="postproc-btn" class="btn studio-item" style="display:none">Get files for editing</button>
+                <button id="chirp-btn" class="btn studio-item" style="display:none">Play sync chirp</button>
+              </div>
+            </section>
+            <section class="studio-section" aria-labelledby="studio-show-title" data-group-section="show"><h3 id="studio-show-title" class="studio-heading">Show</h3><div class="studio-list" data-group="show"></div></section>
+            <section class="studio-section" aria-labelledby="studio-meeting-title"><h3 id="studio-meeting-title" class="studio-heading">Meeting</h3><div class="studio-list" data-group="meeting">
+              <button id="settings-btn" class="btn studio-item">Recording quality</button>
+            </div></section>
+          </div>
+        </aside>
+      </div>
+      <div class="dock" role="region" aria-label="Call controls">
+        <div class="transport-inputs"><button id="toggle-mic-btn" class="btn btn-secondary">Mute mic + recording</button><button id="toggle-cam-btn" class="btn btn-secondary">Disable camera + recording</button></div>
+        <div class="more-wrap">
+          <button id="more-btn" type="button" class="btn collab-btn" aria-haspopup="true" aria-expanded="false" aria-controls="more-panel"><span class="collab-icon ui-icon" data-icon="more" aria-hidden="true"></span><span class="collab-label">More options</span></button>
+          <div id="more-panel" class="more-panel" role="region" aria-label="More options" hidden>
+            <div class="more-section more-collapsed" aria-label="Call controls"></div>
+            <div class="more-section more-layout"><h2 class="more-heading">Layout</h2><div id="layout-switcher-anchor"></div></div>
+            <div class="more-section more-list" id="more-list"></div>
+          </div>
+        </div>
+        <div class="transport-record"><button id="rec-btn" class="btn btn-danger" style="display:none">Start recording</button></div>
+        <div class="transport-actions"></div>
+        <div class="dock-right"><button type="button" id="details-btn" class="btn collab-btn" aria-controls="call-details" aria-expanded="false"><span class="collab-icon ui-icon" data-icon="info" aria-hidden="true"></span><span class="collab-label">Meeting details</span></button><button type="button" id="studio-btn" class="btn collab-btn" aria-controls="studio-panel" aria-expanded="false"><span class="collab-icon ui-icon" data-icon="studio" aria-hidden="true"></span><span class="collab-label">Studio</span></button></div>
+      </div>
+    </section>
+  </main>
+  <footer class="app-footer"><span>p2p.video</span><span>Local capture / Host-owned media</span><span>Keep originals. Review timing.</span></footer>
+</body>
+</html>

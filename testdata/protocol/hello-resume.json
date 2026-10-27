@@ -1,0 +1,1 @@
+{"t":"hello","payload":{"name":"Synthetic guest","role":"guest","resumeToken":"signed-test-grant","capabilities":{"opfs":true}}}

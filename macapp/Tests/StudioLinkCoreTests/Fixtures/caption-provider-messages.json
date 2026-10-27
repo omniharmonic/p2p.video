@@ -1,0 +1,9 @@
+[
+  {"t":"hello","protocol":1,"name":"p2p.video on-device speech","engine":"apple-speechtranscriber","languages":["en-GB","en-US","fr-FR"]},
+  {"t":"ready","protocol":1},
+  {"t":"stream_start","streamId":"s7","language":"en-US","sampleRate":16000,"encoding":"pcm_s16le"},
+  {"t":"result","streamId":"s7","segmentId":"1","text":"Welcome to the","startMs":40,"endMs":1200},
+  {"t":"result","streamId":"s7","segmentId":"1","text":"Welcome to the p2p.video podcast.","isFinal":true,"endMs":2220},
+  {"t":"stream_end","streamId":"s7"},
+  {"t":"error","streamId":"s7","code":"unsupported_language","message":"Live captions don't support xx-XX on this Mac."}
+]

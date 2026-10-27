@@ -1,0 +1,4 @@
+.build/
+.build-sparkle/
+# Written by the opt-in Sparkle build (STUDIOLINK_SPARKLE=1); the version is pinned exactly in Package.swift.
+Package.resolved

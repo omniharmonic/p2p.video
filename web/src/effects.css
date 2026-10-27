@@ -1,0 +1,39 @@
+/* Background effects picker [SL-P1-7]: green room row and in-call popover. */
+.effects-swatches { display: grid; grid-template-columns: repeat(6, minmax(0, 1fr)); gap: var(--sp-2); }
+.effects-swatch { display: flex; flex-direction: column; align-items: stretch; gap: 6px; min-width: 0; padding: 0; border: 0; background: none; color: var(--sl-text-2); font-size: var(--fs-xs); text-align: center; }
+.effects-swatch-art { position: relative; display: grid; place-items: center; aspect-ratio: 16 / 10; border-radius: var(--r-2); border: 1px solid var(--sl-line-strong); background: var(--sl-inset); overflow: hidden; transition: box-shadow var(--dur-1), border-color var(--dur-1); }
+.effects-swatch-art svg { width: 18px; height: 18px; color: var(--sl-text-3); }
+/* Blur swatches: a soft abstract figure on a soft background, no images. */
+.effects-swatch-blur .effects-swatch-art { background: linear-gradient(160deg, var(--sl-line-strong), var(--sl-surface-3) 55%, var(--sl-line)); }
+.effects-swatch-blur .effects-swatch-art::before { content: ''; position: absolute; inset: 18% 32% -10%; border-radius: 50% 50% 18% 18%; background: var(--sl-text-2); opacity: .55; }
+.effects-swatch-blur .effects-swatch-art::after { content: ''; position: absolute; inset: 0; backdrop-filter: blur(1.5px); }
+#effect-call-blur-strong .effects-swatch-art::after, #effect-green-blur-strong .effects-swatch-art::after { backdrop-filter: blur(4px); }
+.effects-swatch-label { white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.effects-swatch:hover:not(:disabled) .effects-swatch-art { border-color: var(--sl-accent-line); }
+.effects-swatch[aria-checked="true"] .effects-swatch-art { border-color: var(--sl-accent); box-shadow: 0 0 0 2px var(--sl-accent); }
+.effects-swatch[aria-checked="true"] { color: var(--sl-text); }
+.effects-swatch:focus-visible { outline: none; }
+.effects-swatch:focus-visible .effects-swatch-art { box-shadow: var(--focus-ring); }
+.effects-swatch:disabled { opacity: .6; }
+.effects-note, .effects-status { font-size: var(--fs-xs); color: var(--sl-text-3); line-height: var(--lh-body); }
+.effects-status:empty { display: none; }
+.effects-status { color: var(--sl-text-2); font-variant-numeric: tabular-nums; }
+
+.effects-row { display: flex; flex-direction: column; gap: var(--sp-2); }
+.effects-row .field-label { margin-bottom: 0; }
+
+.effects-popover { position: absolute; left: 50%; bottom: calc(100% + 12px); transform: translateX(-50%); z-index: var(--z-popover); width: min(380px, calc(100vw - 32px)); max-height: calc(100dvh - 160px); overflow: auto; padding: var(--sp-4); display: flex; flex-direction: column; gap: var(--sp-3);
+  background: var(--sl-surface-1); border: 1px solid var(--sl-line-strong); border-radius: var(--r-3); box-shadow: var(--shadow-2); }
+.effects-popover[hidden] { display: none; }
+.effects-head { display: flex; align-items: center; justify-content: space-between; }
+.effects-head h2 { font-size: var(--fs-base); font-weight: 600; }
+.effects-preview { aspect-ratio: 16 / 9; border-radius: var(--r-2); overflow: hidden; background: var(--sl-stage); }
+.effects-preview video { width: 100%; height: 100%; object-fit: cover; display: block; }
+.effects-popover .effects-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+#effects-btn.is-on .collab-icon { color: var(--sl-accent); }
+
+@media (max-width: 640px) {
+  .effects-swatches { grid-template-columns: repeat(3, minmax(0, 1fr)); }
+  .effects-popover { position: fixed; left: var(--sp-4); right: var(--sp-4); bottom: calc(var(--dock-h, 68px) + var(--sp-2)); transform: none; width: auto; z-index: var(--z-sheet); }
+}
+@media (prefers-reduced-motion: reduce) { .effects-swatch-art { transition: none; } }

@@ -1,0 +1,69 @@
+BEGIN:VCALENDAR
+VERSION:2.0
+PRODID:-//p2p.video//p2p.video Calendar 1.0//EN
+CALSCALE:GREGORIAN
+NAME:p2p.video — Ben
+X-WR-CALNAME:p2p.video — Ben
+REFRESH-INTERVAL;VALUE=DURATION:PT15M
+X-PUBLISHED-TTL:PT15M
+BEGIN:VEVENT
+UID:mtg_4f1c2a9be0d3@studiolink
+DTSTAMP:20261026T091500Z
+CREATED:20261026T091500Z
+LAST-MODIFIED:20261026T091500Z
+SEQUENCE:0
+DTSTART:20261030T170000Z
+DTEND:20261030T183000Z
+SUMMARY:Épisode 12\; Ada\, Grace & the \\backslash 🎙️
+DESCRIPTION:Join the call: https://studio.tail1234.ts.net/join?room=the-pod
+ cast&token=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+ f\n\nAgenda:\n1. Cold open\, 5 min\; intros\n2. Main topic — compilers\,
+  history & “why it matters”\n3. Wrap-up\n\nWe record locally: please u
+ se headphones.\n\nBefore you join:\n- Use Google Chrome on a laptop or des
+ ktop computer.\n- Wear headphones (wired are best) so your microphone reco
+ rds only your voice.\n- Sit somewhere quiet\, with light in front of you r
+ ather than behind.\n- You will check your camera and microphone before you
+  join. No account or app needed.\n- After the call\, keep the tab open unt
+ il your recording finishes uploading.\n\nHosted with p2p.video.
+LOCATION:https://studio.tail1234.ts.net/join?room=the-podcast&token=0123456
+ 789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+URL:https://studio.tail1234.ts.net/join?room=the-podcast&token=0123456789ab
+ cdef0123456789abcdef0123456789abcdef0123456789abcdef
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Épisode 12\; Ada\, Grace & the \\backslash 🎙️
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+BEGIN:VEVENT
+UID:mtg_second@studiolink
+DTSTAMP:20261026T091500Z
+CREATED:20261026T091500Z
+LAST-MODIFIED:20261026T091500Z
+SEQUENCE:0
+DTSTART:20261102T093000Z
+DTEND:20261102T100000Z
+SUMMARY:Weekly sync
+DESCRIPTION:Join the call: https://studio.tail1234.ts.net/join?room=the-pod
+ cast&token=0123456789abcdef0123456789abcdef0123456789abcdef0123456789abcde
+ f\n\nBefore you join:\n- Use Google Chrome on a laptop or desktop computer
+ .\n- Wear headphones (wired are best) so your microphone records only your
+  voice.\n- Sit somewhere quiet\, with light in front of you rather than be
+ hind.\n- You will check your camera and microphone before you join. No acc
+ ount or app needed.\n- After the call\, keep the tab open until your recor
+ ding finishes uploading.\n\nHosted with p2p.video.
+LOCATION:https://studio.tail1234.ts.net/join?room=the-podcast&token=0123456
+ 789abcdef0123456789abcdef0123456789abcdef0123456789abcdef
+URL:https://studio.tail1234.ts.net/join?room=the-podcast&token=0123456789ab
+ cdef0123456789abcdef0123456789abcdef0123456789abcdef
+STATUS:CONFIRMED
+TRANSP:OPAQUE
+BEGIN:VALARM
+ACTION:DISPLAY
+DESCRIPTION:Weekly sync
+TRIGGER:-PT10M
+END:VALARM
+END:VEVENT
+END:VCALENDAR

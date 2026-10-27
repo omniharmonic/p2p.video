@@ -1,0 +1,57 @@
+/* Pre-flight "ready to record" checklist [SL-P0-5]. Tokens from tokens.css.
+   Ready to join shows one calm line, "Ready to record" or "2 things to check
+   before recording", that expands to the full list [SL-UX-2a]. The in-call
+   chip popover keeps the full list. */
+:root { --pf-ok: var(--sl-ok); --pf-warn: var(--sl-warn); --pf-fail: var(--sl-danger); --pf-info: var(--sl-text-3); }
+.preflight-panel { margin: 0; }
+.pf-summary { display: flex; align-items: center; gap: var(--sp-2); width: 100%; min-height: 40px; padding: 0 var(--sp-3); border: 1px solid transparent; border-radius: var(--r-pill); background: var(--sl-surface-2); color: var(--sl-text); text-align: left; font-size: var(--fs-md); transition: background-color var(--dur-1); }
+.pf-summary:hover { background: var(--sl-surface-3); }
+.pf-summary .pf-overall { flex: 1; min-width: 0; font-weight: 500; }
+.pf-summary-mark { display: grid; place-items: center; flex: 0 0 18px; width: 18px; height: 18px; border-radius: 50%; background: var(--pf-info); }
+.pf-summary-mark::after { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--sl-surface-1); }
+[data-overall="ok"] .pf-summary-mark { background: var(--pf-ok); }
+[data-overall="ok"] .pf-summary-mark::after { width: 7px; height: 4px; border-radius: 0; background: none; border: solid var(--sl-surface-1); border-width: 0 0 2px 2px; transform: translateY(-1px) rotate(-45deg); }
+[data-overall="warn"] .pf-summary-mark { background: var(--pf-warn); }
+[data-overall="fail"] .pf-summary-mark { background: var(--pf-fail); }
+.preflight-panel[data-overall="ok"] .pf-summary { background: var(--sl-ok-soft); }
+.preflight-panel[data-overall="ok"] .pf-summary .pf-overall { color: var(--sl-ok); }
+.preflight-panel:not([data-overall="ok"]) .pf-summary .pf-overall { color: var(--sl-text); }
+.pf-summary-more { color: var(--sl-text-2); font-size: var(--fs-sm); }
+.pf-details { margin-top: var(--sp-2); padding: var(--sp-3); border: 1px solid var(--sl-line); border-radius: var(--r-3); background: var(--sl-surface-1); }
+.pf-details[hidden] { display: none; }
+.pf-details .preflight-list { margin-top: 0; }
+.pf-details-foot { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-top: var(--sp-3); padding-top: var(--sp-2); border-top: 1px solid var(--sl-line); }
+.pf-details-foot .preflight-note { margin: 0; }
+.pf-details-foot .btn { flex: none; }
+.preflight-head { display: flex; align-items: center; gap: var(--sp-2); justify-content: space-between; flex-wrap: wrap; }
+.preflight-head .btn { min-height: 28px; padding: 0 var(--sp-2); font-size: var(--fs-sm); }
+.pf-overall { font-size: var(--fs-md); font-weight: 600; color: var(--pf-info); }
+.pf-overall.pf-ok { color: var(--pf-ok); }
+.pf-overall.pf-warn { color: var(--pf-warn); }
+.pf-overall.pf-fail { color: var(--pf-fail); }
+.preflight-list { list-style: none; margin: var(--sp-2) 0 0; padding: 0; display: grid; gap: 6px; }
+.preflight-list li { display: grid; grid-template-columns: 10px minmax(0, 1fr) auto; column-gap: var(--sp-2); row-gap: 1px; align-items: center; font-size: var(--fs-md); }
+.pf-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--pf-info); display: inline-block; }
+.pf-ok > .pf-dot, [data-overall="ok"] > .pf-dot { background: var(--pf-ok); }
+.pf-warn > .pf-dot, [data-overall="warn"] > .pf-dot { background: var(--pf-warn); }
+.pf-fail > .pf-dot, [data-overall="fail"] > .pf-dot { background: var(--pf-fail); }
+.pf-label { color: var(--sl-text); min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.pf-status { font-size: var(--fs-xs); color: var(--sl-text-2); }
+.pf-fail > .pf-status { color: var(--pf-fail); }
+.pf-warn > .pf-status { color: var(--pf-warn); }
+.pf-detail { grid-column: 2 / -1; color: var(--sl-text-2); font-size: var(--fs-xs); line-height: var(--lh-body); overflow-wrap: anywhere; }
+.preflight-note { margin-top: var(--sp-2); color: var(--sl-text-3); font-size: var(--fs-xs); }
+
+.preflight-chip { display: inline-flex; align-items: center; gap: var(--sp-2); min-height: 30px; padding: 0 var(--sp-3); border-radius: var(--r-pill); font-size: var(--fs-sm); }
+.preflight-popover { position: absolute; top: calc(100% + 8px); right: 0; z-index: var(--z-popover); width: min(380px, calc(100vw - 32px)); max-height: min(70vh, 560px); overflow: auto; padding: var(--sp-4); }
+.preflight-subhead { margin: var(--sp-4) 0 6px; font-size: var(--fs-xs); font-weight: 500; color: var(--sl-text-2); }
+.preflight-participant { padding: var(--sp-2) 0; border-top: 1px solid var(--sl-line); }
+.preflight-dialog { width: min(520px, 100%); max-height: 90vh; overflow: auto; padding: var(--sp-6); }
+.preflight-dialog h2 { margin: 6px 0 var(--sp-3); font-size: var(--fs-xl); }
+.preflight-problems { margin: 0 0 var(--sp-5); padding-left: 18px; display: grid; gap: 6px; font-size: var(--fs-md); color: var(--sl-text); }
+.preflight-dialog-actions { display: flex; gap: var(--sp-2); justify-content: flex-end; flex-wrap: wrap; }
+@media (max-width: 600px) {
+  .preflight-popover { position: fixed; top: 60px; left: var(--sp-4); right: var(--sp-4); width: auto; }
+  .preflight-dialog { padding: var(--sp-5) var(--sp-4); }
+  .preflight-dialog-actions > .btn { flex: 1 1 auto; }
+}

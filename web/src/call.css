@@ -1,0 +1,323 @@
+/* The call screen [SL-UX-1, SL-UX-2]: a full-height stage with a quiet top bar
+   (time, meeting title, REC pill, people), a notice row, the tiles, side
+   panels (people, chat, Studio) and one centred Meet-style dock.
+   Anatomy and rules: docs/design/call-screen.md. Colours are tokens only. */
+
+/* ---------------------------------------------------------- shell */
+body.in-call { height: 100vh; height: 100dvh; overflow: hidden; --dock-h: 80px; background: var(--sl-call-bg); }
+body.in-call .app-header, body.in-call .app-footer { display: none; }
+body.in-call main { display: flex; flex-direction: column; width: 100%; max-width: none; min-height: 0; padding: 0 var(--sp-4); }
+body.in-call #studio-view { flex: 1; min-height: 0; }
+body.in-call #studio-view > .stage-with-inspector { flex: 1; min-height: 0; container-type: size; }
+body.in-call .video-grid { --stage-h: 100cqh; max-height: 100%; overflow: auto; }
+body.in-call .call-panel, body.in-call .studio-panel { height: 100%; max-height: none; }
+/* One tile: as large as the stage allows. Two: side by side when they fit. */
+body.in-call .video-grid.layout-split:not(:has(> .tile:nth-child(2))) { max-width: calc(100cqh * 16 / 9); width: 100%; margin-inline: auto; }
+body.in-call .video-grid.layout-split:has(> .tile:nth-child(2)):not(:has(> .tile:nth-child(3))) { max-width: calc(100cqh * 16 / 9 * 2 + var(--gap)); width: 100%; margin-inline: auto; }
+body.in-call .toast { background: var(--sl-toast-bg); color: var(--sl-toast-text); border-radius: var(--r-pill); padding: 10px 20px; }
+/* In a call, notices sit bottom-left above the dock (as in Meet), clear of captions and tiles' centre. */
+@media (min-width: 601px) {
+  body.in-call #toast-container { left: var(--sp-4); transform: none; align-items: flex-start; }
+}
+
+/* ---------------------------------------------------------- top bar */
+.call-bar { position: relative; z-index: var(--z-dock); display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); min-height: 60px; }
+.call-bar-start, .call-bar-end { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
+.call-bar-end { flex: none; gap: var(--sp-2); }
+.call-clock { font-size: var(--fs-lg); font-weight: 500; color: var(--sl-text); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.call-clock:empty, .call-clock:empty + .call-bar-sep { display: none; }
+.call-bar-sep { width: 1px; height: 18px; background: var(--sl-line-strong); flex: none; }
+.call-title-btn { display: inline-flex; align-items: center; gap: 6px; min-width: 0; min-height: 36px; margin-left: -6px; padding: 0 8px; border: 0; border-radius: var(--r-2); background: transparent; color: var(--sl-text); text-align: left; }
+.call-title-btn:hover, .call-title-btn[aria-expanded="true"] { background: var(--sl-call-ctl-hover); }
+.call-title-btn .session-title { font-family: var(--sl-display); font-size: var(--fs-lg); font-weight: 600; letter-spacing: -.01em; max-width: 36vw; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.call-title-info { color: var(--sl-text-2); }
+.call-title-info svg { width: 18px; height: 18px; }
+
+/* REC pill: the one loud thing while recording. */
+.rec-pill, .live-chip { display: none; align-items: center; gap: var(--sp-2); height: 30px; padding: 0 var(--sp-3) 0 10px; border-radius: var(--r-pill); background: var(--sl-rec-soft); border: 1px solid var(--sl-rec-line); color: var(--sl-rec-text); font-size: var(--fs-sm); font-weight: 600; white-space: nowrap; flex: none; }
+.live-chip:not([hidden]) { display: inline-flex; background: var(--sl-rec-fill); border-color: var(--sl-rec-fill); color: var(--sl-on-video); }
+.rec-dot { width: 8px; height: 8px; flex: none; border-radius: 50%; background: var(--sl-rec); animation: sl-rec-pulse 2s ease-out infinite; }
+.live-chip .rec-dot { background: var(--sl-on-video); animation: none; }
+#rec-timer { font-variant-numeric: tabular-nums; font-weight: 500; }
+@keyframes sl-rec-pulse { 0% { box-shadow: 0 0 0 0 var(--sl-rec-line); } 70% { box-shadow: 0 0 0 6px transparent; } 100% { box-shadow: 0 0 0 0 transparent; } }
+
+/* Connection: only shown in the bar when it's lost; always in Details. */
+.call-bar #connection-pill { display: none; }
+.call-bar #connection-pill[data-state="lost"] { display: inline-flex; height: 30px; padding: 0 var(--sp-3); border-radius: var(--r-pill); background: var(--sl-warn-soft); border: 1px solid var(--sl-warn-line); color: var(--sl-warn); margin: 0; }
+.call-add-btn { min-height: 36px; border-radius: var(--r-pill); color: var(--sl-text); font-weight: 500; }
+.call-add-btn:hover:not(:disabled) { background: var(--sl-call-ctl-hover); }
+.call-add-btn .ui-icon svg { width: 18px; height: 18px; }
+body:not(.call-host) #copy-invite-btn { display: none !important; }
+
+/* Participant avatars + count (opens People). */
+.call-avatars { display: inline-flex; align-items: center; gap: 6px; min-height: 36px; padding: 0 10px 0 4px; border: 0; border-radius: var(--r-pill); background: transparent; color: var(--sl-text); font-size: var(--fs-md); font-weight: 600; font-variant-numeric: tabular-nums; }
+.call-avatars:hover { background: var(--sl-call-ctl-hover); }
+.call-avatar-stack { display: inline-flex; }
+.call-avatar { display: inline-grid; place-items: center; width: 28px; height: 28px; border-radius: 50%; font-size: var(--fs-sm); font-weight: 600; box-shadow: 0 0 0 2px var(--sl-call-bg); }
+.call-avatar + .call-avatar { margin-left: -8px; }
+.call-avatar.tone-0 { background: var(--sl-avatar-1); color: var(--sl-on-avatar-1); }
+.call-avatar.tone-1 { background: var(--sl-avatar-2); color: var(--sl-on-avatar-2); }
+.call-avatar.tone-2 { background: var(--sl-avatar-3); color: var(--sl-on-avatar-3); }
+
+/* Meeting details (ⓘ). */
+.call-details { position: absolute; top: calc(100% - 4px); left: 0; z-index: var(--z-popover); width: min(380px, calc(100vw - 32px)); padding: var(--sp-4) var(--sp-5) var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-4); }
+.call-details.from-dock { top: auto; left: auto; right: 0; bottom: auto; position: fixed; inset: auto var(--sp-4) calc(var(--dock-h) + var(--sp-2)) auto; }
+.call-details-head { display: flex; align-items: center; justify-content: space-between; margin-right: calc(-1 * var(--sp-2)); }
+.call-details h2 { font-size: var(--fs-lg); }
+.call-details h3 { font-family: var(--sl-font); font-size: var(--fs-md); font-weight: 600; margin-bottom: 4px; }
+.call-details-hint { color: var(--sl-text-2); font-size: var(--fs-sm); line-height: var(--lh-body); }
+.call-details-row { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-3); }
+.call-details-row .btn, .call-details-ready { border-radius: var(--r-pill); }
+.call-details-row .ui-icon svg { width: 16px; height: 16px; }
+.call-details-status { margin-top: 6px; color: var(--sl-text-2); font-size: var(--fs-xs); }
+.call-details-status:empty { display: none; }
+.call-details-ready { align-self: flex-start; margin-left: calc(-1 * var(--sp-3)); color: var(--sl-accent); }
+
+/* "Your meeting's ready": the host's first look at a new meeting. */
+.meeting-ready { position: absolute; left: var(--sp-2); bottom: var(--sp-2); z-index: 7; width: min(360px, calc(100% - 16px)); padding: var(--sp-5) var(--sp-6) var(--sp-6); background: var(--sl-surface-1); color: var(--sl-text); border-radius: var(--r-4); box-shadow: var(--shadow-3); display: flex; flex-direction: column; gap: var(--sp-3); }
+.meeting-ready[hidden] { display: none; }
+.meeting-ready-head { display: flex; align-items: center; justify-content: space-between; margin-right: calc(-1 * var(--sp-3)); }
+.meeting-ready h2 { font-size: var(--fs-xl); }
+.meeting-ready-add { align-self: flex-start; min-height: 40px; padding: 0 var(--sp-5) 0 var(--sp-4); border-radius: var(--r-pill); }
+.meeting-ready-add .ui-icon svg { width: 18px; height: 18px; }
+.meeting-ready-or { color: var(--sl-text-2); font-size: var(--fs-md); }
+.meeting-ready-link { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); width: 100%; min-height: 48px; padding: 0 var(--sp-3) 0 var(--sp-4); border: 0; border-radius: var(--r-2); background: var(--sl-surface-2); color: var(--sl-text); font-size: var(--fs-md); font-weight: 500; text-align: left; }
+.meeting-ready-link:hover { background: var(--sl-surface-3); }
+.meeting-ready-link .ui-icon { color: var(--sl-text-2); }
+.meeting-ready-status { color: var(--sl-text-2); font-size: var(--fs-xs); margin-top: -4px; }
+.meeting-ready-status:empty { display: none; }
+.meeting-ready-note { display: flex; gap: var(--sp-2); align-items: flex-start; color: var(--sl-text-2); font-size: var(--fs-sm); line-height: var(--lh-body); }
+.meeting-ready-note .ui-icon { flex: none; margin-top: 1px; color: var(--sl-accent); }
+.meeting-ready-note .ui-icon svg { width: 18px; height: 18px; }
+
+/* Notices: admission requests, the recording consent note and the captions
+   privacy note share one row above the stage. */
+.call-notices { display: flex; flex-wrap: wrap; align-items: center; justify-content: center; gap: var(--sp-2); margin-bottom: var(--sp-3); }
+.call-notices:not(:has(> :not([hidden]):not([style*="display: none"]):not([style*="display:none"]))) { display: none; }
+
+/* ---------------------------------------------------------- dock
+   Centre: mic ▾, camera ▾, present, captions, hand, react, more, Record,
+   Leave. Right: details, people, chat, Studio. Group wrappers are
+   display: contents so every control orders as one row. */
+.dock { position: relative; z-index: var(--z-dock); display: flex; align-items: center; gap: var(--sp-2); min-height: var(--dock-h, 80px); padding: var(--sp-3) 0; }
+.dock::before { content: ''; order: 0; flex: 1 1 0; min-width: 0; }
+.dock > .transport-inputs, .dock > .transport-collab, .dock > .transport-record, .dock > .transport-actions { display: contents; }
+.dock-right { order: 40; flex: 1 1 0; min-width: 0; display: flex; justify-content: flex-end; align-items: center; gap: var(--sp-1); }
+.dock-split[data-for="toggle-mic-btn"] { order: 10; }
+.dock-split[data-for="toggle-cam-btn"] { order: 11; }
+.dock #screen-share-btn { order: 12; }
+.dock .reaction-wrap { order: 13; }
+.dock .cc-wrap { order: 14; }
+.dock #hand-btn { order: 15; }
+.dock > .more-wrap { order: 16; }
+#rec-btn { order: 20; }
+#end-meeting-btn, #leave-btn { order: 21; }
+.dock #rec-btn, .dock #end-meeting-btn, .dock #leave-btn { flex: none; }
+.dock-right > #details-btn { order: 1; }
+.dock-right > #people-btn { order: 2; }
+.dock-right > #chat-btn { order: 3; }
+.dock-right > #studio-btn { order: 4; }
+.dock[data-collab-off] [data-collab-item] { display: none; }
+
+/* Round icon controls. Labels stay in the DOM as accessible names. */
+.dock .collab-btn, .dock .dock-ctl { position: relative; width: var(--dock-btn); height: var(--dock-btn); min-height: var(--dock-btn); padding: 0; border-radius: var(--r-pill); background: var(--sl-call-ctl); border: 1px solid var(--sl-call-ctl-line); color: var(--sl-text); flex: none; gap: 0; box-shadow: var(--shadow-1); }
+.dock .collab-btn:hover:not(:disabled), .dock .dock-ctl:hover:not(:disabled) { background: var(--sl-call-ctl-hover); }
+.dock-right .collab-btn { background: transparent; border-color: transparent; box-shadow: none; }
+.dock-right .collab-btn:hover:not(:disabled) { background: var(--sl-call-ctl); }
+.dock .collab-btn .collab-label, .more-wrap > #more-btn .collab-label { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+.dock .dock-ctl { font-size: 0; }
+.has-mask-icon::before { content: ''; flex: none; width: 20px; height: 20px; background: currentColor; -webkit-mask: var(--icon) center / contain no-repeat; mask: var(--icon) center / contain no-repeat; }
+.dock .collab-btn.active, .dock .collab-btn[aria-expanded="true"] { background: var(--sl-accent-soft); border-color: var(--sl-accent-line); color: var(--sl-accent); }
+.dock .collab-btn[aria-pressed="true"], .dock .cc-btn.active, .dock .screen-share-btn[aria-pressed="true"] { background: var(--sl-accent); border-color: var(--sl-accent); color: var(--sl-on-accent); }
+.dock #hand-btn[aria-pressed="true"] { background: var(--sl-warn); border-color: var(--sl-warn); color: var(--sl-on-warn); }
+.dock .cc-wrap { display: inline-flex; gap: 0; }
+.dock .cc-wrap > .cc-btn:not([hidden]) + .cc-menu-btn:not([hidden]) { width: 26px; margin-left: -1px; border-radius: 0 var(--r-pill) var(--r-pill) 0; font-size: var(--fs-xs); }
+.dock .cc-wrap > .cc-btn:has(+ .cc-menu-btn:not([hidden])) { border-radius: var(--r-pill) 0 0 var(--r-pill); width: 40px; }
+.dock .cc-menu-btn .collab-label { display: none; }
+.collab-badge { position: absolute; top: -3px; right: -3px; min-width: 18px; height: 18px; padding: 0 5px; display: inline-grid; place-items: center; border-radius: var(--r-pill); background: var(--sl-accent); color: var(--sl-on-accent); font-size: var(--fs-xs); font-weight: 600; font-variant-numeric: tabular-nums; box-shadow: 0 0 0 2px var(--sl-call-bg); }
+.dock .collab-count { position: absolute; bottom: -2px; right: -4px; min-width: 18px; height: 18px; padding: 0 4px; display: inline-grid; place-items: center; border-radius: var(--r-pill); background: var(--sl-surface-3); color: var(--sl-text); font-size: var(--fs-xs); box-shadow: 0 0 0 2px var(--sl-call-bg); }
+.dock .collab-count:empty { display: none; }
+/* Studio button: a red dot while recording. */
+body.call-recording #studio-btn::before { content: ''; position: absolute; top: 7px; right: 7px; width: 8px; height: 8px; border-radius: 50%; background: var(--sl-rec); box-shadow: 0 0 0 2px var(--sl-call-bg); }
+
+/* Mic ▾ and camera ▾: one pill, the toggle and its settings caret. */
+.dock-split { position: relative; display: inline-flex; align-items: center; flex: none; height: var(--dock-btn); border-radius: var(--r-pill); background: var(--sl-call-ctl); border: 1px solid var(--sl-call-ctl-line); box-shadow: var(--shadow-1); transition: box-shadow var(--dur-1) linear; }
+.dock-split > .dock-ctl { width: calc(var(--dock-btn) - 2px); height: calc(var(--dock-btn) - 2px); min-height: 0; border: 0; background: transparent; box-shadow: none; }
+.dock-split > .dock-caret { display: inline-grid; place-items: center; width: 26px; height: calc(var(--dock-btn) - 2px); min-height: 0; padding: 0 4px 0 0; margin-left: -6px; border: 0; border-radius: 0 var(--r-pill) var(--r-pill) 0; background: transparent; color: var(--sl-text-2); }
+.dock-split > .dock-caret svg { width: 16px; height: 16px; }
+.dock-split:hover { background: var(--sl-call-ctl-hover); }
+.dock-split[data-state="off"] { background: var(--sl-off-bg); border-color: var(--sl-off-line); }
+.dock-split[data-state="off"] > * { color: var(--sl-off-text); }
+.dock-split[data-state="off"]:hover { background: var(--sl-off-bg-hover); }
+/* The live sound ring: the one signature. It grows with your voice. */
+.dock-split[data-for="toggle-mic-btn"][data-speaking] { border-color: var(--sl-ring); box-shadow: 0 0 0 calc(1px + var(--level, 0) * 5px) var(--sl-ring-soft); }
+
+/* Record: a labelled pill. Idle is calm (a red dot); recording is a red ring with the timer. */
+.dock #rec-btn { height: var(--dock-btn); min-height: var(--dock-btn); padding: 0 var(--sp-5) 0 var(--sp-4); border-radius: var(--r-pill); background: var(--sl-call-ctl); border: 1px solid var(--sl-call-ctl-line); color: var(--sl-text); font-size: 0; box-shadow: var(--shadow-1); gap: var(--sp-2); }
+.dock #rec-btn::before { background: var(--sl-rec); }
+.dock #rec-btn::after { content: attr(data-label); font-size: var(--fs-md); font-weight: 600; white-space: pre; font-variant-numeric: tabular-nums; }
+.dock #rec-btn:hover:not(:disabled) { background: var(--sl-call-ctl-hover); }
+.dock #rec-btn[data-state="recording"] { background: var(--sl-rec-soft); border: 2px solid var(--sl-rec); color: var(--sl-rec-text); }
+.dock #rec-btn[data-state="recording"]:hover:not(:disabled) { background: var(--sl-rec-soft-hover); }
+/* Leave / End meeting: the red pill, last in the row. */
+.dock .dock-leave { width: 64px; height: var(--dock-btn); min-height: var(--dock-btn); padding: 0; justify-content: center; border-radius: var(--r-pill); font-size: 0; background: var(--sl-rec-fill); border-color: var(--sl-rec-fill); color: var(--sl-on-video); }
+.dock .dock-leave:hover:not(:disabled) { background: var(--sl-rec-fill-hover); border-color: var(--sl-rec-fill-hover); }
+.dock .dock-leave::before { width: 24px; height: 24px; }
+
+/* Tooltips for icon-only controls (hover and keyboard focus). */
+.dock [data-tip]:not(.more-item):not(.studio-item)::after { content: attr(data-tip); position: absolute; left: 50%; bottom: calc(100% + 10px); transform: translate(-50%, 4px); padding: 5px 9px; border-radius: var(--r-1); background: var(--sl-text); color: var(--sl-canvas); font-size: var(--fs-xs); font-weight: 500; width: max-content; white-space: nowrap; pointer-events: none; opacity: 0; transition: opacity var(--dur-1), transform var(--dur-1); z-index: 2; }
+.dock [data-tip]:not(.more-item):not(.studio-item):hover::after, .dock [data-tip]:not(.more-item):not(.studio-item):focus-visible::after { opacity: 1; transform: translate(-50%, 0); transition-delay: .25s; }
+.dock-right [data-tip]::after { left: auto; right: 0; transform: translateY(4px); }
+.dock-right [data-tip]:hover::after, .dock-right [data-tip]:focus-visible::after { transform: none; }
+
+/* ---------------------------------------------------- more options */
+.more-wrap { position: relative; display: inline-flex; }
+.more-panel { position: absolute; bottom: calc(100% + 12px); left: 50%; transform: translateX(-50%); z-index: var(--z-popover); width: 300px; max-height: calc(100dvh - 160px); overflow: auto; padding: var(--sp-2); display: flex; flex-direction: column; gap: var(--sp-1); }
+.more-section { display: flex; flex-direction: column; gap: 2px; }
+.more-section + .more-section { padding-top: var(--sp-2); border-top: 1px solid var(--sl-line); }
+.more-collapsed:empty { display: none; }
+.more-collapsed:empty + .more-section { padding-top: 0; border-top: 0; }
+.more-heading { padding: 6px var(--sp-2) 4px; font-family: var(--sl-font); font-size: var(--fs-sm); font-weight: 600; color: var(--sl-text-2); }
+.more-layout .layout-switcher-bar { display: flex; flex-direction: column; align-items: stretch; gap: 6px; padding: 0 var(--sp-1) var(--sp-1); }
+.more-layout .layout-toggles { width: 100%; }
+.more-layout .layout-toggles .tactile-btn { flex: 1; padding: 0 6px; }
+.more-layout .self-view-toggle { align-self: flex-start; }
+.more-item, .more-panel .collab-btn, .more-collapsed > .cc-wrap > .cc-btn, .studio-item { display: flex; width: 100%; justify-content: flex-start; align-items: center; gap: var(--sp-3); min-height: 40px; padding: 0 var(--sp-3); border: 0; border-radius: var(--r-2); background: transparent; color: var(--sl-text); font-size: var(--fs-md); font-weight: 400; text-align: left; box-shadow: none; }
+.more-item:hover:not(:disabled), .more-panel .collab-btn:hover:not(:disabled), .studio-item:hover:not(:disabled) { background: var(--sl-surface-2); }
+.more-panel .collab-btn .collab-label, .studio-item .collab-label { position: static; width: auto; height: auto; clip: auto; }
+.more-panel .collab-icon, .studio-item .collab-icon { color: var(--sl-text-2); }
+.more-panel .has-mask-icon::before, .studio-item.has-mask-icon::before { background: var(--sl-text-2); }
+.more-panel .collab-btn[aria-pressed="true"], .more-panel .collab-btn.active { background: var(--sl-accent-soft); }
+.more-panel .collab-compact .collab-label, .more-panel .collab-icon-only .collab-label { display: inline; }
+#livestream-btn.is-live { color: var(--sl-rec-text); font-weight: 600; }
+#livestream-btn.is-live::before { background: var(--sl-rec); }
+.more-collapsed > .cc-wrap { display: flex; gap: var(--sp-1); width: 100%; }
+.more-collapsed > .cc-wrap > .cc-btn { flex: 1; }
+.more-collapsed > .cc-wrap > .cc-menu-btn { width: 40px; flex: none; justify-content: center; padding: 0; }
+.more-collapsed > .reaction-wrap { display: flex; flex-direction: column; }
+.more-collapsed .reaction-picker { position: static; transform: none; box-shadow: none; border: 0; background: var(--sl-surface-2); justify-content: space-between; margin: 2px var(--sp-1) var(--sp-1); }
+/* Device settings open above the dock's centre; camera ▾ reaches background effects. */
+.dock > .device-popover { left: 50%; transform: translateX(-50%); bottom: calc(100% + 12px); }
+.device-bg-btn { margin-top: var(--sp-3); border-radius: var(--r-pill); }
+
+/* ---------------------------------------------------- side panels */
+.studio-panel, .call-panel { background: var(--sl-surface-1); border: 0; border-radius: var(--r-4); box-shadow: var(--shadow-1); }
+.studio-panel { display: flex; flex-direction: column; width: 360px; flex: 0 0 360px; min-width: 0; min-height: 0; overflow: hidden; }
+.studio-panel[hidden] { display: none; }
+.stage-with-inspector.studio-open > .video-grid.layout-split:not(:has(> .tile:nth-child(3))) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.call-panel-head h2, .studio-panel h2 { font-size: var(--fs-xl); font-weight: 600; }
+.studio-panel-body { flex: 1; min-height: 0; overflow-y: auto; padding: 0 var(--sp-3) var(--sp-5); display: flex; flex-direction: column; gap: var(--sp-5); }
+.studio-section { display: flex; flex-direction: column; gap: var(--sp-2); }
+.studio-section:not(.studio-rec):not(:has(.studio-item:not([hidden]):not([style*="display: none"]):not([style*="display:none"]))) { display: none; }
+.studio-heading { padding: 0 var(--sp-3); font-family: var(--sl-font); font-size: var(--fs-sm); font-weight: 600; color: var(--sl-text-2); letter-spacing: 0; }
+.studio-list { display: flex; flex-direction: column; gap: 2px; }
+.studio-item .collab-icon svg { width: 20px; height: 20px; }
+.studio-rec-status { display: flex; align-items: center; gap: var(--sp-3); margin: 0 var(--sp-1); padding: var(--sp-3) var(--sp-4); border-radius: var(--r-3); background: var(--sl-surface-2); }
+.studio-rec-status strong { display: block; font-family: var(--sl-display); font-size: var(--fs-lg); font-weight: 600; font-variant-numeric: tabular-nums; }
+.studio-rec-sub { display: block; color: var(--sl-text-2); font-size: var(--fs-sm); line-height: var(--lh-body); }
+.studio-rec-dot { width: 12px; height: 12px; flex: none; border-radius: 50%; border: 2px solid var(--sl-text-3); }
+body.call-recording .studio-rec-status { background: var(--sl-rec-soft); }
+body.call-recording .studio-rec-status strong { color: var(--sl-rec-text); }
+body.call-recording .studio-rec-dot { border: 0; background: var(--sl-rec); animation: sl-rec-pulse 2s ease-out infinite; }
+.studio-uploads { margin: 0 var(--sp-3); display: flex; flex-direction: column; gap: 6px; }
+.studio-upload-summary { font-size: var(--fs-md); font-weight: 500; color: var(--sl-text); }
+.studio-upload-summary[data-state="done"]::before { content: '✓ '; color: var(--sl-ok); }
+.studio-upload-summary[data-state="paused"] { color: var(--sl-warn); }
+.studio-upload-bar { height: 4px; border-radius: var(--r-pill); background: var(--sl-line); overflow: hidden; }
+.studio-upload-fill { height: 100%; width: 0; background: var(--sl-accent); border-radius: inherit; transition: width var(--dur-2) var(--ease); }
+.studio-telemetry { font-size: var(--fs-sm); color: var(--sl-text-2); }
+.studio-details summary { cursor: pointer; width: max-content; font-size: var(--fs-xs); color: var(--sl-text-2); padding: 2px 0; }
+.studio-details p { margin-top: 4px; font-size: var(--fs-xs); color: var(--sl-text-2); font-variant-numeric: tabular-nums; overflow-wrap: anywhere; }
+/* Pre-flight inside Studio: one plain line; the full checklist opens below it. */
+.studio-panel .studio-tools { display: flex; flex-direction: column; gap: var(--sp-2); margin: 0 var(--sp-1); }
+.studio-panel .preflight-chip { width: 100%; justify-content: flex-start; min-height: 40px; padding: 0 var(--sp-3); border-radius: var(--r-2); font-size: 0; color: var(--sl-text); gap: var(--sp-3); }
+.studio-panel .preflight-chip:hover { background: var(--sl-surface-2); }
+.studio-panel .preflight-chip .pf-dot { width: 10px; height: 10px; }
+.studio-panel .preflight-chip::after { content: 'Checking that you’re ready to record'; font-size: var(--fs-md); }
+.studio-panel .preflight-chip[data-overall="ok"]::after { content: 'Ready to record'; }
+.studio-panel .preflight-chip[data-overall="warn"]::after { content: 'Ready to record, with a note'; }
+.studio-panel .preflight-chip[data-overall="fail"]::after { content: 'Things to check before recording'; color: var(--sl-danger); }
+/* "Before recording" checks mean nothing once a recording runs; health per person is in People. */
+body.call-recording .studio-panel .preflight-chip { display: none; }
+.studio-panel .preflight-chip[aria-expanded="true"] { background: var(--sl-surface-2); }
+.studio-panel .preflight-popover { position: static; width: auto; max-height: none; box-shadow: none; border-radius: var(--r-3); border-color: var(--sl-line); }
+
+/* People: "Connection & recording" for the host and producer. */
+.health-section { margin: var(--sp-2) var(--sp-4) var(--sp-4); border-top: 1px solid var(--sl-line); padding-top: var(--sp-2); }
+.health-section:not(:has(#toggle-health-btn:not([style*="none"]))) { display: none; }
+.health-toggle { width: 100%; justify-content: flex-start; gap: var(--sp-3); padding: 0 var(--sp-2); border-radius: var(--r-2); font-weight: 500; }
+.health-toggle:hover { background: var(--sl-surface-2); }
+.health-toggle::after { content: ''; margin-left: auto; width: 8px; height: 8px; border-right: 2px solid var(--sl-text-2); border-bottom: 2px solid var(--sl-text-2); transform: rotate(45deg) translateY(-2px); transition: transform var(--dur-1); }
+.health-toggle[aria-expanded="true"]::after { transform: rotate(-135deg) translateX(-2px); }
+.health-section .health-inspector { width: auto; flex: none; height: auto !important; padding: var(--sp-2) 0 0; border: 0; border-radius: 0; background: transparent; overflow: visible; }
+.health-section .health-inspector > .panel-heading { display: none; }
+
+/* ---------------------------------------------------- responsive */
+@media (max-width: 1100px) {
+  .dock::before { display: none; }
+  .dock { justify-content: center; }
+  .dock-right { flex: 0 0 auto; margin-left: var(--sp-2); }
+  .dock-right > #details-btn { display: none; }
+}
+@media (max-width: 900px) {
+  .dock #rec-btn { width: var(--dock-btn); padding: 0; justify-content: center; }
+  .dock #rec-btn::after { content: none; }
+  .dock .dock-leave { width: 52px; }
+  .call-add-btn > span:last-child { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; }
+  .call-add-btn { width: 36px; padding: 0; }
+}
+@media (max-width: 820px) {
+  .studio-panel:not([hidden]) { position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--z-sheet); width: min(100%, 420px); height: auto !important; border-radius: 0; box-shadow: var(--shadow-3); }
+}
+@media (max-width: 640px) {
+  body.in-call { --dock-h: 68px; --dock-btn: 42px; }
+  body.in-call main { padding: 0 var(--sp-2); }
+  .call-bar { min-height: 52px; padding: 0 var(--sp-1); gap: var(--sp-2); }
+  .call-clock, .call-bar-sep { display: none; }
+  .call-title-btn .session-title { font-size: var(--fs-base); max-width: 40vw; }
+  .rec-pill { padding: 0 10px; }
+  #rec-label { display: none; }
+  .call-details { position: fixed; top: 56px; left: var(--sp-2); right: var(--sp-2); width: auto; }
+  .meeting-ready { left: 0; right: 0; bottom: 0; width: auto; padding: var(--sp-4) var(--sp-5) var(--sp-5); }
+  .dock { gap: 6px; padding: var(--sp-2) 0 calc(var(--sp-2) + env(safe-area-inset-bottom)); justify-content: center; }
+  .dock-right { margin-left: 0; gap: 6px; }
+  .dock-right > #people-btn { display: none; }
+  .dock-split > .dock-caret { display: none; }
+  .dock-split > .dock-ctl { width: calc(var(--dock-btn) - 2px); }
+  .dock .dock-leave { width: 48px; }
+  .dock-right .collab-btn { background: var(--sl-call-ctl); border-color: var(--sl-call-ctl-line); }
+  .dock [data-tip]::after { display: none !important; }
+  /* Secondary controls fold into More (CallChrome moves them; hidden here first so the bar never overflows). */
+  .dock > .transport-collab > .cc-wrap, .dock > .transport-collab > #hand-btn, .dock > .transport-collab > .reaction-wrap, .dock > .transport-inputs > #screen-share-btn { display: none !important; }
+  .more-panel { position: fixed; left: var(--sp-2); right: var(--sp-2); bottom: calc(var(--dock-h) + var(--sp-2)); transform: none; width: auto; max-height: calc(100dvh - var(--dock-h) - 72px); }
+  .call-notices { margin-bottom: var(--sp-2); }
+}
+@media (max-width: 380px) { body.in-call { --dock-btn: 40px; } .dock { gap: 4px; } }
+
+/* ---------------------------------------------------- on the stage */
+/* The count lives with the avatars in the top bar. */
+.dock .collab-count { display: none; }
+.dock .cc-menu-btn svg { width: 14px; height: 14px; }
+/* Captions stay over the tiles, clear of an open side panel. */
+.stage-with-inspector:has(> .call-panel.open, > .studio-panel:not([hidden])) > .captions-overlay { left: calc(50% - 186px); width: min(760px, calc(100% - 32px - 372px)); }
+/* Pin, presenter note and stop on tiles: on-video ink in both appearances. */
+.tile-pin { background: var(--sl-video-scrim-strong); color: var(--sl-on-video); font-weight: 600; }
+.tile.tile-screen { background: var(--sl-call-tile); }
+.tile-screen-note { background: var(--sl-video-scrim-strong); color: var(--sl-on-video); }
+.tile-screen-stop { color: var(--sl-on-video); }
+
+/* Recovery and uploads (Studio, Uploads, and the banner after a crash). */
+/* Guests see their own uploads; making files for editing is the host's. */
+#transfers-recovery-modal.is-guest #export-progress, #transfers-recovery-modal.is-guest #prepare-export-btn { display: none; }
+.transfer-meeting { color: var(--sl-text-2); font-size: var(--fs-md); margin-top: 4px; }
+.recovery-buttons { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.recovery-buttons .btn { border-radius: var(--r-pill); }
+.recovery-ids summary { cursor: pointer; width: max-content; font-size: var(--fs-xs); color: var(--sl-text-2); }
+.recovery-ids div { font-size: var(--fs-xs); margin-top: 4px; }
+@media (max-width: 820px) { .stage-with-inspector:has(> .call-panel.open, > .studio-panel:not([hidden])) > .captions-overlay { left: 50%; width: calc(100% - 16px); } }
+
+/* Reduced motion: the ring holds still (a steady outline while you speak), the dots stop pulsing. */
+@media (prefers-reduced-motion: reduce) {
+  .dock-split[data-for="toggle-mic-btn"][data-speaking] { box-shadow: 0 0 0 2px var(--sl-ring-soft); }
+  .rec-dot, .studio-rec-dot { animation: none; }
+}

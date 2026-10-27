@@ -1,0 +1,55 @@
+/* Recordings panel on the host home [SL-P5-3]. Reuses the room row, menu,
+   chip and dialog styles from home.css; tokens only. */
+.recordings-panel .panel-heading .btn { flex: none; }
+.record-link-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.record-link { padding: var(--sp-3) 0; border-top: 1px solid var(--sl-line); min-width: 0; }
+.record-link:first-child { border-top: 0; padding-top: var(--sp-1); }
+.record-link-head { display: flex; align-items: center; gap: var(--sp-3); min-width: 0; }
+.record-link-meta { display: flex; flex-wrap: wrap; gap: 2px var(--sp-2); color: var(--sl-text-2); font-size: var(--fs-xs); }
+.record-drafts { margin-top: var(--sp-2); color: var(--sl-text-2); font-size: var(--fs-xs); }
+.record-drafts::before { content: ''; display: inline-block; width: 6px; height: 6px; margin-right: 6px; border-radius: 50%; background: var(--sl-rec); vertical-align: 1px; }
+
+/* Abandoned drafts [SL-P5-4]. */
+.record-abandoned { margin: var(--sp-2) 0 var(--sp-3); padding: var(--sp-3); border: 1px dashed var(--sl-line-strong); border-radius: var(--r-2); min-width: 0; }
+.record-abandoned-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); min-width: 0; }
+.record-abandoned-head h3 { font-size: var(--fs-md); font-weight: 500; margin: 0; }
+.record-abandoned .field-hint { margin-top: var(--sp-1); }
+.record-draft-list { list-style: none; margin: var(--sp-2) 0 0; padding: 0; display: flex; flex-direction: column; }
+.record-draft { display: flex; align-items: center; gap: var(--sp-2); padding: var(--sp-2) 0; border-top: 1px solid var(--sl-line); min-width: 0; }
+.record-draft-main { display: flex; flex-direction: column; gap: 2px; flex: 1; min-width: 0; }
+.record-draft-main strong { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.record-draft-main .recent-meta { overflow-wrap: anywhere; }
+.record-draft .btn-compact, .record-abandoned-head .btn-compact { flex: none; min-height: 26px; padding: 0 var(--sp-2); font-size: var(--fs-xs); }
+
+.record-subs { list-style: none; margin: var(--sp-3) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.record-sub { padding: var(--sp-3); border: 1px solid var(--sl-line); border-radius: var(--r-2); background: var(--sl-inset); min-width: 0; }
+.record-sub-head { display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; }
+.record-sub-head strong { font-weight: 500; font-size: var(--fs-md); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.record-sub-head .recent-meta { flex: 1; min-width: 0; }
+.record-sub-del { min-height: 24px; padding: 0 var(--sp-2); font-size: var(--fs-xs); }
+.record-takes { list-style: none; margin: var(--sp-2) 0 0; padding: 0; display: flex; flex-direction: column; gap: var(--sp-2); }
+.record-take { display: flex; flex-direction: column; gap: 4px; padding-top: var(--sp-2); border-top: 1px solid var(--sl-line); }
+.record-take:first-child { border-top: 0; padding-top: 0; }
+.record-take-main { display: flex; justify-content: space-between; gap: var(--sp-2); font-size: var(--fs-sm); font-variant-numeric: tabular-nums; }
+.record-take-state { color: var(--sl-text-2); font-size: var(--fs-xs); text-align: right; }
+.record-take-state[data-state="done"] { color: var(--sl-ok); }
+.record-take-state[data-state="busy"] { color: var(--sl-warn); }
+.record-take .recent-files { align-items: center; margin-top: 0; }
+.record-take .btn-compact { min-height: 26px; padding: 0 var(--sp-2); font-size: var(--fs-xs); }
+
+.record-link-dialog { width: min(520px, calc(100vw - 32px)); }
+.record-form { display: flex; flex-direction: column; gap: 6px; margin-top: var(--sp-4); }
+.record-form .field-label { margin: var(--sp-2) 0 0; }
+.record-form .field-label .field-hint { font-weight: 400; }
+.record-form textarea { width: 100%; min-height: 108px; padding: var(--sp-2) var(--sp-3); border: 1px solid var(--sl-line-strong); background: var(--sl-inset); color: var(--sl-text); font-size: var(--fs-md); line-height: var(--lh-body); resize: vertical; }
+.record-form-row { display: grid; grid-template-columns: repeat(2, minmax(0, 1fr)); gap: var(--sp-3); }
+.record-form-row .field-label { margin-bottom: 6px; }
+.record-form-error { color: var(--sl-danger); font-size: var(--fs-sm); margin-top: var(--sp-2); }
+.record-handoff-dialog { width: min(640px, calc(100vw - 32px)); }
+.record-handoff-actions .artifact-list { margin-top: var(--sp-2); }
+
+@media (max-width: 560px) {
+  .record-link-head { flex-direction: column; align-items: stretch; gap: var(--sp-2); }
+  .record-link-head .room-actions .btn { flex: 1; }
+  .record-form-row { grid-template-columns: minmax(0, 1fr); }
+}

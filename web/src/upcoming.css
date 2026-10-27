@@ -1,0 +1,79 @@
+/* Meetings view and invite dialogs on the host home [SL-P6-1, SL-UX-2a]: the
+   day heading, the date strip and that day's scheduled meetings. Reuses the
+   row, menu and dialog styles from home.css; tokens only. */
+.upcoming-head-actions { display: flex; gap: var(--sp-1); flex: none; }
+.upcoming-head-actions .btn { min-height: 36px; border-radius: var(--r-pill); }
+.upcoming-head-actions .ui-icon svg { width: 18px; height: 18px; }
+.day-title-wrap { display: flex; align-items: baseline; gap: var(--sp-3); flex-wrap: wrap; min-width: 0; }
+.day-today { border-radius: var(--r-pill); color: var(--sl-accent); font-weight: 600; }
+
+/* Date strip: a week of days; today is ringed, the chosen day is filled. */
+.date-strip { display: flex; align-items: center; gap: var(--sp-1); margin: 0 0 var(--sp-5) calc(-1 * var(--sp-2)); }
+.date-step { width: 36px; height: 36px; color: var(--sl-text-2); }
+.date-step svg { width: 18px; height: 18px; }
+.date-days { list-style: none; margin: 0; padding: 0; display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: var(--sp-1); flex: 1; max-width: 560px; }
+.date-day { display: flex; flex-direction: column; align-items: center; gap: 4px; width: 100%; padding: 6px 0 4px; border: 0; border-radius: var(--r-3); background: transparent; color: var(--sl-text-2); }
+.date-day:hover .date-num { background: var(--sl-surface-3); }
+.date-dow { font-size: var(--fs-sm); font-weight: 500; }
+.date-num { display: grid; place-items: center; width: 40px; height: 40px; border-radius: 50%; color: var(--sl-text); font-size: var(--fs-lg); font-weight: 500; font-variant-numeric: tabular-nums; transition: background-color var(--dur-1); }
+.date-day.is-today .date-num { box-shadow: inset 0 0 0 2px var(--sl-accent); color: var(--sl-accent-strong); font-weight: 700; }
+.date-day.is-today .date-dow { color: var(--sl-accent-strong); font-weight: 700; }
+.date-day[aria-pressed="true"] .date-num, .date-day[aria-pressed="true"]:hover .date-num { background: var(--sl-accent); color: var(--sl-on-accent); box-shadow: none; }
+.date-day:focus-visible { outline: none; }
+.date-day:focus-visible .date-num { outline: 2px solid var(--sl-accent); outline-offset: 2px; }
+.date-dot { width: 5px; height: 5px; border-radius: 50%; }
+.date-dot.is-busy { background: var(--sl-accent); }
+
+.upcoming-list { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; }
+.upcoming-row { display: flex; align-items: center; gap: var(--sp-4); min-width: 0; padding: var(--sp-3); margin: 0 calc(-1 * var(--sp-3)); border-radius: var(--r-3); }
+.upcoming-row:hover { background: var(--sl-surface-1); }
+.upcoming-row .room-meta { padding-left: 0; }
+.upcoming-time { flex: 0 0 76px; display: flex; flex-direction: column; gap: 1px; padding-left: var(--sp-3); border-left: 3px solid var(--sl-accent-line); font-variant-numeric: tabular-nums; }
+.upcoming-row.is-soon .upcoming-time { border-left-color: var(--sl-accent); }
+.upcoming-start { font-size: var(--fs-md); font-weight: 600; color: var(--sl-text); white-space: nowrap; }
+.upcoming-end, .upcoming-day { font-size: var(--fs-sm); color: var(--sl-text-2); white-space: nowrap; }
+.upcoming-day { color: var(--sl-text); font-weight: 600; }
+.upcoming-rel { color: var(--sl-text-2); }
+.upcoming-row.is-soon .upcoming-rel { color: var(--sl-ok); font-weight: 600; }
+.upcoming-row.is-over { opacity: .7; }
+.upcoming-row.is-cancelled .upcoming-time { border-left-color: var(--sl-line-strong); }
+.upcoming-row.is-cancelled .room-title strong, .upcoming-row.is-cancelled .upcoming-start { text-decoration: line-through; color: var(--sl-text-2); }
+.upcoming-invite summary.btn { list-style: none; display: inline-flex; align-items: center; min-height: 36px; padding: 0 var(--sp-4); border-radius: var(--r-pill); font-size: var(--fs-md); cursor: pointer; }
+.upcoming-invite summary.btn::-webkit-details-marker { display: none; }
+.room-menu-list a { text-align: left; padding: 9px 10px; color: var(--sl-text); font-size: var(--fs-md); border-radius: var(--r-2); text-decoration: none; }
+.room-menu-list a:hover, .room-menu-list a:focus-visible { background: var(--sl-surface-3); }
+.upcoming-menu-note { margin: 0; padding: 9px 10px; max-width: 260px; color: var(--sl-text-2); font-size: var(--fs-sm); line-height: var(--lh-body); }
+.upcoming-later { margin-top: var(--sp-6); }
+.upcoming-later[hidden] { display: none; }
+
+.schedule-dialog { width: min(520px, calc(100vw - 32px)); max-height: calc(100vh - 32px); overflow-y: auto; }
+.schedule-dialog select, .schedule-dialog input, .schedule-dialog textarea { width: 100%; min-width: 0; }
+.schedule-dialog textarea { padding: var(--sp-2) var(--sp-3); border: 1px solid var(--sl-line-strong); background: var(--sl-inset); color: var(--sl-text); font-size: var(--fs-md); line-height: var(--lh-body); resize: vertical; min-height: 0; }
+.schedule-dialog #sch-room-name { margin-top: 6px; }
+.schedule-dialog #sch-room-name[hidden] { display: none; }
+.schedule-tz { color: var(--sl-text-2); font-size: var(--fs-xs); line-height: var(--lh-body); margin-top: 4px; }
+
+.share-dialog, .feed-dialog { width: min(520px, calc(100vw - 32px)); }
+.share-summary { display: flex; flex-direction: column; gap: 2px; margin: var(--sp-3) 0; padding: var(--sp-3); border: 1px solid var(--sl-line); border-radius: var(--r-2); background: var(--sl-inset); font-size: var(--fs-sm); color: var(--sl-text-2); min-width: 0; }
+.share-summary strong { color: var(--sl-text); font-weight: 600; font-size: var(--fs-md); overflow-wrap: anywhere; }
+.share-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); margin-top: var(--sp-3); }
+.share-actions .btn { text-decoration: none; border-radius: var(--r-pill); }
+.feed-dialog input[readonly] { width: 100%; font-family: var(--sl-mono); font-size: var(--fs-xs); }
+.feed-manage { justify-content: flex-start; margin-top: var(--sp-3); }
+.feed-manage .danger { color: var(--sl-danger); }
+
+@media (max-width: 600px) {
+  .day-head { align-items: flex-start; }
+  .upcoming-head-actions .btn > span:last-child { white-space: nowrap; }
+  .date-strip { margin-left: calc(-1 * var(--sp-3)); margin-right: calc(-1 * var(--sp-3)); gap: 0; }
+  .date-num { width: 36px; height: 36px; font-size: var(--fs-base); }
+  .upcoming-row { flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); }
+  .upcoming-time { flex-basis: 64px; }
+  .upcoming-row .room-main { flex: 1 1 160px; }
+  .upcoming-row .room-actions { width: 100%; }
+  .upcoming-row .room-actions > .btn, .upcoming-row .upcoming-invite { flex: 1; }
+  .upcoming-row .upcoming-invite summary.btn { width: 100%; justify-content: center; }
+  .upcoming-row .room-menu-list { right: auto; left: 0; }
+  .upcoming-row .room-menu:last-child .room-menu-list { left: auto; right: 0; }
+  .share-actions .btn { flex: 1 1 100%; justify-content: center; }
+}

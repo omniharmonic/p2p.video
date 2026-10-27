@@ -1,0 +1,15 @@
+{
+  "TCP": {
+    "443": {"HTTPS": true},
+    "8443": {"TCPForward": "127.0.0.1:3478", "TerminateTLS": "studio-mac.tail1234.ts.net"}
+  },
+  "Web": {
+    "studio-mac.tail1234.ts.net:443": {
+      "Handlers": {"/": {"Proxy": "http://127.0.0.1:7443"}}
+    }
+  },
+  "AllowFunnel": {
+    "studio-mac.tail1234.ts.net:443": true,
+    "studio-mac.tail1234.ts.net:8443": true
+  }
+}

@@ -1,0 +1,29 @@
+{
+  "t": "net_stats",
+  "participantId": "p_guest",
+  "payload": {
+    "participantId": "p_guest",
+    "name": "Guest",
+    "quality": "fair",
+    "path": "relay",
+    "protocol": "tcp",
+    "rttMs": 312,
+    "availableOutgoingKbps": 640,
+    "outboundLossPct": 3.1,
+    "inboundLossPct": 0.4,
+    "jitterMs": 18,
+    "qualityLimitation": "bandwidth",
+    "framesDroppedPct": 1.5,
+    "capTier": 2,
+    "sendMaxKbps": 500,
+    "reasons": ["Bandwidth-limited", "Relayed connection"],
+    "upload": {
+      "pendingBytes": 18874368,
+      "rateBps": 240000,
+      "mode": "throttled",
+      "concurrency": 1,
+      "rateLimitBps": 256000
+    },
+    "receivedAtMs": 1761400000000
+  }
+}

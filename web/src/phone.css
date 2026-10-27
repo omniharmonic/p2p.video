@@ -1,0 +1,30 @@
+/* Phone camera page [SL-P1-9, SL-UX-2a]: one full-screen picture, status at
+   the bottom, round controls in thumb reach, safe-area aware. Everything sits
+   on the camera picture, so it uses the over-video tokens in both appearances. */
+body.phone-page { min-height: 100dvh; background: var(--sl-camera-off); overflow: hidden; }
+.phone-app { position: fixed; inset: 0; display: flex; flex-direction: column; justify-content: space-between; }
+#phone-preview { position: absolute; inset: 0; width: 100%; height: 100%; object-fit: cover; background: var(--sl-camera-off); }
+#phone-preview.is-mirrored { transform: scaleX(-1); }
+.phone-top, .phone-bottom { position: relative; z-index: 1; }
+.phone-top { display: flex; align-items: center; gap: var(--sp-2); padding: calc(env(safe-area-inset-top) + var(--sp-3)) var(--sp-4) var(--sp-7); background: linear-gradient(var(--sl-video-scrim), var(--sl-video-scrim-0)); }
+.phone-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; padding: 6px var(--sp-3); border-radius: var(--r-pill); background: var(--sl-video-chip); color: var(--sl-on-video); font-family: var(--sl-display); font-size: var(--fs-md); font-weight: 600; }
+.phone-rec { display: inline-flex; align-items: center; gap: 6px; padding: 6px var(--sp-3); border-radius: var(--r-pill); background: var(--sl-rec-fill); color: var(--sl-on-rec); font-size: var(--fs-sm); font-weight: 600; font-variant-numeric: tabular-nums; }
+.phone-rec-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--sl-on-rec); animation: phone-pulse 1.4s var(--ease) infinite; }
+@keyframes phone-pulse { 50% { opacity: .35; } }
+.phone-bottom { display: flex; flex-direction: column; align-items: center; gap: var(--sp-3); padding: var(--sp-8) var(--sp-4) calc(env(safe-area-inset-bottom) + var(--sp-6)); background: linear-gradient(var(--sl-video-scrim-0), var(--sl-video-scrim) 45%); text-align: center; }
+.phone-status { max-width: 34ch; color: var(--sl-on-video); font-family: var(--sl-display); font-size: var(--fs-xl); line-height: var(--lh-tight); font-weight: 600; letter-spacing: -.01em; }
+body[data-state="error"] .phone-status, body[data-state="reconnecting"] .phone-status { color: var(--sl-on-video); }
+body[data-state="error"] .phone-status::before, body[data-state="reconnecting"] .phone-status::before { content: ''; display: inline-block; width: 10px; height: 10px; margin-right: 8px; border-radius: 50%; background: var(--sl-warn-line); vertical-align: 2px; }
+.phone-progress { width: min(320px, 100%); height: 6px; border-radius: var(--r-pill); background: var(--sl-video-track); overflow: hidden; }
+.phone-progress-fill { height: 100%; width: 0; border-radius: inherit; background: var(--sl-ring); transition: width var(--dur-2) var(--ease); }
+.phone-actions { display: flex; align-items: center; justify-content: center; gap: var(--sp-6); margin-top: var(--sp-2); }
+.phone-btn { display: inline-grid; place-items: center; width: 60px; height: 60px; padding: 0; border-radius: 50%; border: 1px solid var(--sl-video-line); background: var(--sl-video-btn); color: var(--sl-on-video); backdrop-filter: blur(10px); -webkit-backdrop-filter: blur(10px); }
+.phone-btn svg { width: 26px; height: 26px; }
+.phone-btn:hover:not(:disabled) { background: var(--sl-video-btn-hover); }
+.phone-btn:focus-visible { outline: 2px solid var(--sl-on-video); outline-offset: 3px; }
+.phone-btn:disabled { opacity: .4; }
+.phone-btn-end, .phone-btn-end:hover:not(:disabled) { background: var(--sl-rec-fill); border-color: var(--sl-rec-fill); color: var(--sl-on-rec); }
+.phone-btn-primary, .phone-btn-primary:hover:not(:disabled) { width: auto; min-width: 160px; padding: 0 var(--sp-6); border-radius: var(--r-pill); background: var(--sl-on-video); border-color: var(--sl-on-video); color: var(--sl-on-video-ink); font-size: var(--fs-base); font-weight: 600; }
+.phone-btn[hidden] { display: none; }
+.phone-hint { max-width: 36ch; color: var(--sl-on-video); opacity: .78; font-size: var(--fs-sm); line-height: var(--lh-body); }
+@media (prefers-reduced-motion: reduce) { .phone-rec-dot { animation: none; } .phone-progress-fill { transition: none; } }

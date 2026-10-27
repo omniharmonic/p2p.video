@@ -1,0 +1,1 @@
+{"t":"action_error","payload":{"action":"remove","code":"forbidden","message":"Only the host can do that."}}

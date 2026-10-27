@@ -1,0 +1,6 @@
+{
+  "providingType": "Battery Power",
+  "sources": [
+    {"Type": "InternalBattery", "Name": "InternalBattery-0", "Power Source State": "Battery Power", "Current Capacity": 54, "Max Capacity": 100, "Is Charging": false, "Is Present": true, "Transport Type": "Internal", "Time to Empty": 312, "Battery Provides Time Remaining": true}
+  ]
+}

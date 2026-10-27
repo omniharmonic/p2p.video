@@ -1,0 +1,1 @@
+{"t":"roster","payload":{"participants":[{"participantId":"p_host","name":"Host","role":"host","micMuted":false,"camOff":false,"handRaised":false},{"participantId":"p_fixture","name":"Synthetic guest","role":"guest","micMuted":true,"camOff":false,"handRaised":true,"handRaisedAt":1793000000000,"screenSharing":true}],"locked":true}}

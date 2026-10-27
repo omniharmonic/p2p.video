@@ -1,0 +1,36 @@
+/* Live captions [SL-P4-2]: Meet-style overlay, CC control, privacy notice.
+   Tokens from tokens.css; the CC control itself is styled with the dock. */
+.stage-with-inspector { position: relative; }
+
+.captions-overlay { position: absolute; left: 50%; bottom: var(--sp-4); z-index: 6; transform: translateX(-50%); width: min(880px, calc(100% - 32px)); display: flex; flex-direction: column; gap: 4px; padding: var(--sp-3) var(--sp-5); background: var(--sl-video-scrim-strong); border-radius: var(--r-3); pointer-events: none; font-size: 20px; line-height: 1.4; color: var(--sl-on-video); }
+.captions-overlay[hidden], .captions-overlay.empty { display: none; }
+.caption-line { display: block; overflow-wrap: anywhere; }
+.caption-line.partial .caption-text { color: var(--sl-on-video-2); }
+.caption-speaker { display: block; margin-top: 2px; font-size: var(--fs-md); font-weight: 600; color: var(--sl-on-video-2); }
+.caption-line:first-child .caption-speaker { margin-top: 0; }
+
+.cc-wrap { position: relative; display: inline-flex; gap: 2px; }
+.cc-menu { position: absolute; bottom: calc(100% + 12px); left: 0; z-index: var(--z-popover); width: 320px; padding: var(--sp-4); font-size: var(--fs-md); }
+.cc-menu[hidden] { display: none; }
+.cc-menu-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-bottom: var(--sp-3); color: var(--sl-text); }
+.cc-menu-row select { max-width: 160px; min-height: var(--ctl-h-sm); }
+.cc-menu-status { margin: 0 0 var(--sp-2); color: var(--sl-text-2); line-height: var(--lh-body); }
+.cc-menu-status.warn { color: var(--sl-warn); }
+.cc-menu-actions { display: flex; gap: 6px; flex-wrap: wrap; margin-bottom: var(--sp-2); }
+.cc-menu-actions .btn { min-height: var(--ctl-h-sm); padding: 0 var(--sp-3); font-size: var(--fs-sm); }
+.cc-menu-note { margin: 0; font-size: var(--fs-xs); line-height: var(--lh-body); color: var(--sl-text-2); }
+
+/* Privacy notice: a chip in the call's notice row; a card in the waiting room. */
+.captions-indicator { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px var(--sp-2); max-width: 100%; padding: 6px var(--sp-4) 6px var(--sp-3); background: var(--sl-surface-1); border: 0; box-shadow: var(--shadow-1); border-radius: var(--r-pill); color: var(--sl-text); font-size: var(--fs-sm); line-height: var(--lh-ui); }
+.captions-indicator[hidden] { display: none; }
+.captions-indicator strong { font-weight: 600; }
+.captions-indicator-detail { color: var(--sl-text-2); }
+.captions-indicator-badge { padding: 0 5px; border: 1px solid var(--sl-accent); border-radius: var(--r-1); font-size: var(--fs-xs); font-weight: 700; color: var(--sl-accent); }
+.captions-waiting { display: flex; border-radius: var(--r-3); margin: calc(-1 * var(--sp-2)) 0 var(--sp-5); padding: var(--sp-3) var(--sp-4); }
+
+@media (max-width: 760px) {
+  .captions-overlay { bottom: var(--sp-2); width: calc(100% - 16px); padding: var(--sp-2) var(--sp-3); font-size: 15px; }
+  .caption-speaker { font-size: var(--fs-xs); }
+  .cc-menu { position: fixed; left: var(--sp-2); right: var(--sp-2); bottom: calc(var(--dock-h, 68px) + var(--sp-2)); width: auto; }
+  .captions-indicator { border-radius: var(--r-3); }
+}

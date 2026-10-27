@@ -1,0 +1,26 @@
+# Binaries
+host/bin/
+bin/
+build/
+
+# Dependencies
+node_modules/
+.pnpm-store/
+
+# Data and SQLite
+*.db
+*.db-journal
+*.db-wal
+*.db-shm
+*.sqlite
+
+# OS
+.DS_Store
+
+# Isolated local development storage
+.studio-dev/
+
+# Background-effects WASM runtime (11.7 MB): copied from the pinned
+# @mediapipe/tasks-vision package by `npm run build` with a SHA-256 check
+# (web/vite.config.ts), never committed [SL-P1-7].
+host/internal/webassets/dist/mediapipe/*.wasm

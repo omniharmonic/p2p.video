@@ -1,0 +1,24 @@
+/* Connection quality signal bars [SL-P0-8]. */
+.net-bars { display: inline-flex; align-items: flex-end; gap: 2px; height: 12px; padding: 0 1px; flex: none; }
+.net-bars i { display: block; width: 3px; border-radius: 1px; background: var(--sl-line-strong); }
+.net-bars i:nth-child(1) { height: 5px; }
+.net-bars i:nth-child(2) { height: 8px; }
+.net-bars i:nth-child(3) { height: 12px; }
+.net-bars[data-quality="good"] i.on { background: var(--sl-ok); }
+.net-bars[data-quality="fair"] i.on { background: var(--sl-warn); }
+.net-bars[data-quality="poor"] i.on { background: var(--sl-rec); }
+.net-bars[data-quality="unknown"] i { background: var(--sl-line); }
+
+/* On tiles: a small badge just above the name label. */
+.tile-net { position: absolute; left: var(--sp-3); bottom: calc(var(--sp-3) + 32px); z-index: 2; height: 22px; padding: 5px 7px; box-sizing: border-box; background: var(--sl-video-scrim); border-radius: var(--r-pill); pointer-events: auto; }
+.tile-net i { background: var(--sl-on-video-2); opacity: .35; }
+.tile-net i.on { opacity: 1; }
+/* Calm by default: a tile shows its connection only when it isn't good. */
+.tile-net:not([data-quality="fair"]):not([data-quality="poor"]) { display: none; }
+.tile-net[data-quality="poor"] { box-shadow: 0 0 0 1px var(--sl-rec-line); }
+.video-grid:has(> .tile:nth-child(3)) .tile-net, .video-grid.layout-stage > .tile-filmstrip .tile-net { left: 6px; bottom: 32px; }
+
+.people-net { align-self: center; margin-left: auto; }
+.people-chip.chip-upload.on { color: var(--sl-accent); border-color: var(--sl-accent-line); background: var(--sl-accent-soft); }
+
+.net-unstable { color: var(--sl-off-text); }

@@ -1,0 +1,94 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#f4f6f5" media="(prefers-color-scheme: light)">
+  <meta name="theme-color" content="#101418" media="(prefers-color-scheme: dark)">
+  <meta name="referrer" content="no-referrer">
+  <title>Record — p2p.video</title>
+</head>
+<body class="record-page" data-phase="loading">
+  <header class="rec-header">
+    <div class="rec-brand" aria-label="p2p.video">
+      <span class="rec-brand-mark" aria-hidden="true"><svg viewBox="0 0 28 28" fill="none"><circle cx="10.5" cy="14" r="6.5" stroke="currentColor" stroke-width="2"/><circle cx="17.5" cy="14" r="6.5" stroke="currentColor" stroke-width="2"/><path class="brand-lens" d="M14 8.52A6.5 6.5 0 0 1 14 19.48A6.5 6.5 0 0 1 14 8.52Z"/></svg></span>
+      <span class="wordmark">p2p<span class="wordmark-tld">.video</span></span>
+    </div>
+    <div class="rec-heading">
+      <span class="rec-kicker">Record on your own time</span>
+      <h1 id="rec-title">Loading…</h1>
+    </div>
+    <span id="rec-expiry" class="badge" hidden></span>
+  </header>
+
+  <section id="rec-notice" class="rec-notice glass-panel" role="status" aria-live="polite" hidden>
+    <h2 id="rec-notice-title"></h2>
+    <p id="rec-notice-body"></p>
+  </section>
+
+  <main id="rec-main" class="rec-main" hidden>
+    <section class="rec-stage" aria-label="Camera">
+      <div class="rec-video">
+        <video id="rec-preview" autoplay playsinline muted></video>
+        <video id="rec-review" controls playsinline hidden></video>
+        <div class="rec-video-top">
+          <span id="rec-pill" class="rec-pill" hidden><span class="rec-dot" aria-hidden="true"></span><span>REC</span><span id="rec-timer">0:00</span></span>
+          <span id="rec-left" class="rec-chip" hidden></span>
+          <span id="rec-review-label" class="rec-chip" hidden></span>
+        </div>
+        <div id="rec-done" class="rec-done" hidden><span class="rec-done-mark" aria-hidden="true"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12.5l4.5 4.5L19 7.5"/></svg></span><strong id="rec-done-title">Sent to the host</strong><span id="rec-done-body">Thank you for recording.</span></div>
+        <div id="rec-countdown" class="rec-countdown" role="status" aria-live="assertive" hidden><span>Recording in</span><strong id="rec-countdown-num">3</strong></div>
+      </div>
+      <div class="rec-meter" aria-hidden="true"><div id="rec-level" class="rec-level"></div></div>
+      <div class="rec-transport">
+        <button id="rec-record" class="btn btn-danger rec-record" type="button" disabled><span class="rec-record-dot" aria-hidden="true"></span><span id="rec-record-label">Start recording</span></button>
+        <button id="rec-back-live" class="btn btn-secondary" type="button" hidden>Back to camera</button>
+        <p id="rec-status" class="rec-status" role="status" aria-live="polite">Starting your camera…</p>
+      </div>
+      <p class="rec-footnote">Nothing here is live. Each recording is made on this device at full quality and uploads to the host as you go; nobody sees it until you send it.</p>
+    </section>
+
+    <div class="rec-side">
+      <section id="rec-takes-card" class="rec-card glass-panel" aria-labelledby="rec-takes-heading">
+        <div class="rec-card-head"><h2 id="rec-takes-heading">Your recordings</h2><span id="rec-takes-count" class="rec-card-meta"></span></div>
+        <ul id="rec-takes" class="rec-takes" role="list"></ul>
+        <p id="rec-takes-empty" class="rec-empty">Record as many times as you like. Delete the ones you don’t want, then send the rest.</p>
+        <button id="rec-submit" class="btn btn-primary btn-block" type="button" disabled>Send to the host</button>
+        <p id="rec-submit-hint" class="field-hint"></p>
+      </section>
+
+      <section id="rec-script-card" class="rec-card glass-panel" aria-labelledby="rec-script-heading" hidden>
+        <div class="rec-card-head"><h2 id="rec-script-heading">Script</h2>
+          <div class="rec-script-tools">
+            <label class="rec-inline" for="rec-scroll"><input id="rec-scroll" type="checkbox"> Scroll while recording</label>
+            <label class="visually-hidden" for="rec-speed">Scroll speed</label><input id="rec-speed" type="range" min="1" max="10" value="3">
+          </div>
+        </div>
+        <div id="rec-script" class="rec-script" tabindex="0" aria-label="Script from the host"></div>
+      </section>
+
+      <section id="rec-setup-card" class="rec-card glass-panel" aria-labelledby="rec-setup-heading">
+        <div class="rec-card-head"><h2 id="rec-setup-heading">Before you record</h2><span id="rec-ready" class="badge">Checking…</span></div>
+        <div class="rec-fields">
+          <div class="rec-field rec-field-wide"><label class="field-label" for="rec-name">Your name</label><input id="rec-name" maxlength="80" autocomplete="name" placeholder="How the host should credit you"></div>
+          <div class="rec-field"><label class="field-label" for="rec-camera">Camera</label><select id="rec-camera"></select></div>
+          <div class="rec-field"><label class="field-label" for="rec-mic">Microphone</label><select id="rec-mic"></select></div>
+          <div class="rec-field"><label class="field-label" for="rec-micmode">Microphone for recording</label>
+            <select id="rec-micmode"><option value="auto">Automatic</option><option value="raw">Untouched (wear headphones)</option><option value="clean">Cleaned up (echo and noise removed)</option></select>
+          </div>
+          <div class="rec-field rec-toggle-field"><label class="rec-inline" for="rec-pcm"><input id="rec-pcm" type="checkbox"> Studio-quality audio (larger files)</label><span class="field-hint">Also sends an uncompressed WAV of your voice, for the editor. Uses more upload.</span></div>
+        </div>
+        <p id="rec-micmode-hint" class="field-hint"></p>
+        <ul id="rec-preflight" class="rec-preflight" role="list" aria-label="Ready to record checks"></ul>
+      </section>
+    </div>
+    <p class="source-note rec-source">p2p.video is open source. <a class="source-link" data-source-link href="https://github.com/omniharmonic/p2p.video" target="_blank" rel="noopener noreferrer">Source code</a></p>
+  </main>
+
+  <dialog id="rec-dialog" class="rec-dialog" aria-labelledby="rec-dialog-title">
+    <form method="dialog"><h2 id="rec-dialog-title"></h2><p id="rec-dialog-body"></p>
+      <div class="rec-dialog-actions"><button value="cancel" class="btn btn-quiet">Cancel</button><button value="ok" id="rec-dialog-ok" class="btn btn-primary"></button></div></form>
+  </dialog>
+  <script type="module" src="/src/record.ts"></script>
+</body>
+</html>

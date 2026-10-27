@@ -1,0 +1,124 @@
+{
+  "missingRequired" : [
+    "getUserMedia"
+  ],
+  "mockCaptureDevices" : false,
+  "note" : "",
+  "permissionDelegateCalls" : 0,
+  "privateSwitchesApplied" : {
+    "occlusionDetectionDisabled" : true
+  },
+  "report" : {
+    "checks" : [
+      {
+        "detail" : "http:\/\/127.0.0.1:7643",
+        "name" : "secureContext",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "visibilityState=visible hasFocus=false",
+        "name" : "pageVisible",
+        "ok" : true,
+        "required" : false
+      },
+      {
+        "detail" : "Error: getUserMedia timed out after 15000 ms",
+        "name" : "getUserMedia",
+        "ok" : false,
+        "required" : true
+      },
+      {
+        "detail" : "audioinput,videoinput",
+        "name" : "enumerateDevices",
+        "ok" : true,
+        "required" : false
+      },
+      {
+        "detail" : "API present (screen share; not exercised)",
+        "name" : "getDisplayMedia",
+        "ok" : true,
+        "required" : false
+      },
+      {
+        "detail" : "livestream compositor",
+        "name" : "canvasCaptureStream",
+        "ok" : true,
+        "required" : false
+      },
+      {
+        "detail" : "video\/webm;codecs=vp9,opus | video\/webm | video\/mp4 | audio\/webm;codecs=opus | audio\/mp4 | video\/mp4;codecs=avc1,mp4a",
+        "name" : "mediaRecorderStudioMime",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "60852 bytes as video\/webm; codecs=vp09.00.10.08,opus from synthetic canvas+oscillator",
+        "name" : "mediaRecorder",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "navigator.storage.getDirectory()",
+        "name" : "opfsGetDirectory",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "wrote and read back 4 bytes",
+        "name" : "opfsCreateWritable",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "quota 21 GB",
+        "name" : "storageEstimate",
+        "ok" : true,
+        "required" : false
+      },
+      {
+        "detail" : "navigator.storage.persist()",
+        "name" : "storagePersist",
+        "ok" : false,
+        "required" : false
+      },
+      {
+        "detail" : "module loaded, node created at 44100 Hz",
+        "name" : "audioWorklet",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "VideoEncoder (not used by the studio today)",
+        "name" : "webCodecs",
+        "ok" : true,
+        "required" : false
+      },
+      {
+        "detail" : "host socket opened; admission=admitted",
+        "name" : "webSocket",
+        "ok" : true,
+        "required" : true
+      },
+      {
+        "detail" : "loopback data channel delivered \"hello\"; remote tracks: audio,video (synthetic canvas+oscillator)",
+        "name" : "rtcPeerConnection",
+        "ok" : true,
+        "required" : true
+      }
+    ],
+    "finishedAt" : "2026-10-25T20:26:53Z",
+    "mediaPermissionDelegateCalled" : false,
+    "origin" : "http:\/\/127.0.0.1:7643",
+    "userAgent" : "Mozilla\/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit\/605.1.15 (KHTML, like Gecko)"
+  },
+  "supportsInAppStudio" : false,
+  "tccAfter" : {
+    "camera" : "notDetermined",
+    "microphone" : "notDetermined"
+  },
+  "tccBefore" : {
+    "camera" : "notDetermined",
+    "microphone" : "notDetermined"
+  }
+}

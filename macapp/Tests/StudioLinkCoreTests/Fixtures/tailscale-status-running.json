@@ -1,0 +1,36 @@
+{
+  "Version": "1.102.2-t6cac91817-g6ff0ddc72",
+  "TUN": false,
+  "BackendState": "Running",
+  "HaveNodeKey": true,
+  "AuthURL": "",
+  "TailscaleIPs": ["100.101.102.103", "fd7a:115c:a1e0::1"],
+  "Self": {
+    "ID": "nExample",
+    "HostName": "Studio Mac",
+    "DNSName": "studio-mac.tail1234.ts.net.",
+    "OS": "macOS",
+    "TailscaleIPs": ["100.101.102.103", "fd7a:115c:a1e0::1"],
+    "Online": true,
+    "Capabilities": ["https", "https://tailscale.com/cap/file-sharing", "https://tailscale.com/cap/ssh"],
+    "CapMap": {
+      "https": null,
+      "https://tailscale.com/cap/file-sharing": null,
+      "probe-udp-lifetime": null,
+      "tailnet-display-name": ["example.github"]
+    }
+  },
+  "Health": [],
+  "MagicDNSSuffix": "tail1234.ts.net",
+  "CurrentTailnet": {
+    "Name": "example@example.com",
+    "MagicDNSSuffix": "tail1234.ts.net",
+    "MagicDNSEnabled": true
+  },
+  "CertDomains": ["studio-mac.tail1234.ts.net"],
+  "Peer": {
+    "nodekey:abc": {"DNSName": "guest-phone.tail1234.ts.net.", "Online": true}
+  },
+  "User": {"1": {"ID": 1, "LoginName": "example@example.com"}},
+  "ClientVersion": {"RunningLatest": true}
+}

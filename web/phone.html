@@ -1,0 +1,30 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+  <meta name="theme-color" content="#070a0d">
+  <meta name="referrer" content="no-referrer">
+  <title>p2p.video phone camera</title>
+</head>
+<body class="phone-page">
+  <main id="phone-app" class="phone-app">
+    <video id="phone-preview" autoplay playsinline muted></video>
+    <header class="phone-top">
+      <span id="phone-rec" class="phone-rec" hidden><span class="phone-rec-dot" aria-hidden="true"></span><span id="phone-rec-label">REC</span></span>
+      <span id="phone-name" class="phone-name">Phone camera</span>
+    </header>
+    <section class="phone-bottom">
+      <p id="phone-status" class="phone-status" role="status" aria-live="polite">Starting the camera…</p>
+      <div class="phone-progress" id="phone-progress" hidden><div class="phone-progress-fill"></div></div>
+      <div class="phone-actions">
+        <button id="phone-flip" type="button" class="phone-btn" aria-label="Switch to the back camera" disabled></button>
+        <button id="phone-start" type="button" class="phone-btn phone-btn-primary" hidden>Start camera</button>
+        <button id="phone-leave" type="button" class="phone-btn phone-btn-end" aria-label="Leave the call"></button>
+      </div>
+      <p class="phone-hint" id="phone-hint">Recording stays on this phone until it uploads to the host.</p>
+    </section>
+  </main>
+  <script type="module" src="/src/phone.ts"></script>
+</body>
+</html>

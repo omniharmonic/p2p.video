@@ -1,0 +1,378 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>p2p.video: video calls and a recording studio you host on your Mac</title>
+<meta name="description" content="Free, open-source video calls you host on your own Mac. Guests join from a link in their browser. Record everyone on their own device at full quality, on separate tracks. No account, no subscription, no cloud.">
+<meta name="color-scheme" content="light dark">
+<meta name="theme-color" content="#f4f6f5" media="(prefers-color-scheme: light)">
+<meta name="theme-color" content="#0f1316" media="(prefers-color-scheme: dark)">
+<link rel="canonical" href="https://p2p.video/">
+<link rel="icon" href="/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon-32.png" sizes="32x32" type="image/png">
+<link rel="apple-touch-icon" href="/apple-touch-icon.png">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://p2p.video/">
+<meta property="og:title" content="p2p.video: meet with anyone, record everyone, keep it on your Mac">
+<meta property="og:description" content="Free, open-source video calls and a recording studio you host yourself. Guests join from a browser link. No account, no subscription, no cloud.">
+<meta property="og:image" content="https://p2p.video/og.png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="p2p.video: Meet with anyone. Record everyone. Keep it all on your Mac.">
+<meta name="twitter:card" content="summary_large_image">
+<link rel="preload" href="/fonts/bricolage-grotesque-latin-opsz-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="preload" href="/fonts/figtree-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/style.css">
+</head>
+<body>
+<a class="skip" href="#main">Skip to content</a>
+
+<header class="top">
+  <div class="wrap">
+    <a class="brand" href="/" aria-label="p2p.video home">
+      <svg viewBox="0 0 30 18" aria-hidden="true"><circle cx="5" cy="9" r="4.25" fill="var(--teal)"/><path d="M10 9h10" stroke="var(--teal)" stroke-width="2"/><circle cx="25" cy="9" r="3.5" fill="none" stroke="var(--teal)" stroke-width="2"/></svg>
+      p2p.video
+    </a>
+    <nav class="nav" aria-label="Sections">
+      <a href="#how">How it works</a>
+      <a href="#meetings">Meetings</a>
+      <a href="#studio">Studio</a>
+      <a href="#compare">Compare</a>
+      <a href="#faq">FAQ</a>
+    </nav>
+    <a class="btn" href="#download">Download</a>
+  </div>
+</header>
+
+<main id="main">
+
+<section class="hero" aria-labelledby="hero-title">
+  <div class="wrap">
+    <h1 id="hero-title"><span>Meet with anyone.</span> <span>Record everyone.</span> <span class="quiet">Keep it all on your Mac.</span></h1>
+    <p class="lede">p2p.video is free, open-source video calling that you host yourself. Guests open a link in their browser and they're in. When you press record, every person is captured on their own device at full quality, on separate tracks, and the files come home to your Mac.</p>
+    <div class="actions">
+      <a class="btn big" href="#download">
+        <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        Download for Mac
+      </a>
+      <a class="btn big ghost" href="https://github.com/omniharmonic/p2p.video">View the source</a>
+    </div>
+    <p class="fine">Free, AGPL-3.0. For Apple Silicon Macs on macOS 14 or later. Guests can use any modern browser.</p>
+
+    <figure class="shot hero-shot">
+      <picture>
+        <source media="(max-width: 600px) and (prefers-color-scheme: dark)" srcset="/img/app/phone-dark.webp" type="image/webp">
+        <source media="(max-width: 600px)" srcset="/img/app/phone-light.webp" type="image/webp">
+        <source media="(prefers-color-scheme: dark)" srcset="/img/app/call-dark.webp" type="image/webp">
+        <source srcset="/img/app/call-light.webp" type="image/webp">
+        <img src="/img/app/call-light.jpg" width="1600" height="1000" alt="A p2p.video call with three people in a grid. Recording is on, and a banner tells everyone they are recorded on their own device." fetchpriority="high">
+      </picture>
+    </figure>
+    <p class="shot-caption">A real p2p.video call, recording. The people are illustrated stand-ins for camera feeds.</p>
+  </div>
+</section>
+
+<section class="section" id="how" aria-labelledby="how-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="how-title">Your Mac is the meeting room</h2>
+      <p>There's no p2p.video server in the middle. The call runs between your guests' browsers and your Mac, and every recording travels the same short path home.</p>
+    </div>
+
+    <div class="path" role="img" aria-label="Diagram: your Mac connects to three guests' browsers. Each guest records on their own device and their tracks upload back to your Mac while you talk.">
+      <div class="node mac">
+        <div class="screen"><svg viewBox="0 0 30 18" aria-hidden="true"><circle cx="5" cy="9" r="4.25" fill="var(--teal)"/><path d="M10 9h10" stroke="var(--teal)" stroke-width="2"/><circle cx="25" cy="9" r="3.5" fill="none" stroke="var(--teal)" stroke-width="2"/></svg></div>
+        <div class="stand"></div>
+        <div class="who">Your Mac</div>
+        <div class="how">Hosts the call. Keeps every file.</div>
+      </div>
+      <div class="wires" aria-hidden="true">
+        <svg viewBox="0 0 100 100" preserveAspectRatio="none">
+          <path class="call" d="M0 50 H 30 C 42 50 38 15.2 50 15.2 H 100"/>
+          <path class="call" d="M0 50 H 100"/>
+          <path class="call" d="M0 50 H 30 C 42 50 38 84.8 50 84.8 H 100"/>
+          <path class="home" d="M100 15.2 H 50 C 38 15.2 42 50 30 50 H 0"/>
+          <path class="home" d="M100 50 H 0"/>
+          <path class="home" d="M100 84.8 H 50 C 38 84.8 42 50 30 50 H 0"/>
+        </svg>
+      </div>
+      <ul class="guests">
+        <li class="node"><span class="who">Ada</span><span class="rec">Recording</span><span class="how">Chrome on a laptop</span></li>
+        <li class="node"><span class="who">Ruth</span><span class="rec">Recording</span><span class="how">Safari on an iPhone</span></li>
+        <li class="node"><span class="who">Lena</span><span class="rec">Recording</span><span class="how">Firefox on a desktop</span></li>
+      </ul>
+    </div>
+    <div class="legend" aria-hidden="true">
+      <span><i></i>The call</span>
+      <span><i class="dash"></i>Full-quality tracks coming home</span>
+    </div>
+
+    <ol class="steps">
+      <li>
+        <h3>Run it on your Mac</h3>
+        <p>p2p.video lives in your menu bar. Rooms, recordings and settings stay on this Mac.</p>
+      </li>
+      <li>
+        <h3>Share a link</h3>
+        <p>Private to your Tailscale network, or public so anyone can ask to join. Drop it into a calendar invite.</p>
+      </li>
+      <li>
+        <h3>Guests join in the browser</h3>
+        <p>Chrome, Safari or Firefox, on a computer or a phone. No account, nothing to install. You let them in from the waiting room.</p>
+      </li>
+      <li>
+        <h3>Press record</h3>
+        <p>Each device records itself, untouched by call quality, and uploads while you talk. If a tab crashes, the upload picks up where it stopped.</p>
+      </li>
+    </ol>
+  </div>
+</section>
+
+<section class="section" id="meetings" aria-labelledby="meetings-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="split meet">
+      <div class="section-head">
+        <h2 id="meetings-title">Everything you expect from a meeting</h2>
+        <p>Use it for the weekly sync, not just the podcast. Recording is a switch you turn on inside a call.</p>
+      </div>
+    <div class="figure duo">
+      <figure class="shot wide">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="/img/app/people-dark.webp" type="image/webp">
+          <source srcset="/img/app/people-light.webp" type="image/webp">
+          <img src="/img/app/people-light.jpg" width="1600" height="1000" alt="A call with the People panel open: someone is in the waiting room with Admit and Deny buttons." loading="lazy" decoding="async">
+        </picture>
+      </figure>
+      <figure class="shot phone-shot">
+        <picture>
+          <source media="(prefers-color-scheme: dark)" srcset="/img/app/phone-dark.webp" type="image/webp">
+          <source srcset="/img/app/phone-light.webp" type="image/webp">
+          <img src="/img/app/phone-light.jpg" width="600" height="1298" alt="A p2p.video call on a phone: three people stacked, with large controls at the bottom." loading="lazy" decoding="async">
+        </picture>
+      </figure>
+    </div>
+    </div>
+    <div class="columns three">
+      <ul class="features">
+        <li><h3>Rooms with links that keep working</h3><p>One reusable link per show or team, plus instant meetings. Rotate or revoke a link any time.</p></li>
+        <li><h3>Waiting room and host controls</h3><p>Admit, lock the room, mute or remove someone.</p></li>
+        <li><h3>Chat, raised hands and reactions</h3><p>Late joiners see the chat history.</p></li>
+      </ul>
+      <ul class="features">
+        <li><h3>Screen sharing</h3><p>A screen, window or tab, with its sound when the browser allows it.</p></li>
+        <li><h3>Grid, speaker and pinned views</h3><p>Plus Meet's keyboard shortcuts.</p></li>
+        <li><h3>Live captions with real names</h3><p>Transcribed on your Mac by Apple's on-device speech engine, never in a cloud.</p></li>
+      </ul>
+      <ul class="features">
+        <li><h3>Background blur and noise suppression</h3><p>Processed on each person's device.</p></li>
+        <li><h3>Calendar invites</h3><p>Schedule a meeting and send an invite for Google Calendar, Outlook or Apple Calendar. No calendar login needed.</p></li>
+        <li><h3>Holds up on real networks</h3><p>Quality adapts to each connection, and calls reconnect after a drop.</p></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section class="section band" id="studio" aria-labelledby="studio-title">
+  <div class="wrap">
+    <div class="split flip">
+      <div class="figure">
+        <figure class="shot">
+          <picture>
+            <source srcset="/img/app/studio-dark.webp" type="image/webp">
+            <img src="/img/app/studio-dark.jpg" width="1600" height="1000" alt="Recording in progress with the Studio panel open: uploads, files for editing, go live, teleprompter, branding and titles, add phone camera." loading="lazy" decoding="async">
+          </picture>
+        </figure>
+      </div>
+      <div>
+        <div class="section-head">
+          <h2 id="studio-title">Then press record</h2>
+          <p>Riverside-style recording without Riverside's servers. Nobody's take depends on their Wi-Fi: the call can stutter while the recording stays clean.</p>
+        </div>
+        <ul class="features">
+          <li><h3>A separate track for every person <span class="rec">On their device</span></h3><p>Camera video plus uncompressed WAV audio, recorded in each guest's browser, then uploaded to your Mac.</p></li>
+          <li><h3>Uploads while you talk</h3><p>Chunks are saved on the guest's device first. A closed tab or a crash resumes instead of losing the take.</p></li>
+          <li><h3>Screen shares as their own angle</h3><p>With shared audio as a separate file.</p></li>
+          <li><h3>Your phone as a second camera</h3><p>Scan a QR code and your phone joins as an extra angle, recorded like everything else.</p></li>
+        </ul>
+      </div>
+    </div>
+
+    <div class="columns" style="margin-top:clamp(40px,5vw,64px)">
+      <ul class="features">
+        <li><h3>Pre-flight check</h3><p>Storage, devices, connection and headphones, before you hit record.</p></li>
+        <li><h3>Teleprompter</h3><p>A script per room, read near the camera, scrolled by the host.</p></li>
+        <li><h3>Branding and lower thirds</h3><p>Show name, logo, accent colour and a title for each guest.</p></li>
+        <li><h3>Producer seat</h3><p>Someone can run the show from inside the call without being recorded.</p></li>
+      </ul>
+      <ul class="features">
+        <li><h3>Record-solo links</h3><p>Send a link and a guest records on their own, no call needed.</p></li>
+        <li><h3>Livestream <span class="tag">New</span></h3><p>To YouTube, Twitch, Facebook, LinkedIn or any RTMP server, several at once.</p></li>
+        <li><h3>Transcripts with exact speaker names</h3><p>Made on your Mac from each person's own track, so nobody is mislabelled.</p></li>
+        <li><h3>Hand-offs, not lock-in</h3><p>Send a take to Minutes, a Parachute notes vault, or an AI clip editor that reads the same files.</p></li>
+      </ul>
+    </div>
+
+    <div class="take">
+      <div>
+        <h3>What one take leaves on your Mac</h3>
+        <p>Original files, conformed tracks and timelines that open in DaVinci Resolve, Premiere Pro and Final Cut Pro. Every track is placed on the timeline and checked for sync.</p>
+      </div>
+<pre class="tree" aria-label="Example export folder"><span class="t">Episode 12 with Ada/</span>
+  video/
+    ada_camera.mov
+    ruth_camera.mov
+    ruth_phone.mov
+    lena_screen.mov
+  audio/
+    ada_mic.wav          <span class="dim">uncompressed, 48 kHz</span>
+    ruth_mic.wav
+    lena_mic.wav
+  take_01_multicam.fcpxml  <span class="dim">Final Cut Pro</span>
+  take_01_premiere.xml     <span class="dim">Premiere Pro, Resolve</span>
+  transcript/
+    transcript.srt
+    transcript.md
+  manifest.json</pre>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="yours" aria-labelledby="yours-title">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="yours-title">Yours, start to finish</h2>
+    </div>
+    <div class="own">
+      <div><h3>No account</h3><p>Not for you, not for your guests. A name and a link are enough.</p></div>
+      <div><h3>No subscription</h3><p>There's no server of ours to pay for, so there's nothing to charge for. No paid tier, no recording limits beyond your disk.</p></div>
+      <div><h3>Media stays on your machines</h3><p>Calls, recordings, captions and transcripts move between your guests' devices and your Mac. Nothing is uploaded to us, because there is no us in the path.</p></div>
+      <div><h3>Open source</h3><p>Licensed AGPL-3.0. Read it, build it, change it. If you run a modified version for others, share your changes too.</p></div>
+    </div>
+  </div>
+</section>
+
+<section class="section" id="compare" aria-labelledby="compare-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="compare-title">How it compares</h2>
+      <p>An honest look, including what p2p.video doesn't do yet.</p>
+      <p class="swipe">Swipe the table sideways to see Google Meet and Riverside.</p>
+    </div>
+    <div class="table-wrap" tabindex="0" role="region" aria-labelledby="compare-title">
+      <table>
+        <thead>
+          <tr><th scope="col"><span class="visually-hidden">Feature</span></th><th scope="col">p2p.video</th><th scope="col">Google Meet</th><th scope="col">Riverside</th></tr>
+        </thead>
+        <tbody>
+          <tr><th scope="row">Where the call and recordings live</th><td><strong>Your Mac</strong></td><td>Google's servers and Drive</td><td>Riverside's servers</td></tr>
+          <tr><th scope="row">Account for the host</th><td><strong>No p2p.video account.</strong> A free Tailscale account for remote guests</td><td>Google account</td><td>Riverside account</td></tr>
+          <tr><th scope="row">Guests install anything</th><td><strong>No, a browser link</strong></td><td>No, a browser link</td><td>No, a browser link</td></tr>
+          <tr><th scope="row">Price</th><td><strong>Free</strong></td><td>Free tier, paid plans</td><td>Free tier, paid plans</td></tr>
+          <tr><th scope="row">Group calls, chat, screen share, waiting room</th><td><strong>Yes</strong></td><td>Yes</td><td>Yes, built around recording</td></tr>
+          <tr><th scope="row">Separate full-quality track per person, recorded locally</th><td><strong>Yes</strong>, video plus WAV</td><td>No, one mixed recording</td><td>Yes</td></tr>
+          <tr><th scope="row">Live captions</th><td><strong>Yes, on your Mac</strong></td><td>Yes, in Google's cloud</td><td>Transcripts after recording</td></tr>
+          <tr><th scope="row">Editor timelines (Resolve, Premiere, Final Cut)</th><td><strong>Yes</strong></td><td>No</td><td>Track downloads and integrations</td></tr>
+          <tr><th scope="row">AI editing and clips</th><td>Hand-off to an open-source clip editor, early</td><td>No</td><td><strong>Yes, built in</strong></td></tr>
+          <tr><th scope="row">Breakout rooms, polls, whiteboard</th><td>Not planned yet</td><td><strong>Yes</strong></td><td>No</td></tr>
+          <tr><th scope="row">Native mobile app</th><td>Coming next for iOS. Phones join in the browser today</td><td><strong>Yes</strong></td><td><strong>Yes</strong></td></tr>
+          <tr><th scope="row">Host on Windows or Linux</th><td>Not yet, Mac only</td><td><strong>Any browser</strong></td><td><strong>Any browser</strong></td></tr>
+          <tr><th scope="row">Track record</th><td>New. Version 1.0</td><td><strong>Years, at huge scale</strong></td><td><strong>Years</strong></td></tr>
+          <tr><th scope="row">Source code</th><td><strong>Open, AGPL-3.0</strong></td><td>Closed</td><td>Closed</td></tr>
+        </tbody>
+      </table>
+    </div>
+    <p class="note">Meet and Riverside change often; this reflects our understanding in October 2026 and is not about any particular paid plan. Spotted something out of date? Open an issue on GitHub.</p>
+  </div>
+</section>
+
+<section class="section" id="faq" aria-labelledby="faq-title" style="padding-top:0">
+  <div class="wrap">
+    <div class="section-head">
+      <h2 id="faq-title">Questions</h2>
+    </div>
+    <div class="faq">
+      <details>
+        <summary>Do I need Tailscale?</summary>
+        <div class="a">
+          <p>You do, as the host, if anyone joins from another device. Tailscale gives your Mac a private web address with a real certificate, without opening ports on your router or renting a server. A free personal account is enough, and the Mac app walks you through it.</p>
+          <p>Your guests don't need Tailscale. Turn on a public link (Tailscale Funnel) and anyone with the link can ask to join from their browser. People already on your Tailscale network can use a private link instead.</p>
+        </div>
+      </details>
+      <details>
+        <summary>Do guests have to install anything?</summary>
+        <div class="a"><p>No. They open the link, check their camera and microphone, type a name and wait for you to let them in. Chrome gives the best results; Safari and Firefox are supported.</p></div>
+      </details>
+      <details>
+        <summary>Does it work on Windows or Linux?</summary>
+        <div class="a"><p>Guests can join from any system with a modern browser. Hosting needs a Mac with Apple Silicon running macOS 14 or later. The server is written in Go, so other hosts are possible later, but they aren't built or tested yet.</p></div>
+      </details>
+      <details>
+        <summary>What about iPhone and Android?</summary>
+        <div class="a"><p>Guests can join from Safari on an iPhone, and you can scan a QR code to add your phone as an extra camera. A native iOS companion app is coming next. Android browsers haven't been tested yet.</p></div>
+      </details>
+      <details>
+        <summary>Is it really free?</summary>
+        <div class="a"><p>Yes. p2p.video is open source under the AGPL-3.0 and runs on hardware you already own. There's no paid tier and no hosted service behind it, so there's nothing to bill you for.</p></div>
+      </details>
+      <details>
+        <summary>What gets recorded, and where does it go?</summary>
+        <div class="a">
+          <p>Nothing is recorded until the host presses Record, and everyone in the call sees a banner while it's on. Each person's browser then records their own camera and microphone, saves the pieces on their device and uploads them to the host's Mac. That's the only place they go.</p>
+          <p>Live captions and transcripts are made on the host's Mac. A livestream goes only to the destinations you add. More in the <a href="/privacy.html">privacy notes</a>.</p>
+        </div>
+      </details>
+      <details>
+        <summary>How many people can join?</summary>
+        <div class="a"><p>It's built for small groups: a show with guests, a team meeting. Calls are tested with four people, and quality steps down gracefully as more join. Your Mac's upload speed is the real limit.</p></div>
+      </details>
+      <details>
+        <summary>How finished is it?</summary>
+        <div class="a"><p>It's new. Every feature on this page is built and covered by automated tests with real browsers, and the core path (calling, local recording, upload and editor export) has run on real Macs and iPhones. Some pieces are still waiting for wider real-world use, such as streaming to each platform and long sessions on busy networks. The project's status page lists exactly what has and hasn't been tried.</p></div>
+      </details>
+    </div>
+  </div>
+</section>
+
+<section class="section download" id="download" aria-labelledby="download-title">
+  <div class="wrap dl">
+    <div>
+      <h2 id="download-title">Host your first call today</h2>
+      <p class="lede" style="margin-top:18px">One app for your Mac. Your guests only need the link.</p>
+      <div class="actions">
+        <a class="btn big" href="https://github.com/omniharmonic/p2p.video/releases/latest">
+          <svg viewBox="0 0 20 20" aria-hidden="true"><path d="M10 3v10m0 0-4-4m4 4 4-4M4 16h12" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          Download for Mac
+        </a>
+        <a class="btn big ghost" href="https://github.com/omniharmonic/p2p.video">View the source</a>
+      </div>
+      <p class="file">p2p.video-1.0.0-arm64.dmg</p>
+      <p class="fine">Apple Silicon (M1 or later), macOS 14 Sonoma or later. Downloads come from GitHub Releases.</p>
+    </div>
+    <ol class="install">
+      <li><div><h3>Open the disk image</h3><p>Drag p2p.video into Applications and open it. It appears in your menu bar.</p></div></li>
+      <li><div><h3>Choose how guests join</h3><p>The setup connects Tailscale and asks whether links should be private or public. You see every change before it's made.</p></div></li>
+      <li><div><h3>Start a meeting</h3><p>Copy the link, send it, and let people in. Press record when you're ready.</p></div></li>
+    </ol>
+  </div>
+</section>
+
+</main>
+
+<footer class="foot">
+  <div class="wrap">
+    <a class="brand" href="/">
+      <svg viewBox="0 0 30 18" aria-hidden="true"><circle cx="5" cy="9" r="4.25" fill="var(--teal)"/><path d="M10 9h10" stroke="var(--teal)" stroke-width="2"/><circle cx="25" cy="9" r="3.5" fill="none" stroke="var(--teal)" stroke-width="2"/></svg>
+      p2p.video
+    </a>
+    <span>Open source, AGPL-3.0. This site has no cookies and no analytics.</span>
+    <nav aria-label="Footer">
+      <a href="https://github.com/omniharmonic/p2p.video">Source</a>
+      <a href="https://github.com/omniharmonic/p2p.video/releases">Releases</a>
+      <a href="/download.html">Install guide</a>
+      <a href="/privacy.html">Privacy</a>
+    </nav>
+  </div>
+</footer>
+</body>
+</html>

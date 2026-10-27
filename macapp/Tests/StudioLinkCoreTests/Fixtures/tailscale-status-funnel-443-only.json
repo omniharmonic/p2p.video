@@ -1,0 +1,14 @@
+{
+  "BackendState": "Running",
+  "Self": {
+    "DNSName": "studio-mac.tail1234.ts.net.",
+    "Online": true,
+    "CapMap": {
+      "https": null,
+      "funnel": null,
+      "https://tailscale.com/cap/funnel-ports?ports=443": null
+    }
+  },
+  "CurrentTailnet": {"MagicDNSSuffix": "tail1234.ts.net", "MagicDNSEnabled": true},
+  "CertDomains": ["studio-mac.tail1234.ts.net"]
+}

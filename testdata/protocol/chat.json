@@ -1,0 +1,1 @@
+{"t":"chat","participantId":"p_fixture","payload":{"id":"m1","participantId":"p_fixture","name":"Synthetic guest","role":"guest","text":"<img src=x onerror=alert(1)> see https://example.com/notes","ts":1793000000000}}

@@ -1,0 +1,101 @@
+/* Teleprompter [SL-P5-1]. The reader sits at the top centre of the screen,
+   right under a laptop's camera, so the reader's eyes stay near the lens.
+   Tokens only (tokens.css); the editor reuses the drawer kit (studio.css). */
+
+.prompter-reader {
+  position: fixed;
+  top: var(--sp-2);
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: var(--z-popover);
+  width: min(880px, calc(100vw - 32px));
+  height: min(46vh, 460px);
+  display: flex;
+  flex-direction: column;
+  border: 1px solid var(--sl-line-strong);
+  border-radius: var(--r-4);
+  background: color-mix(in srgb, var(--sl-stage) 94%, transparent);
+  backdrop-filter: blur(10px);
+  box-shadow: var(--shadow-3);
+  overflow: hidden;
+  --prompter-font: 44px;
+  --prompter-line: 1.45;
+}
+.prompter-reader[hidden] { display: none; }
+
+.prompter-toolbar { display: flex; flex-wrap: wrap; align-items: center; gap: var(--sp-1); padding: var(--sp-2); border-bottom: 1px solid var(--sl-line); }
+.prompter-spacer { flex: 1; }
+.prompter-group { display: inline-flex; align-items: center; gap: 2px; padding: 2px; border: 1px solid var(--sl-line); border-radius: var(--r-pill); background: var(--sl-inset); }
+.prompter-group .prompter-tool { border-color: transparent; background: transparent; min-width: 32px; }
+.prompter-value { min-width: 64px; text-align: center; font-size: var(--fs-sm); color: var(--sl-text); font-variant-numeric: tabular-nums; }
+.prompter-tool {
+  display: inline-flex; align-items: center; justify-content: center; gap: 6px;
+  height: 32px; padding: 0 var(--sp-3);
+  border: 1px solid var(--sl-line); border-radius: var(--r-pill);
+  background: var(--sl-surface-2); color: var(--sl-text);
+  font-size: var(--fs-sm); font-weight: 500; line-height: 1;
+  transition: background-color var(--dur-1), border-color var(--dur-1);
+}
+.prompter-tool:hover:not(:disabled) { background: var(--sl-surface-3); }
+.prompter-tool[hidden] { display: none; }
+.prompter-toggle[aria-checked="true"], .prompter-play.is-playing { background: var(--sl-accent-soft); border-color: var(--sl-accent-line); color: var(--sl-text); }
+.prompter-play { min-width: 92px; }
+.prompter-play-icon { width: 0; height: 0; border-style: solid; border-width: 6px 0 6px 10px; border-color: transparent transparent transparent currentColor; }
+.prompter-play.is-playing .prompter-play-icon { width: 10px; height: 12px; border: 0; border-left: 3px solid currentColor; border-right: 3px solid currentColor; }
+.prompter-close { width: 32px; padding: 0; font-size: 20px; color: var(--sl-text-2); background: transparent; border-color: transparent; }
+
+.prompter-viewport { position: relative; flex: 1; min-height: 0; container-type: size; }
+.prompter-scroll {
+  height: 100%;
+  overflow-y: auto;
+  scrollbar-width: none;
+  /* The reading line sits a fifth of the way down; the end of the script
+     can scroll up to it. */
+  padding: 20cqh clamp(var(--sp-4), 6%, var(--sp-8)) 75cqh;
+  outline: none;
+  -webkit-mask-image: linear-gradient(to bottom, rgba(0,0,0,.35) 0, #000 18cqh, #000 calc(100% - var(--sp-8)), transparent 100%);
+  mask-image: linear-gradient(to bottom, rgba(0,0,0,.35) 0, #000 18cqh, #000 calc(100% - var(--sp-8)), transparent 100%);
+}
+.prompter-scroll::-webkit-scrollbar { display: none; }
+.prompter-scroll:focus-visible { box-shadow: inset 0 0 0 2px var(--sl-accent-line); }
+.prompter-text {
+  font-size: var(--prompter-font);
+  line-height: var(--prompter-line);
+  font-weight: 500;
+  color: var(--sl-text);
+  letter-spacing: .005em;
+  overflow-wrap: anywhere;
+}
+.prompter-reader.is-mirrored .prompter-text { transform: scaleX(-1); }
+.prompter-text p { margin: 0; }
+.prompter-text .prompter-h1, .prompter-text .prompter-h2 { margin: .5em 0 .15em; font-weight: 600; line-height: 1.2; letter-spacing: .06em; text-transform: uppercase; }
+.prompter-text .prompter-h1 { font-size: .5em; color: var(--sl-accent); }
+.prompter-text .prompter-h2 { font-size: .42em; color: var(--sl-text-2); }
+.prompter-text > :first-child { margin-top: 0; }
+.prompter-text .prompter-gap { height: .55em; }
+.prompter-empty { font-size: var(--fs-lg); color: var(--sl-text-2); font-weight: 400; }
+/* The reading line: where the eyes rest. */
+.prompter-marker { position: absolute; left: 0; right: 0; top: 20cqh; height: calc(var(--prompter-font) * var(--prompter-line)); pointer-events: none; background: color-mix(in srgb, var(--sl-accent) 6%, transparent); border-top: 1px solid color-mix(in srgb, var(--sl-accent) 14%, transparent); border-bottom: 1px solid color-mix(in srgb, var(--sl-accent) 14%, transparent); }
+.prompter-marker::before { content: ""; position: absolute; left: 6px; top: 50%; transform: translateY(-50%); border-style: solid; border-width: 7px 0 7px 9px; border-color: transparent transparent transparent var(--sl-accent); }
+.prompter-reader[data-following="true"] .prompter-marker::before { border-left-color: var(--sl-ok); }
+
+/* Editor drawer */
+.prompter-editor-backdrop { z-index: var(--z-drawer); }
+.prompter-editor textarea { width: 100%; min-height: 300px; resize: vertical; padding: var(--sp-3); border: 1px solid var(--sl-line-strong); border-radius: var(--r-2); background: var(--sl-inset); color: var(--sl-text); font: 400 var(--fs-base) / var(--lh-body) var(--sl-font); }
+.prompter-editor textarea:focus-visible { outline: 2px solid var(--sl-accent); outline-offset: 2px; }
+.prompter-meta { display: flex; justify-content: space-between; gap: var(--sp-3); }
+.prompter-meta .is-over { color: var(--sl-danger); }
+.prompter-save-status { margin: 0; min-height: 1.4em; font-size: var(--fs-sm); color: var(--sl-text-2); }
+.prompter-save-status.is-error { color: var(--sl-danger); }
+
+@media (max-width: 640px) {
+  .prompter-reader { height: min(52vh, 440px); border-radius: var(--r-3); }
+  .prompter-tool { height: 30px; padding: 0 var(--sp-2); }
+  .prompter-play { min-width: 76px; }
+  .prompter-value { min-width: 56px; font-size: var(--fs-xs); }
+  .prompter-spacer { display: none; }
+  .prompter-close { margin-left: auto; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .prompter-tool { transition: none; }
+}

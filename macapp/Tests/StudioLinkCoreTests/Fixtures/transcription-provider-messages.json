@@ -1,0 +1,11 @@
+[
+  {"t": "hello", "protocol": 1, "name": "p2p.video on-device transcription", "engine": "apple-speechtranscriber", "languages": ["en-GB", "en-US"], "state": "ready"},
+  {"t": "ready", "protocol": 1},
+  {"t": "job", "jobId": "j1", "path": "/Users/host/Library/Application Support/p2p.video/exports/s1/take_01/audio/Ana_mic.wav", "language": "en-US", "durationSec": 9.5},
+  {"t": "progress", "jobId": "j1", "processedSec": 1.14},
+  {"t": "segment", "jobId": "j1", "segment": {"start": 0, "end": 1.14, "text": "Welcome to the show.", "confidence": 0.995, "words": [{"word": "Welcome", "start": 0, "end": 0.48, "confidence": 0.997}, {"word": "to", "start": 0.48, "end": 0.6, "confidence": 0.998}, {"word": "the", "start": 0.6, "end": 0.72, "confidence": 0.999}, {"word": "show.", "start": 0.72, "end": 1.08, "confidence": 0.985}]}},
+  {"t": "done", "jobId": "j1", "durationSec": 9.5, "locale": "en-US", "asr": "apple-speechtranscriber"},
+  {"t": "cancel", "jobId": "j2"},
+  {"t": "error", "jobId": "j2", "code": "cancelled", "message": "Transcription was cancelled."},
+  {"t": "status", "state": "not_authorized", "message": "Speech Recognition is not allowed for p2p.video."}
+]

@@ -1,0 +1,6 @@
+{
+  "providingType": "AC Power",
+  "sources": [
+    {"Type": "InternalBattery", "Name": "InternalBattery-0", "Power Source State": "AC Power", "Current Capacity": 87, "Max Capacity": 100, "Is Charging": true, "Is Present": true, "Transport Type": "Internal", "Power Source ID": 4653155, "Time to Full Charge": 24, "Time to Empty": 0, "Is Charged": false, "Battery Provides Time Remaining": true}
+  ]
+}

@@ -1,0 +1,33 @@
+/* Post-take ecosystem actions in the export modal (SL-P4-1, SL-P4-3). Tokens only. */
+.ecosystem-actions { margin-top: var(--sp-5); }
+.ecosystem-heading { display: flex; justify-content: space-between; align-items: baseline; margin-bottom: var(--sp-2); }
+.ecosystem-item { flex-wrap: wrap; }
+.ecosystem-item strong { display: block; font-size: var(--fs-md); }
+.ecosystem-note { display: block; color: var(--sl-text-2); font-size: var(--fs-sm); line-height: var(--lh-body); margin-top: 2px; overflow-wrap: anywhere; }
+.ecosystem-item[data-state="danger"] .ecosystem-note { color: var(--sl-danger); }
+.ecosystem-item[data-state="running"] [data-badge] { color: var(--sl-accent); border-color: var(--sl-accent); }
+.ecosystem-item .btn { white-space: nowrap; }
+.ecosystem-buttons { display: flex; gap: var(--sp-2); }
+.ecosystem-item > .ecosystem-extra { flex: 1 0 100%; display: grid; gap: var(--sp-3); }
+.ecosystem-engine { display: flex; flex-wrap: wrap; gap: var(--sp-2) var(--sp-3); align-items: center; font-size: var(--fs-sm); }
+.ecosystem-engine-label { color: var(--sl-text-2); }
+.ecosystem-engine select { min-height: 32px; max-width: 100%; background: var(--sl-surface-1); color: var(--sl-text); border: 1px solid var(--sl-line); border-radius: var(--r-2); padding: 0 var(--sp-2); font: inherit; }
+.ecosystem-engine select:focus-visible { outline: 2px solid var(--sl-line-focus); outline-offset: 1px; }
+.ecosystem-engine-status { flex: 1 1 100%; color: var(--sl-text-2); line-height: var(--lh-body); overflow-wrap: anywhere; }
+.ecosystem-engine-status[data-tone="success"] { color: var(--sl-ok); }
+.ecosystem-engine-status[data-tone="danger"] { color: var(--sl-danger); }
+.ecosystem-tracks { list-style: none; margin: 0; padding: 0; display: grid; gap: var(--sp-2); font-size: var(--fs-sm); }
+.ecosystem-track { display: grid; grid-template-columns: minmax(0, 9rem) minmax(0, 1fr) auto; gap: var(--sp-2) var(--sp-3); align-items: center; }
+.ecosystem-track-name { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.ecosystem-track progress { width: 100%; height: 6px; accent-color: var(--sl-accent); }
+.ecosystem-track-status { color: var(--sl-text-2); font-variant-numeric: tabular-nums; white-space: nowrap; }
+.ecosystem-track[data-tone="danger"] .ecosystem-track-status { color: var(--sl-danger); }
+.ecosystem-track-error { grid-column: 1 / -1; color: var(--sl-danger); overflow-wrap: anywhere; }
+.ecosystem-toggle { display: flex; gap: var(--sp-2); align-items: center; margin-top: var(--sp-3); color: var(--sl-text-2); font-size: var(--fs-sm); }
+.ecosystem-message { min-height: 1.2em; margin-top: var(--sp-2); color: var(--sl-text-2); font-size: var(--fs-sm); overflow-wrap: anywhere; }
+@media (max-width: 560px) {
+  .ecosystem-item .btn { width: 100%; }
+  .ecosystem-buttons { flex: 1 1 100%; }
+  .ecosystem-track { grid-template-columns: minmax(0, 1fr) auto; }
+  .ecosystem-track progress { grid-column: 1 / -1; grid-row: 2; }
+}

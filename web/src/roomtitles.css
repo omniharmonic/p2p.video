@@ -1,0 +1,18 @@
+/* Saved titles dialog for a room [SL-P5-4]. Builds on .room-dialog (home.css); tokens only. */
+.room-titles-dialog { width: min(680px, calc(100vw - 32px)); }
+.room-titles-list { display: flex; flex-direction: column; gap: var(--sp-2); margin-top: var(--sp-4); }
+.room-title-row { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto auto; grid-template-areas: "who who who who" "name title save forget"; gap: var(--sp-2); padding: var(--sp-3); border: 1px solid var(--sl-line); border-radius: var(--r-2); background: var(--sl-inset); min-width: 0; }
+.room-title-row strong { grid-area: who; font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.room-title-row [data-field=name] { grid-area: name; }
+.room-title-row [data-field=title] { grid-area: title; }
+.room-title-row [data-save] { grid-area: save; }
+.room-title-row [data-forget] { grid-area: forget; }
+.room-titles-add { margin-top: var(--sp-3); grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) minmax(0, 1fr) auto; grid-template-areas: "who who who who" "display name title save"; border-style: dashed; }
+.room-titles-add [data-field=displayName] { grid-area: display; }
+.room-titles-error { color: var(--sl-danger); font-size: var(--fs-sm); margin-top: var(--sp-2); }
+.room-title-row input { min-width: 0; }
+
+@media (max-width: 560px) {
+  .room-title-row { grid-template-columns: minmax(0, 1fr) auto auto; grid-template-areas: "who who who" "name name name" "title save forget"; }
+  .room-titles-add { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who who" "display display" "name name" "title save"; }
+}

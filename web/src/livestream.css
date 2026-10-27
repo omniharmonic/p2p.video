@@ -1,0 +1,52 @@
+/* Livestream drawer. Reuses .drawer-panel/.drawer-* from studio.css and the
+   tokens from tokens.css. The toolbar control lives in the call's More menu;
+   the header "Live" chip shows the state (call.css). */
+.livestream-backdrop { position: fixed; inset: 0; z-index: var(--z-drawer); background: var(--sl-scrim); opacity: 0; visibility: hidden; transition: opacity var(--dur-2), visibility var(--dur-2); }
+.livestream-backdrop.open { opacity: 1; visibility: visible; }
+.livestream-drawer { width: min(100%, 520px); }
+.livestream-preview { position: relative; width: 100%; aspect-ratio: 16 / 9; background: var(--sl-stage); border-radius: var(--r-2); overflow: hidden; box-shadow: 0 0 0 1px var(--sl-line); }
+.livestream-preview canvas { display: block; width: 100%; height: 100%; }
+.livestream-layouts { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 4px; margin-top: var(--sp-2); }
+.livestream-layouts .tactile-pill { text-align: center; padding: var(--sp-2); }
+/* Branded layout switch and on-demand lower thirds [SL-P5-2]. */
+.livestream-brand-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin-top: var(--sp-3); font-size: var(--fs-md); color: var(--sl-text); }
+.livestream-brand-row small { display: block; font-size: var(--fs-xs); color: var(--sl-text-3); margin-top: 2px; }
+.livestream-lt { margin-top: var(--sp-3); display: flex; flex-direction: column; gap: var(--sp-2); }
+.livestream-lt-cues { display: flex; flex-wrap: wrap; gap: 6px; }
+.livestream-lt-cues:empty::before { content: "Nobody in the program yet."; font-size: var(--fs-sm); color: var(--sl-text-3); }
+.livestream-lt-cues .tactile-pill { padding: 6px var(--sp-3); max-width: 100%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.livestream-lt .field-hint { margin: 0; }
+.livestream-dest { margin: 0 0 var(--sp-3); padding: var(--sp-4); border: 1px solid var(--sl-line); border-radius: var(--r-2); background: var(--sl-inset); min-width: 0; }
+.livestream-dest legend { padding: 0 6px; margin: 0; }
+.livestream-dest[disabled] { opacity: .7; }
+.livestream-dest-grid { display: grid; grid-template-columns: minmax(0, 1fr); gap: var(--sp-3); }
+.livestream-field { display: flex; flex-direction: column; gap: 6px; font-size: var(--fs-sm); color: var(--sl-text-2); min-width: 0; }
+.livestream-remove { margin-top: var(--sp-2); padding-left: 0; }
+.livestream-warning { color: var(--sl-warn); font-size: var(--fs-sm); line-height: var(--lh-body); }
+.livestream-warning:empty { display: none; }
+.livestream-status { display: flex; flex-direction: column; gap: var(--sp-3); padding-top: 4px; }
+.livestream-phase { display: inline-flex; align-items: center; gap: var(--sp-2); font-size: var(--fs-md); color: var(--sl-text); }
+.livestream-status[data-phase=live] .livestream-phase .status-dot { background: var(--sl-rec); box-shadow: 0 0 0 3px var(--sl-rec-soft); }
+.livestream-status[data-phase=reconnecting] .livestream-phase .status-dot, .livestream-status[data-phase=starting] .livestream-phase .status-dot { background: var(--sl-warn); }
+.livestream-status[data-phase=error] .livestream-phase { color: var(--sl-danger); }
+.livestream-stats { display: grid; grid-template-columns: repeat(auto-fit, minmax(84px, 1fr)); gap: var(--sp-2); margin: 0; }
+.livestream-stats div { padding: var(--sp-2); border: 1px solid var(--sl-line); border-radius: var(--r-2); background: var(--sl-inset); min-width: 0; }
+.livestream-stats dt { font-size: var(--fs-xs); color: var(--sl-text-2); margin-bottom: 4px; }
+.livestream-stat-src { color: var(--sl-text-3); font-weight: 400; }
+.livestream-stats dd { margin: 0; font-size: var(--fs-md); font-variant-numeric: tabular-nums; }
+.livestream-dest-states { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 6px; }
+.livestream-dest-state { display: grid; grid-template-columns: auto auto minmax(0, 1fr) auto; align-items: center; gap: var(--sp-2); font-size: var(--fs-sm); color: var(--sl-text-2); }
+.livestream-dest-state strong { color: var(--sl-text); font-weight: 500; }
+.livestream-dest-state span:nth-child(3) { overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.livestream-dest-state[data-state=live] .status-dot { background: var(--sl-ok); }
+.livestream-dest-state[data-state=failed] .status-dot { background: var(--sl-danger); }
+.livestream-dest-state[data-state=failed] span:last-child { color: var(--sl-danger); }
+.livestream-dest-state[data-state=reconnecting] .status-dot,
+.livestream-dest-state[data-state=connecting] .status-dot { background: var(--sl-warn); }
+.livestream-dest-state[data-state=reconnecting] span:last-child { color: var(--sl-warn); }
+.livestream-warnings { list-style: none; margin: 0; padding: 0; display: flex; flex-direction: column; gap: 4px; }
+.livestream-end { border-color: var(--sl-rec-line); color: var(--sl-rec-text); }
+@media (max-width: 520px) {
+  .livestream-dest-state { grid-template-columns: auto minmax(0, 1fr); }
+  .livestream-dest-state span:nth-child(3) { display: none; }
+}

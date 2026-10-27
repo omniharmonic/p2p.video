@@ -1,0 +1,23 @@
+/* After the call [SL-P1-6, SL-UX-2]: "You left the call" (guests, with Rejoin)
+   and "Meeting ended" (everyone; markup from Home.ts) share one calm layout:
+   a centred heading, what happens to your recording, and the next step.
+   The dock's Leave control is styled with End meeting in call.css. */
+.left-call, #main-container > .meeting-ended { width: 100%; max-width: 520px; margin: 12vh auto 0; padding: 0 var(--sp-4); text-align: center; }
+.left-call .workspace-heading, .meeting-ended .workspace-heading { display: block; margin-bottom: var(--sp-6); }
+.left-call .section-kicker, .meeting-ended .section-kicker, .left-call .heading-point, .meeting-ended .heading-point { display: none; }
+.left-call h1, .meeting-ended h1 { font-size: var(--fs-3xl); letter-spacing: -.02em; margin-bottom: var(--sp-3); }
+.left-call h1:focus, .meeting-ended h1:focus { outline: none; }
+.left-call .workspace-heading p, .meeting-ended .workspace-heading p { color: var(--sl-text-2); font-size: var(--fs-lg); max-width: 44ch; margin-inline: auto; }
+.left-card, .meeting-ended .ended-card { margin-top: 0; padding: var(--sp-5) var(--sp-6); display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); border: 0; border-radius: var(--r-4); background: var(--sl-surface-1); box-shadow: var(--shadow-1); }
+.left-card .field-label, .meeting-ended .ended-card .field-label { margin: 0; font-size: var(--fs-sm); font-weight: 600; color: var(--sl-text-2); }
+.left-card [data-left-uploads], .meeting-ended [data-ended-uploads] { color: var(--sl-text); font-size: var(--fs-md); font-variant-numeric: tabular-nums; }
+.left-progress { align-self: stretch; height: 6px; border-radius: var(--r-pill); background: var(--sl-surface-3); overflow: hidden; }
+.left-progress-fill { height: 100%; width: 0; background: var(--sl-accent); border-radius: inherit; transition: width var(--dur-2) var(--ease); }
+.left-actions, .meeting-ended .ended-actions { display: flex; flex-wrap: wrap; justify-content: center; gap: var(--sp-2); margin-top: var(--sp-3); }
+.left-actions .btn, .meeting-ended .ended-actions .btn { border-radius: var(--r-pill); min-width: 140px; min-height: 44px; font-size: var(--fs-base); }
+@media (max-width: 640px) {
+  .left-call, #main-container > .meeting-ended { margin-top: 6vh; }
+  .left-call h1, .meeting-ended h1 { font-size: var(--fs-2xl); }
+  .left-card, .meeting-ended .ended-card { padding: var(--sp-5); }
+}
+@media (prefers-reduced-motion: reduce) { .left-progress-fill { transition: none; } }

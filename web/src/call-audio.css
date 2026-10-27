@@ -1,0 +1,8 @@
+/* Call audio processing switches in the Devices popover [SL-P1-8]. */
+.device-popover { max-height: calc(100dvh - 160px); overflow: auto; }
+.call-audio-processing { margin: var(--sp-1) 0 var(--sp-3); padding-top: var(--sp-3); border-top: 1px solid var(--sl-line); display: flex; flex-direction: column; gap: var(--sp-2); }
+.call-audio-processing h3 { margin: 0; font-size: var(--fs-sm); font-weight: 500; color: var(--sl-text-2); }
+.call-audio-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); }
+.call-audio-text { display: flex; flex-direction: column; gap: 1px; font-size: var(--fs-md); color: var(--sl-text); }
+.call-audio-text small { font-size: var(--fs-xs); color: var(--sl-text-3); }
+.call-audio-note { font-size: var(--fs-xs); color: var(--sl-text-3); line-height: var(--lh-body); }

@@ -1,0 +1,1 @@
+{"t":"chat_history","payload":{"messages":[{"id":"m1","participantId":"p_fixture","name":"Synthetic guest","role":"guest","text":"hello","ts":1793000000000}]}}

@@ -1,0 +1,361 @@
+@import "@fontsource-variable/figtree/wght.css";
+@import "@fontsource-variable/bricolage-grotesque/wght.css";
+
+/* p2p.video design system [SL-UX-1, SL-UX-2]: the single source of tokens and shared
+   components. Every other stylesheet uses these variables; no feature file
+   defines its own colours, radii, shadows or z-index numbers.
+   Reference: docs/design/design-system.md. */
+
+:root {
+  color-scheme: light dark;
+
+  /* Colour [SL-UX-2]: follows the system appearance. Light is the default;
+     dark overrides below. Porcelain/ink surfaces, "signal teal" for primary
+     actions and selection, red only for recording and leaving. */
+  --sl-canvas: #f4f6f5;
+  --sl-surface-1: #ffffff;      /* panels, cards, drawers */
+  --sl-surface-2: #eef2f1;      /* raised controls */
+  --sl-surface-3: #e2e8e6;      /* hover */
+  --sl-inset: #ffffff;          /* inputs, wells */
+  --sl-stage: #e4e9e7;          /* behind video */
+  --sl-scrim: rgba(23, 32, 43, .42);
+  --sl-line: #dce2e0;
+  --sl-line-strong: #c2cbc8;
+  --sl-line-focus: #0f7b76;
+
+  --sl-text: #17202b;
+  --sl-text-2: #4a5663;         /* 7.1:1 on canvas */
+  --sl-text-3: #66727e;         /* 4.8:1 on canvas, min 11px */
+
+  --sl-accent: #0f7b76;         /* signal teal: 5.1:1 with white */
+  --sl-accent-strong: #0b6662;
+  --sl-on-accent: #ffffff;
+  --sl-accent-soft: rgba(15, 123, 118, .10);
+  --sl-accent-line: #8cc3bf;
+  --sl-chip: #e9e6f8;           /* people and status chips */
+  --sl-on-chip: #2e2a52;
+
+  --sl-rec: #e5484d;            /* the recording dot */
+  --sl-rec-fill: #c8353a;       /* filled red buttons: 5.3:1 with white */
+  --sl-rec-fill-hover: #b32e33;
+  --sl-rec-soft: #fdeaea;
+  --sl-rec-soft-hover: #f9d9da;
+  --sl-rec-line: #eeb1b3;
+  --sl-rec-text: #a3262b;
+
+  --sl-off-bg: #fbe3e3;         /* mic / camera off */
+  --sl-off-bg-hover: #f7d2d3;
+  --sl-off-line: #ebadae;
+  --sl-off-text: #a3262b;
+
+  --sl-warn: #8a5a00;
+  --sl-on-warn: #ffffff;
+  --sl-warn-soft: #fff4da;
+  --sl-warn-line: #e8cf92;
+  --sl-ok: #1e7a4f;
+  --sl-ok-soft: #e3f4ea;
+  --sl-ok-line: #a9d6bd;
+  --sl-danger: #b42d33;
+
+  /* The live sound ring (mic button, speaking tiles): the one signature. */
+  --sl-ring: #22a39c;
+  --sl-ring-soft: rgba(34, 163, 156, .28);
+
+  /* The call [SL-UX-2]: a stage a step darker than home in both appearances,
+     controls that float on it, and text that sits on video. */
+  --sl-call-bg: #dde3e1;
+  --sl-call-tile: #c8d1ce;
+  --sl-call-ctl: #ffffff;
+  --sl-call-ctl-hover: #eef2f1;
+  --sl-call-ctl-line: #cfd8d5;
+  --sl-on-video: #ffffff;
+  --sl-on-video-2: #dfe6ea;
+  --sl-video-scrim: rgba(10, 14, 18, .62);
+  --sl-video-scrim-strong: rgba(10, 14, 18, .84);
+  --sl-toast-bg: #17202b;
+  --sl-toast-text: #f4f6f5;
+  --sl-avatar-1: #d6eeeb;
+  --sl-on-avatar-1: #0b5652;
+  --sl-avatar-2: #e9e6f8;
+  --sl-on-avatar-2: #3b3570;
+  --sl-avatar-3: #f6e7d6;
+  --sl-on-avatar-3: #6b4419;
+
+  /* Type: Figtree for the interface, Bricolage Grotesque for headings and
+     names that carry personality. Both bundled (OFL), never fetched. */
+  --sl-font: "Figtree Variable", -apple-system, BlinkMacSystemFont, "Segoe UI", Arial, sans-serif;
+  --sl-display: "Bricolage Grotesque Variable", "Figtree Variable", -apple-system, sans-serif;
+  --sl-mono: ui-monospace, "SFMono-Regular", Menlo, Consolas, monospace;
+  --fs-xs: 11px;
+  --fs-sm: 12px;
+  --fs-md: 13px;
+  --fs-base: 14px;
+  --fs-lg: 16px;
+  --fs-xl: 20px;
+  --fs-2xl: 28px;
+  --fs-3xl: 36px;
+  --lh-tight: 1.2;
+  --lh-ui: 1.4;
+  --lh-body: 1.55;
+
+  /* Space: 4px grid. */
+  --sp-1: 4px;
+  --sp-2: 8px;
+  --sp-3: 12px;
+  --sp-4: 16px;
+  --sp-5: 20px;
+  --sp-6: 24px;
+  --sp-7: 32px;
+  --sp-8: 48px;
+
+  /* Radii grow with the size of the surface. */
+  --r-1: 4px;     /* chips, badges, kbd */
+  --r-2: 10px;    /* inputs, small buttons */
+  --r-3: 14px;    /* cards, tiles, popovers */
+  --r-4: 20px;    /* dialogs, sheets */
+  --r-pill: 999px;
+
+  /* Elevation. */
+  --shadow-1: 0 1px 2px rgba(23, 32, 43, .08);
+  --shadow-2: 0 10px 28px rgba(23, 32, 43, .12), 0 0 0 1px rgba(23, 32, 43, .04);
+  --shadow-3: 0 24px 64px rgba(23, 32, 43, .18);
+
+  /* Layers. Tile overlays use 1–6 inside the tile's own stacking context. */
+  --z-dock: 20;
+  --z-popover: 60;
+  --z-sheet: 90;
+  --z-drawer: 100;
+  --z-modal: 110;
+  --z-countdown: 120;
+  --z-toast: 130;
+
+  /* Motion. */
+  --dur-1: 120ms;
+  --dur-2: 180ms;
+  --ease: cubic-bezier(.2, .7, .3, 1);
+
+  /* Controls. */
+  --ctl-h: 40px;
+  --ctl-h-sm: 32px;
+  --dock-btn: 44px;
+  --focus-ring: 0 0 0 2px var(--sl-canvas), 0 0 0 4px var(--sl-accent);
+
+  /* Legacy aliases (feature files written before SL-UX-1). */
+  --bg: var(--sl-canvas);
+  --card: var(--sl-surface-1);
+  --panel-raised: var(--sl-surface-2);
+  --panel-inset: var(--sl-inset);
+  --border: var(--sl-line);
+  --border-bright: var(--sl-line-strong);
+  --text: var(--sl-text);
+  --muted: var(--sl-text-2);
+  --primary: var(--sl-accent);
+  --accent: var(--sl-accent);
+  --success: var(--sl-ok);
+  --danger: var(--sl-danger);
+  --tally-red: var(--sl-rec);
+  --tally-green: var(--sl-ok);
+
+  font-family: var(--sl-font);
+  font-size: var(--fs-base);
+  line-height: var(--lh-ui);
+  font-synthesis: none;
+  text-rendering: optimizeLegibility;
+  -webkit-font-smoothing: antialiased;
+}
+
+
+/* Dark appearance: same names, night values. The call stage stays the darkest. */
+@media (prefers-color-scheme: dark) {
+  :root {
+    --sl-canvas: #101418;
+    --sl-surface-1: #171c21;
+    --sl-surface-2: #1f262c;
+    --sl-surface-3: #29323a;
+    --sl-inset: #12171b;
+    --sl-stage: #0a0d10;
+    --sl-scrim: rgba(3, 7, 11, .7);
+    --sl-line: #2a333b;
+    --sl-line-strong: #3e4954;
+    --sl-line-focus: #5fcfc6;
+
+    --sl-text: #e9eef0;
+    --sl-text-2: #aab5be;
+    --sl-text-3: #8995a0;
+
+    --sl-accent: #5fcfc6;
+    --sl-accent-strong: #84ddd6;
+    --sl-on-accent: #062220;
+    --sl-accent-soft: rgba(95, 207, 198, .14);
+    --sl-accent-line: #3f7f7a;
+    --sl-chip: #2b2840;
+    --sl-on-chip: #dcd7fb;
+
+    --sl-rec: #f2555a;
+    --sl-rec-fill: #c8353a;
+    --sl-rec-fill-hover: #d8454a;
+    --sl-rec-soft: #2c1719;
+    --sl-rec-soft-hover: #3b1d20;
+    --sl-rec-line: #7e4143;
+    --sl-rec-text: #f8c9ca;
+
+    --sl-off-bg: #4a2427;
+    --sl-off-bg-hover: #5a2b2e;
+    --sl-off-line: #8a4a4c;
+    --sl-off-text: #ffc2bf;
+
+    --sl-warn: #e8c486;
+    --sl-on-warn: #231a0b;
+    --sl-warn-soft: #2a2418;
+    --sl-warn-line: #7d6747;
+    --sl-ok: #8fd0ae;
+    --sl-ok-soft: #16241d;
+    --sl-ok-line: #3c5a4a;
+    --sl-danger: #f08c88;
+
+    --sl-ring: #5fcfc6;
+    --sl-ring-soft: rgba(95, 207, 198, .3);
+
+    --sl-call-bg: #0a0d10;
+    --sl-call-tile: #1a2026;
+    --sl-call-ctl: #232b33;
+    --sl-call-ctl-hover: #2f3943;
+    --sl-call-ctl-line: #323d47;
+    --sl-toast-bg: #e9eef0;
+    --sl-toast-text: #101418;
+    --sl-avatar-1: #1d3b39;
+    --sl-on-avatar-1: #9fe3dc;
+    --sl-avatar-2: #2b2840;
+    --sl-on-avatar-2: #dcd7fb;
+    --sl-avatar-3: #3a2c1d;
+    --sl-on-avatar-3: #f2d3ad;
+
+    --shadow-1: 0 1px 2px rgba(0, 0, 0, .35);
+    --shadow-2: 0 12px 32px rgba(0, 0, 0, .45), 0 0 0 1px rgba(255, 255, 255, .03);
+    --shadow-3: 0 24px 80px rgba(0, 0, 0, .55);
+  }
+}
+
+/* Over-video and fixed-colour surfaces [SL-UX-2a]: controls laid on camera
+   pictures look the same in both appearances (the picture decides contrast),
+   as do QR codes, which must stay dark-on-white to scan. */
+:root {
+  --sl-on-video: #ffffff;
+  --sl-video-scrim: rgba(7, 10, 13, .72);
+  --sl-video-scrim-0: rgba(7, 10, 13, 0);
+  --sl-video-chip: rgba(18, 24, 30, .78);
+  --sl-video-btn: rgba(25, 33, 42, .62);
+  --sl-video-btn-hover: rgba(25, 33, 42, .82);
+  --sl-video-line: rgba(255, 255, 255, .22);
+  --sl-video-track: rgba(255, 255, 255, .16);
+  --sl-on-rec: #ffffff;
+  --sl-camera-off: #222a31;
+  --sl-on-video-ink: #17202b;
+  --sl-qr-paper: #ffffff;
+  --sl-qr-ink: #3b4853;
+  --sl-swatch-blur-1: #3b4853;
+  --sl-swatch-blur-2: #19212a;
+  --sl-swatch-blur-3: #2a3540;
+  --sl-home-rail: 248px;
+  --sl-preview-r: 24px;
+}
+
+/* ---------------------------------------------------------------- base */
+* { box-sizing: border-box; }
+body { margin: 0; min-width: 320px; min-height: 100vh; min-height: 100dvh; display: flex; flex-direction: column; background: var(--sl-canvas); color: var(--sl-text); }
+button, input, select, textarea { font: inherit; color: inherit; }
+button, a, input, select { -webkit-tap-highlight-color: transparent; }
+button { cursor: pointer; }
+button:disabled { cursor: not-allowed; opacity: .45; }
+a { color: inherit; }
+h1, h2, h3, p { margin: 0; }
+h1, h2, h3 { font-family: var(--sl-display); font-weight: 600; line-height: var(--lh-tight); letter-spacing: -.01em; }
+p { line-height: var(--lh-body); }
+code { font: var(--fs-xs) var(--sl-mono); overflow-wrap: anywhere; }
+[hidden] { display: none !important; }
+:focus-visible { outline: 2px solid var(--sl-accent); outline-offset: 2px; }
+button:focus-visible, a:focus-visible, summary:focus-visible, [tabindex]:focus-visible { outline: 2px solid var(--sl-accent); outline-offset: 2px; }
+input:focus-visible, select:focus-visible, textarea:focus-visible { outline: 2px solid var(--sl-accent); outline-offset: 1px; border-color: var(--sl-accent-line); }
+.visually-hidden { position: absolute !important; width: 1px; height: 1px; padding: 0; margin: -1px; overflow: hidden; clip: rect(0 0 0 0); white-space: nowrap; border: 0; }
+
+/* -------------------------------------------------------------- buttons
+   .btn + one variant: -primary (ice), -secondary (raised), -quiet (text),
+   -danger (record), -end / -destructive (end meeting, destructive confirm),
+   -remove (outlined destructive). Sizes: default 40px, -compact 30px, -block. */
+.btn { display: inline-flex; justify-content: center; align-items: center; gap: var(--sp-2); min-height: var(--ctl-h); padding: 0 var(--sp-4); border: 1px solid transparent; border-radius: var(--r-2); color: var(--sl-text); background: transparent; font-size: var(--fs-md); font-weight: 500; line-height: 1.2; white-space: nowrap; text-decoration: none; transition: background-color var(--dur-1), border-color var(--dur-1), color var(--dur-1); }
+.btn-primary { background: var(--sl-accent); border-color: var(--sl-accent); color: var(--sl-on-accent); }
+.btn-primary:hover:not(:disabled) { background: var(--sl-accent-strong); border-color: var(--sl-accent-strong); }
+.btn-secondary { background: var(--sl-surface-2); border-color: var(--sl-line-strong); }
+.btn-secondary:hover:not(:disabled) { background: var(--sl-surface-3); border-color: #5a6a76; }
+.btn-quiet { color: var(--sl-text-2); }
+.btn-quiet:hover:not(:disabled) { color: var(--sl-text); background: var(--sl-surface-2); }
+.btn-danger { background: var(--sl-rec-fill); border-color: var(--sl-rec-fill); color: #fff; }
+.btn-danger:hover:not(:disabled) { background: var(--sl-rec-fill-hover); border-color: var(--sl-rec-fill-hover); }
+.btn-end, .btn-destructive { background: var(--sl-rec-fill); border-color: var(--sl-rec-fill); color: #fff; }
+.btn-end:hover:not(:disabled), .btn-destructive:hover:not(:disabled) { background: var(--sl-rec-fill-hover); border-color: var(--sl-rec-fill-hover); }
+.btn-remove { border-color: var(--sl-rec-line); color: var(--sl-rec-text); }
+.btn-remove:hover:not(:disabled) { background: var(--sl-rec-soft); border-color: #a75555; }
+.btn-compact { min-height: 30px; padding: 0 var(--sp-3); font-size: var(--fs-sm); }
+.btn-block { width: 100%; }
+.icon-button, .close-icon-btn { display: inline-grid; place-items: center; flex: none; width: var(--ctl-h-sm); height: var(--ctl-h-sm); padding: 0; border: 1px solid transparent; border-radius: var(--r-pill); background: transparent; color: var(--sl-text-2); font-size: 20px; line-height: 1; transition: background-color var(--dur-1), color var(--dur-1); }
+.icon-button:hover, .close-icon-btn:hover { color: var(--sl-text); background: var(--sl-surface-3); }
+.ui-icon { display: inline-grid; place-items: center; line-height: 1; }
+.ui-icon svg, .collab-icon svg { display: block; width: 20px; height: 20px; }
+
+/* ----------------------------------------------------- chips and badges */
+.badge { display: inline-flex; align-items: center; gap: 6px; padding: 3px 8px; border: 1px solid var(--sl-line); border-radius: var(--r-1); font-size: var(--fs-xs); color: var(--sl-text-2); font-weight: 400; line-height: 1.4; white-space: nowrap; }
+.badge-success { color: var(--sl-ok); border-color: var(--sl-ok-line); background: var(--sl-ok-soft); }
+.badge-danger, .badge-waiting { color: var(--sl-warn); border-color: var(--sl-warn-line); background: var(--sl-warn-soft); }
+.chip { display: inline-flex; align-items: center; gap: 6px; min-height: 28px; padding: 0 10px; border: 1px solid var(--sl-line); border-radius: var(--r-pill); background: var(--sl-surface-1); color: var(--sl-text-2); font-size: var(--fs-sm); white-space: nowrap; }
+.status-dot { display: inline-block; width: 7px; height: 7px; flex: 0 0 7px; background: var(--sl-text-3); border-radius: 50%; }
+
+/* ------------------------------------------------------- form controls */
+input:not([type=range]):not([type=checkbox]):not([type=radio]), select { display: block; width: 100%; min-width: 0; min-height: var(--ctl-h); padding: 0 var(--sp-3); border: 1px solid var(--sl-line-strong); border-radius: var(--r-2); background: var(--sl-inset); color: var(--sl-text); font-size: var(--fs-md); }
+select { padding-right: var(--sp-2); }
+textarea { border-radius: var(--r-2); }
+input::placeholder, textarea::placeholder { color: var(--sl-text-3); }
+input:disabled, select:disabled { color: var(--sl-text-2); background: var(--sl-surface-1); border-color: var(--sl-line); }
+.form-group label, .field-label, .section-label { display: block; color: var(--sl-text-2); font-size: var(--fs-sm); font-weight: 500; margin-bottom: 6px; }
+.field-hint { font-size: var(--fs-xs); color: var(--sl-text-2); line-height: var(--lh-body); }
+.small-muted { font-size: var(--fs-xs); color: var(--sl-text-2); }
+.switch { position: relative; width: 40px; height: 22px; flex: 0 0 40px; padding: 0; border: 1px solid var(--sl-line-strong); border-radius: var(--r-pill); background: var(--sl-inset); transition: background-color var(--dur-1), border-color var(--dur-1); }
+.switch span { position: absolute; top: 2px; left: 2px; width: 16px; height: 16px; border-radius: 50%; background: var(--sl-text-2); transition: transform var(--dur-1) var(--ease), background-color var(--dur-1); }
+.switch[aria-checked="true"] { background: var(--sl-accent-soft); border-color: var(--sl-accent-line); }
+.switch[aria-checked="true"] span { transform: translateX(18px); background: var(--sl-accent); }
+kbd { display: inline-grid; place-items: center; min-width: 24px; height: 24px; padding: 0 7px; border: 1px solid var(--sl-line-strong); border-bottom-width: 2px; border-radius: var(--r-1); background: var(--sl-inset); color: var(--sl-text); font: var(--fs-xs) var(--sl-mono); }
+
+/* ------------------------------------------------- surfaces and overlays
+   .glass-panel: a card. Popovers share one surface (list below), as do
+   dialogs. Each feature file only positions its own popover. */
+.glass-panel { background: var(--sl-surface-1); border: 1px solid var(--sl-line); border-radius: var(--r-3); }
+.panel-heading { display: flex; justify-content: space-between; align-items: center; gap: var(--sp-3); margin-bottom: var(--sp-5); }
+.panel-heading h2 { font-size: var(--fs-lg); font-weight: 500; letter-spacing: -.2px; }
+.section-kicker { display: block; color: var(--sl-text-2); font-size: var(--fs-sm); margin-bottom: var(--sp-2); }
+
+.popover-surface, .reaction-picker, .device-popover, .cc-menu, .preflight-popover, .room-menu-list, .more-panel {
+  background: var(--sl-surface-1); border: 1px solid var(--sl-line-strong); border-radius: var(--r-3); box-shadow: var(--shadow-2); color: var(--sl-text);
+}
+.modal-card, .modal-dialog, .wizard-card, .preflight-dialog, .shortcut-dialog, .confirm-dialog, .room-dialog, .invite-dialog {
+  background: var(--sl-surface-1); color: var(--sl-text); border: 1px solid var(--sl-line-strong); border-radius: var(--r-4); box-shadow: var(--shadow-3);
+}
+.shortcut-dialog::backdrop, .confirm-dialog::backdrop, .room-dialog::backdrop, .invite-dialog::backdrop { background: var(--sl-scrim); backdrop-filter: blur(6px); }
+.drawer-panel { background: var(--sl-surface-1); border-left: 1px solid var(--sl-line-strong); box-shadow: var(--shadow-3); }
+
+/* Toasts: bottom-centre above the dock, one style. */
+#toast-container { position: fixed; left: 50%; bottom: calc(var(--dock-h, 0px) + var(--sp-4)); transform: translateX(-50%); z-index: var(--z-toast); display: flex; flex-direction: column; align-items: center; gap: var(--sp-2); width: max-content; max-width: calc(100vw - 32px); pointer-events: none; }
+.toast { max-width: min(440px, calc(100vw - 32px)); padding: 10px 16px; background: #e8eef1; border-radius: var(--r-2); color: #10181e; font-size: var(--fs-md); line-height: var(--lh-ui); box-shadow: var(--shadow-2); }
+
+/* p2p.video wordmark and mark [SL-REL-1]: the domain, lowercase, in the display face;
+   ".video" one step quieter. The mark is two linked rings with the record-red lens. */
+.wordmark { font-family: var(--sl-display); font-weight: 650; letter-spacing: -.03em; white-space: nowrap; }
+.wordmark-tld { color: var(--sl-text-2); font-weight: 500; }
+.brand-lens { fill: var(--sl-rec); stroke: none; }
+/* The AGPL source offer: small, always present on host and guest entry pages. */
+.source-note { margin: var(--sp-4) 0 0; font-size: var(--fs-xs); color: var(--sl-text-3); }
+.source-link { color: inherit; text-decoration: underline; text-underline-offset: 2px; }
+.source-link:hover { color: var(--sl-text-2); }
+.home-menu a[role="menuitem"] { text-decoration: none; }
+
+@media (prefers-reduced-motion: reduce) {
+  *, *::before, *::after { transition: none !important; animation: none !important; scroll-behavior: auto !important; }
+}

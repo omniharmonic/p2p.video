@@ -1,0 +1,6 @@
+{
+  "providingType": "UPS Power",
+  "sources": [
+    {"Type": "UPS", "Name": "Back-UPS ES 600", "Power Source State": "Battery Power", "Current Capacity": 92, "Max Capacity": 100, "Is Present": true, "Transport Type": "USB"}
+  ]
+}

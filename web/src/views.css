@@ -1,0 +1,78 @@
+/* Call views, screen share and in-call devices (ROADMAP P1). The stage layout
+   (speaker view and presentation) orders tiles with --tile-order instead of
+   moving elements. Sizes follow the stage height (--stage-h, set in call.css). */
+
+.layout-switcher-bar { display: flex; align-items: center; gap: var(--sp-2); flex-wrap: wrap; }
+.self-view-toggle { border: 1px solid var(--sl-line); }
+.self-view-toggle[aria-pressed="true"] { background: var(--sl-accent-soft); color: var(--sl-text); }
+
+/* Stage layout: one large tile, a filmstrip column beside it. */
+.video-grid.layout-stage {
+  --film: clamp(150px, 17vw, 236px);
+  display: grid;
+  grid-template-columns: minmax(0, 1fr) var(--film);
+  grid-template-rows: repeat(var(--film-count, 1), min-content) minmax(0, 1fr);
+  gap: 10px;
+  align-content: start;
+  width: 100%;
+  max-width: calc(var(--stage-h, 100dvh - 300px) * 16 / 9 + var(--film) + 10px);
+  margin-inline: auto;
+}
+.video-grid.layout-stage > .tile { order: var(--tile-order, 1); }
+.video-grid.layout-stage > .tile-stage { grid-column: 1; grid-row: 1 / -1; align-self: start; width: 100%; aspect-ratio: 16 / 9; }
+.video-grid.layout-stage > .tile-filmstrip { grid-column: 2; width: 100%; }
+.video-grid.layout-stage.layout-stage-solo { grid-template-columns: minmax(0, 1fr); max-width: calc(var(--stage-h, 100dvh - 300px) * 16 / 9); }
+.video-grid.layout-stage > .tile-filmstrip .tile-name { left: 6px; bottom: 6px; padding: 2px 8px; max-width: calc(100% - 12px); font-size: var(--fs-xs); }
+.video-grid.layout-stage > .tile-filmstrip .tile-state { right: 6px; top: 6px; bottom: auto; }
+.video-grid.layout-stage > .tile-filmstrip .tile-state > span { padding: 1px 6px; }
+.video-grid.layout-stage > .tile-filmstrip .tile-hand { top: 6px; left: 6px; padding: 2px 8px; }
+.video-grid.layout-stage > .tile-filmstrip .tile-iso-badge { display: none !important; }
+
+/* Hidden self view */
+.video-grid > .tile.tile-self-hidden { display: none; }
+
+/* Active speaker ring */
+.tile.tile-speaking { box-shadow: 0 0 0 2px var(--sl-accent); }
+
+/* Pin control: visible on hover/focus (always on touch), and while pinned. */
+.tile-pin { position: absolute; top: var(--sp-2); left: 50%; z-index: 4; transform: translateX(-50%); padding: 3px 10px; border: 0; border-radius: var(--r-pill); background: rgba(7, 10, 13, .78); color: var(--sl-text); font-size: var(--fs-xs); cursor: pointer; opacity: 0; transition: opacity var(--dur-1); }
+.tile:hover > .tile-pin, .tile:focus-within > .tile-pin, .tile-pin[aria-pressed="true"] { opacity: 1; }
+.tile-pin[aria-pressed="true"] { background: var(--sl-accent); color: var(--sl-on-accent); }
+.tile-pin:focus-visible { opacity: 1; }
+@media (hover: none) { .tile-pin { opacity: .9; } }
+.video-grid.layout-multicam .tile-pin { display: none; }
+.video-grid.layout-stage > .tile-filmstrip > .tile-pin { top: auto; bottom: 6px; left: auto; right: 6px; transform: none; padding: 1px 8px; }
+
+/* Screen tiles: never crop a shared screen. */
+.tile.tile-screen { background: #05080a; }
+.tile.tile-screen video { object-fit: contain; }
+.tile-screen-note { position: absolute; top: var(--sp-3); left: var(--sp-3); z-index: 2; padding: 3px 10px; border-radius: var(--r-pill); background: rgba(7, 10, 13, .78); color: var(--sl-text); font-size: var(--fs-xs); }
+.tile-screen-stop { position: absolute; right: var(--sp-3); bottom: var(--sp-3); z-index: 4; min-height: 32px; padding: 0 var(--sp-3); border: 0; border-radius: var(--r-pill); background: var(--sl-rec-fill); color: #fff; font-size: var(--fs-sm); font-weight: 500; cursor: pointer; }
+.tile-screen-stop:hover, .tile-screen-stop:focus-visible { background: var(--sl-rec-fill-hover); }
+.tile-screen-stop[hidden] { display: none; }
+.video-grid.layout-stage > .tile-filmstrip.tile-screen .tile-screen-note { display: none; }
+.video-grid.layout-stage > .tile-filmstrip .tile-screen-stop { right: 6px; bottom: 6px; min-height: 24px; padding: 0 8px; font-size: var(--fs-xs); }
+.video-grid.layout-stage > .tile-filmstrip.tile-screen > .tile-pin { bottom: auto; top: 6px; }
+
+/* In-call devices popover (positioned by call.css when it sits in the dock). */
+.device-popover { position: absolute; left: 0; bottom: calc(100% + 8px); z-index: var(--z-popover); width: min(340px, calc(100vw - 32px)); padding: var(--sp-4); }
+.device-popover[hidden] { display: none; }
+.device-popover-head { display: flex; align-items: center; justify-content: space-between; margin-bottom: var(--sp-3); }
+.device-popover-head h2 { margin: 0; font-size: var(--fs-base); font-weight: 600; }
+.device-field { display: grid; gap: 6px; margin-bottom: var(--sp-3); font-size: var(--fs-sm); color: var(--sl-text-2); }
+.device-field[hidden] { display: none; }
+.device-field select:disabled { opacity: .6; }
+.device-note { margin: 2px 0 0; font-size: var(--fs-sm); line-height: var(--lh-body); color: var(--sl-text-2); }
+.device-locked .device-note { color: var(--sl-warn); }
+
+@media (max-width: 820px) {
+  .video-grid.layout-stage { grid-template-columns: repeat(3, minmax(0, 1fr)); grid-template-rows: none; max-width: none; gap: 8px; }
+  .video-grid.layout-stage > .tile-stage { grid-column: 1 / -1; grid-row: auto; }
+  .video-grid.layout-stage > .tile-filmstrip { grid-column: auto; }
+}
+@media (max-width: 560px) {
+  .video-grid.layout-stage { grid-template-columns: repeat(2, minmax(0, 1fr)); }
+  .tile-screen-note { top: 6px; left: 6px; }
+  .tile-screen-stop { right: 6px; bottom: 6px; }
+  .device-popover, .dock > .device-popover { position: fixed; left: var(--sp-2); right: var(--sp-2); bottom: calc(var(--dock-h, 68px) + var(--sp-2)); width: auto; transform: none; }
+}

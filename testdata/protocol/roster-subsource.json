@@ -1,0 +1,1 @@
+{"t":"roster","payload":{"participants":[{"participantId":"p_fixture","name":"Ada","role":"guest","micMuted":false,"camOff":false,"handRaised":false},{"participantId":"p_phone","name":"Ada · Phone","role":"subsource","micMuted":true,"camOff":false,"handRaised":false,"parentParticipantId":"p_fixture"}],"locked":false}}

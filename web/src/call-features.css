@@ -1,0 +1,134 @@
+/* In-call collaboration (ROADMAP P1): chat, people, hands, reactions, the
+   recording consent banner, shortcuts and confirm dialogs. Surfaces, buttons
+   and dock controls come from tokens.css and call.css. */
+
+/* With a panel open, keep 1–2 tiles side by side instead of stacking. */
+.stage-with-inspector:has(> .call-panel.open) > .video-grid.layout-split:not(:has(> .tile:nth-child(3))) { grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); }
+.collab-btn { position: relative; }
+.collab-icon { display: inline-grid; place-items: center; line-height: 1; }
+
+/* Reactions */
+.reaction-wrap { position: relative; display: inline-flex; }
+.reaction-picker { position: absolute; left: 50%; bottom: calc(100% + 14px); transform: translateX(-50%); z-index: var(--z-popover); display: flex; gap: 4px; padding: 6px 8px; border-radius: var(--r-pill); }
+.reaction-picker[hidden] { display: none; }
+.reaction-choice { width: 44px; height: 44px; display: grid; place-items: center; padding: 0; border: 0; border-radius: 50%; background: transparent; font-size: 22px; line-height: 1; transition: background-color var(--dur-1), transform var(--dur-1) var(--ease); }
+.reaction-choice:hover, .reaction-choice:focus-visible { background: var(--sl-surface-2); transform: translateY(-3px) scale(1.12); }
+.reaction-layer { position: absolute; inset: 0; pointer-events: none; overflow: hidden; z-index: 3; }
+.reaction-float { position: absolute; left: 50%; bottom: 16%; display: flex; flex-direction: column; align-items: center; gap: 4px; transform: translateX(-50%); animation: reaction-rise 3s var(--ease) forwards; }
+.reaction-glyph { font-size: 44px; line-height: 1; filter: drop-shadow(0 4px 10px var(--sl-video-scrim)); }
+.reaction-name { padding: 2px 8px; border-radius: var(--r-pill); background: var(--sl-video-scrim-strong); color: var(--sl-on-video); font-weight: 600; font-size: var(--fs-xs); white-space: nowrap; max-width: 160px; overflow: hidden; text-overflow: ellipsis; }
+.reaction-name:empty { display: none; }
+@keyframes reaction-rise {
+  0% { opacity: 0; transform: translate(-50%, 20px) scale(.6); }
+  12% { opacity: 1; transform: translate(-50%, 0) scale(1.08); }
+  20% { transform: translate(-50%, -6px) scale(1); }
+  80% { opacity: 1; }
+  100% { opacity: 0; transform: translate(calc(-50% + var(--drift, 0px)), -150%) scale(.95); }
+}
+
+/* Hand badge on tiles */
+.tile-hand { position: absolute; top: var(--sp-3); left: var(--sp-3); z-index: 2; display: inline-flex; align-items: center; gap: 6px; padding: 4px 12px 4px 8px; border-radius: var(--r-pill); background: var(--sl-warn); color: var(--sl-on-warn); font-size: var(--fs-sm); font-weight: 600; box-shadow: var(--shadow-2); }
+.video-grid:has(> .tile:nth-child(3)) .tile-hand { top: 6px; left: 6px; padding: 2px 8px; }
+
+/* Recording consent banner: calm and unmissable. */
+.recording-banner { display: inline-flex; align-items: center; flex-wrap: wrap; gap: 4px var(--sp-2); max-width: 100%; padding: 6px var(--sp-4) 6px var(--sp-3); background: var(--sl-surface-1); border: 0; border-radius: var(--r-pill); box-shadow: var(--shadow-1); color: var(--sl-text-2); font-size: var(--fs-sm); line-height: var(--lh-ui); }
+.recording-banner[hidden] { display: none; }
+.recording-banner strong { font-weight: 600; color: var(--sl-text); }
+.recording-banner-detail { color: var(--sl-text-2); }
+.recording-banner-dot { width: 8px; height: 8px; flex: 0 0 8px; border-radius: 50%; background: var(--sl-rec); animation: sl-rec-pulse 2s ease-out infinite; }
+.recording-notice { display: flex; border-radius: var(--r-3); background: var(--sl-rec-soft); border: 1px solid var(--sl-rec-line); color: var(--sl-rec-text); margin: calc(-1 * var(--sp-2)) 0 var(--sp-5); padding: var(--sp-3) var(--sp-4); }
+.recording-notice-locked { background: var(--sl-surface-1); border-color: var(--sl-warn-line); color: var(--sl-text); }
+.recording-notice-locked strong { color: var(--sl-warn); }
+.recording-notice-locked .recording-banner-detail { color: var(--sl-text-2); }
+
+/* Side panel (desktop) / sheet (mobile) */
+.call-panel { display: none; flex-direction: column; width: 360px; flex: 0 0 360px; min-width: 0; min-height: 0; background: var(--sl-surface-1); border-radius: var(--r-4); overflow: hidden; }
+.call-panel.open { display: flex; }
+.call-panel-body { display: flex; flex-direction: column; flex: 1; min-height: 0; }
+.call-panel-body[hidden] { display: none; }
+.call-panel-head { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); padding: var(--sp-4) var(--sp-3) var(--sp-3) var(--sp-5); }
+.call-panel-head h2 { font-size: var(--fs-xl); font-weight: 600; }
+.call-panel-head .section-kicker { display: none; }
+.call-panel-note { margin: 0 var(--sp-4) var(--sp-2); padding: var(--sp-3); border-radius: var(--r-2); font-size: var(--fs-sm); line-height: var(--lh-body); color: var(--sl-text-2); background: var(--sl-surface-2); }
+
+/* Chat */
+.chat-log { flex: 1; min-height: 0; overflow-y: auto; padding: var(--sp-1) var(--sp-5) var(--sp-4); scroll-behavior: smooth; }
+.chat-log:focus-visible { outline-offset: -2px; }
+.chat-empty { padding: var(--sp-6) var(--sp-5); color: var(--sl-text-2); font-size: var(--fs-sm); text-align: center; }
+.chat-empty[hidden] { display: none; }
+.chat-msg { margin-top: var(--sp-4); }
+.chat-msg-grouped { margin-top: 4px; }
+.chat-meta { display: flex; align-items: baseline; gap: var(--sp-2); margin-bottom: 2px; }
+.chat-meta strong { font-size: var(--fs-md); font-weight: 600; color: var(--sl-text); max-width: 60%; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.chat-msg-self .chat-meta strong { color: var(--sl-accent); }
+.chat-meta time { font-size: var(--fs-xs); color: var(--sl-text-3); font-variant-numeric: tabular-nums; }
+.chat-role { padding: 0 6px; border: 1px solid var(--sl-line-strong); border-radius: var(--r-pill); font-size: var(--fs-xs); color: var(--sl-text-2); }
+.chat-text { margin: 0; font-size: var(--fs-base); line-height: var(--lh-body); color: var(--sl-text); white-space: pre-wrap; overflow-wrap: anywhere; }
+.chat-text a { color: var(--sl-accent); text-decoration: underline; text-underline-offset: 2px; }
+.chat-compose { padding: var(--sp-3) var(--sp-4) var(--sp-4); }
+.chat-compose textarea { display: block; width: 100%; min-height: 48px; max-height: 140px; padding: 12px var(--sp-4); border: 1px solid transparent; border-radius: 24px; background: var(--sl-surface-2); color: var(--sl-text); font-size: var(--fs-base); line-height: var(--lh-ui); resize: none; }
+.chat-compose-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-2); margin-top: var(--sp-2); }
+.chat-counter { font-size: var(--fs-xs); color: var(--sl-warn); }
+.chat-send { min-height: 34px; padding: 0 var(--sp-4); border-radius: var(--r-pill); }
+
+/* People */
+.people-panel { overflow-y: auto; }
+.people-lock { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); margin: 0 var(--sp-4) var(--sp-2); padding: var(--sp-3); border-radius: var(--r-2); background: var(--sl-surface-2); }
+.people-lock[hidden] { display: none; }
+.people-lock strong { display: block; font-size: var(--fs-md); font-weight: 500; margin-bottom: 2px; }
+.people-lock span { font-size: var(--fs-xs); color: var(--sl-text-2); }
+.people-lock.locked span { color: var(--sl-warn); }
+.people-subhead { margin: 0; padding: var(--sp-3) var(--sp-5) var(--sp-1); font-family: var(--sl-font); font-size: var(--fs-sm); font-weight: 600; color: var(--sl-text-2); letter-spacing: 0; }
+.hand-queue { padding-bottom: var(--sp-2); border-bottom: 1px solid var(--sl-line); }
+.hand-queue[hidden] { display: none; }
+.hand-queue-list { margin: 0; padding: 0 var(--sp-5) 0 38px; font-size: var(--fs-md); color: var(--sl-warn); line-height: 1.8; }
+.people-list { list-style: none; margin: 0; padding: 0 0 var(--sp-3); }
+.people-row { display: grid; grid-template-columns: 32px minmax(0, 1fr); grid-template-areas: "avatar who" "avatar state" ". actions"; column-gap: var(--sp-3); row-gap: 4px; padding: var(--sp-2) var(--sp-5); }
+.people-row:hover { background: var(--sl-surface-2); }
+.people-avatar { grid-area: avatar; width: 32px; height: 32px; display: grid; place-items: center; border-radius: 50%; background: var(--sl-avatar-1); color: var(--sl-on-avatar-1); font-size: var(--fs-md); font-weight: 600; }
+.people-row:nth-child(3n+2) .people-avatar { background: var(--sl-avatar-2); color: var(--sl-on-avatar-2); }
+.people-row:nth-child(3n) .people-avatar { background: var(--sl-avatar-3); color: var(--sl-on-avatar-3); }
+.people-who { grid-area: who; display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; }
+.people-who strong { font-size: var(--fs-md); font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.people-role { font-size: var(--fs-xs); color: var(--sl-text-2); flex: 0 0 auto; }
+.people-state { grid-area: state; display: flex; flex-wrap: wrap; gap: 4px; }
+.people-chip { padding: 1px 8px; border: 1px solid var(--sl-line); border-radius: var(--r-pill); font-size: var(--fs-xs); color: var(--sl-text-2); }
+.people-chip.chip-mic:not(.on), .people-chip.chip-cam:not(.on) { display: none; }
+.people-chip.chip-mic.on, .people-chip.chip-cam.on { color: var(--sl-off-text); border-color: var(--sl-off-line); background: var(--sl-off-bg); }
+.people-chip.chip-hand { color: var(--sl-on-warn); border-color: var(--sl-warn); background: var(--sl-warn); }
+.people-actions { grid-area: actions; display: flex; flex-wrap: wrap; gap: 6px; margin-top: 2px; }
+.people-actions .btn { border-radius: var(--r-pill); }
+
+/* Dialogs (surfaces from tokens.css) */
+.shortcut-dialog, .confirm-dialog { width: min(460px, calc(100vw - 32px)); padding: 0; }
+.shortcut-list { margin: 0; padding: var(--sp-2) var(--sp-5) var(--sp-4); }
+.shortcut-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-4); padding: 10px 0; border-bottom: 1px solid var(--sl-line); font-size: var(--fs-md); }
+.shortcut-row:last-child { border-bottom: 0; }
+.shortcut-row dt { color: var(--sl-text); }
+.shortcut-row dd { margin: 0; display: flex; align-items: center; gap: 4px; color: var(--sl-text-2); font-size: var(--fs-xs); }
+.confirm-dialog { padding: var(--sp-6); }
+.confirm-dialog h2 { font-size: var(--fs-xl); margin-bottom: var(--sp-2); }
+.confirm-dialog p { color: var(--sl-text-2); font-size: var(--fs-md); }
+.confirm-actions { display: flex; justify-content: flex-end; gap: var(--sp-2); margin-top: var(--sp-6); }
+
+@media (max-width: 1150px) { .call-panel { width: 320px; flex-basis: 320px; } }
+@media (max-width: 820px) {
+  .call-panel.open { position: fixed; top: 0; right: 0; bottom: 0; z-index: var(--z-sheet); width: min(100%, 420px); height: auto !important; border-radius: 0; border-width: 0 0 0 1px; border-color: var(--sl-line-strong); box-shadow: var(--shadow-3); }
+}
+@media (max-width: 560px) {
+  .recording-banner { font-size: var(--fs-xs); padding: 6px var(--sp-3); border-radius: var(--r-3); }
+  .call-panel.open { width: 100%; border-left: 0; }
+}
+
+/* Producer badge [SL-P1-11]: in the call, never recorded. */
+.tile-role { position: absolute; top: var(--sp-3); right: var(--sp-3); z-index: 2; padding: 3px 10px; border-radius: var(--r-pill); background: var(--sl-accent-soft); border: 1px solid var(--sl-accent-line); color: var(--sl-accent-strong); font-size: var(--fs-xs); font-weight: 600; }
+.video-grid:has(> .tile:nth-child(3)) .tile-role { top: 6px; right: 6px; padding: 2px 8px; }
+.people-role-producer { color: var(--sl-accent); }
+.producer-note { margin: 0 0 var(--sp-2); padding: var(--sp-2) var(--sp-3); border: 1px solid var(--sl-accent-line); border-radius: var(--r-2); background: var(--sl-accent-soft); color: var(--sl-text); font-size: var(--fs-sm); line-height: var(--lh-body); }
+
+/* Recording microphone mode [SL-P1-10]. */
+.recording-mic { display: flex; flex-direction: column; gap: var(--sp-2); }
+.recording-mic h3 { margin: 0; font-size: var(--fs-sm); font-weight: 500; color: var(--sl-text-2); }
+.recording-mic .is-moot { opacity: .6; }
+.recording-mic-status { margin: 0; }
+.preflight-recmic { margin: 2px 0 0; font-size: var(--fs-xs); color: var(--sl-text-2); }

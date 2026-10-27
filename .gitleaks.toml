@@ -1,0 +1,15 @@
+# gitleaks config: default rules, plus an allowlist for fake test fixtures
+# (calendar feed keys, stream keys, test JWTs and tokens). Reviewed 2026-10-27.
+[extend]
+useDefault = true
+
+[allowlist]
+description = "Synthetic test fixtures, not secrets"
+paths = [
+  '''host/internal/calendar/testdata/.*\.ics''',
+  '''host/internal/calendar/calendar_test\.go''',
+  '''host/internal/livestream/(integration_test|livestream_test)\.go''',
+  '''host/internal/parachute/parachute_test\.go''',
+  '''testdata/protocol/admission-producer\.json''',
+  '''web/tests/(branding|rehearsal)\.browser\.mjs''',
+]

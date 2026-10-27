@@ -1,0 +1,15 @@
+{
+  "Version": "1.102.2",
+  "BackendState": "NeedsLogin",
+  "AuthURL": "",
+  "TailscaleIPs": null,
+  "Self": {
+    "DNSName": "",
+    "Online": false,
+    "Capabilities": null
+  },
+  "MagicDNSSuffix": "",
+  "CurrentTailnet": null,
+  "CertDomains": null,
+  "Peer": null
+}

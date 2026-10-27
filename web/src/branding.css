@@ -1,0 +1,83 @@
+/* Branding & lower thirds [SL-P5-2]: the drawer and the tile labels.
+   Tokens only (tokens.css); the drawer reuses the kit in studio.css.
+   --brand-accent is the host's accent (validated #rrggbb) set on the grid. */
+
+.branding-backdrop { z-index: var(--z-drawer); }
+.branding-drawer { width: min(100%, 480px); }
+.branding-drawer .drawer-content { gap: var(--sp-6); }
+.branding-host, .branding-titles { display: flex; flex-direction: column; gap: var(--sp-4); }
+.branding-host[hidden] { display: none; }
+.branding-heading { margin: 0; font-size: var(--fs-lg); font-weight: 500; color: var(--sl-text); }
+.branding-titles { padding-top: var(--sp-5); border-top: 1px solid var(--sl-line); }
+.branding-host + .branding-titles { margin-top: 0; }
+.branding-titles > .field-hint { margin: 0; }
+
+.branding-logo-row { display: flex; align-items: center; gap: var(--sp-4); }
+.branding-logo-preview { display: grid; place-items: center; width: 132px; height: 64px; flex: none; border: 1px dashed var(--sl-line-strong); border-radius: var(--r-2); background: var(--sl-inset); color: var(--sl-text-3); font-size: var(--fs-xs); overflow: hidden; }
+.branding-logo-preview img { max-width: 100%; max-height: 100%; object-fit: contain; }
+.branding-logo-actions { display: flex; flex-wrap: wrap; gap: var(--sp-2); }
+.branding-file { position: relative; overflow: hidden; cursor: pointer; }
+.branding-file input { position: absolute; inset: 0; opacity: 0; cursor: pointer; }
+.branding-file:focus-within { outline: 2px solid var(--sl-accent); outline-offset: 2px; }
+
+.branding-accent-row { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.branding-accent-row #brand-accent { display: inline-block; flex: none; width: 44px; height: 36px; min-height: 0; padding: 2px; border: 1px solid var(--sl-line-strong); border-radius: var(--r-2); background: var(--sl-inset); }
+.branding-accent-row code { font-family: var(--sl-mono); font-size: var(--fs-sm); color: var(--sl-text-2); }
+.branding-swatch { --brand-accent: var(--sl-accent); display: inline-flex; align-items: stretch; margin-left: auto; border-radius: var(--r-1); overflow: hidden; background: var(--sl-video-scrim-strong); box-shadow: 0 0 0 1px var(--sl-line); }
+.branding-swatch-strip { width: 4px; background: var(--brand-accent); }
+.branding-swatch-text { display: flex; flex-direction: column; padding: 6px 10px; line-height: 1.25; }
+.branding-swatch-text strong { font-size: var(--fs-md); font-weight: 600; color: var(--sl-text); }
+.branding-swatch-text small { font-size: var(--fs-xs); color: var(--sl-text-2); }
+
+.branding-switch-row { display: flex; align-items: center; justify-content: space-between; gap: var(--sp-3); font-size: var(--fs-md); color: var(--sl-text); }
+.branding-switch-row small { display: block; margin-top: 2px; font-size: var(--fs-xs); color: var(--sl-text-3); }
+.branding-save-row { display: flex; align-items: center; gap: var(--sp-3); flex-wrap: wrap; }
+.branding-status { margin: 0; font-size: var(--fs-sm); color: var(--sl-text-2); }
+.branding-status.is-error { color: var(--sl-danger); }
+
+.branding-people { display: flex; flex-direction: column; gap: var(--sp-3); }
+.branding-person { display: grid; grid-template-columns: minmax(0, 1fr) minmax(0, 1fr) auto; grid-template-areas: "who who who" "name title save"; gap: var(--sp-2); padding: var(--sp-3); border: 1px solid var(--sl-line); border-radius: var(--r-2); background: var(--sl-inset); }
+.branding-person-who { grid-area: who; display: flex; align-items: baseline; gap: var(--sp-2); min-width: 0; }
+.branding-person-who strong { font-weight: 500; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.branding-person-who span { font-size: var(--fs-xs); color: var(--sl-text-3); }
+.branding-person [data-field=name] { grid-area: name; }
+.branding-person [data-field=title] { grid-area: title; }
+.branding-person [data-save] { grid-area: save; }
+.branding-person [data-clear] { margin-left: auto; min-height: 24px; padding: 0 var(--sp-2); font-size: var(--fs-xs); }
+.branding-person input { min-width: 0; }
+@media (max-width: 520px) {
+  .branding-person { grid-template-columns: minmax(0, 1fr) auto; grid-template-areas: "who who" "name name" "title save"; }
+  .branding-swatch { margin-left: 0; }
+}
+
+/* Tile lower thirds (when the host turns them on). */
+.video-grid.branded-labels > .tile:has(> .tile-lower-third) > .tile-name { opacity: 0; pointer-events: none; }
+/* The two-line label is taller than the name pill: lift the signal bars. */
+.video-grid.branded-labels > .tile.has-lt-title .tile-net { bottom: calc(var(--sp-3) + 50px); }
+.tile-lower-third {
+  position: absolute; left: var(--sp-3); bottom: var(--sp-3); z-index: 2;
+  display: flex; flex-direction: column; gap: 1px;
+  max-width: calc(100% - 24px);
+  padding: 6px 12px 7px 14px;
+  border-radius: var(--r-1);
+  background: var(--sl-video-scrim-strong);
+  box-shadow: inset 4px 0 0 var(--brand-accent, var(--sl-accent));
+  pointer-events: none;
+  animation: lt-in var(--dur-2) var(--ease) both;
+}
+.tile-lower-third .lt-name { font-size: var(--fs-base); font-weight: 600; line-height: var(--lh-tight); color: var(--sl-on-video); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile-lower-third .lt-title { font-size: var(--fs-sm); line-height: var(--lh-tight); color: var(--sl-on-video-2); overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+.tile-lower-third .lt-title[hidden] { display: none; }
+.video-grid.layout-stage > .tile-filmstrip .tile-lower-third { left: 6px; bottom: 6px; padding: 4px 8px 5px 11px; max-width: calc(100% - 12px); }
+.video-grid.layout-stage > .tile-filmstrip .tile-lower-third .lt-name { font-size: var(--fs-sm); }
+.video-grid.layout-stage > .tile-filmstrip .tile-lower-third .lt-title { font-size: var(--fs-xs); }
+@media (max-width: 560px) {
+  .tile-lower-third { left: var(--sp-2); bottom: var(--sp-2); }
+  .video-grid:has(> .tile:nth-child(3)) .tile-lower-third { left: 6px; bottom: 6px; padding: 4px 8px 5px 11px; max-width: calc(100% - 12px); }
+  .video-grid:has(> .tile:nth-child(3)) .tile-lower-third .lt-name { font-size: var(--fs-sm); }
+  .video-grid:has(> .tile:nth-child(3)) .tile-lower-third .lt-title { font-size: var(--fs-xs); }
+  .video-grid.branded-labels:has(> .tile:nth-child(3)) > .tile.has-lt-title .tile-net { bottom: 46px; }
+}
+.video-grid.branded-labels.layout-stage > .tile-filmstrip.has-lt-title .tile-net { bottom: 46px; }
+@keyframes lt-in { from { opacity: 0; transform: translateX(-8px); } to { opacity: 1; transform: none; } }
+@media (prefers-reduced-motion: reduce) { .tile-lower-third { animation: none; } }

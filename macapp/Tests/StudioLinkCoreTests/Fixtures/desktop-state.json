@@ -1,0 +1,32 @@
+{
+  "product": "com.omniharmonic.studiolink",
+  "buildId": "20261025T200000Z-TEST",
+  "pid": 4242,
+  "recording": true,
+  "live": false,
+  "uploadsPending": 2,
+  "waitingCount": 1,
+  "sessions": [
+    {
+      "id": "a1b2c3d4",
+      "connected": 3,
+      "admitted": 2,
+      "hostConnected": true,
+      "waiting": [{"participantId": "p_guest-2", "name": "Ada"}],
+      "recording": true,
+      "takeId": "take_a1b2c3d4_02",
+      "takeNumber": 2,
+      "uploadingTracks": 2,
+      "title": "Episode 12",
+      "live": false
+    }
+  ],
+  "takes": [
+    {"id": "take_a1b2c3d4_02", "sessionId": "a1b2c3d4", "number": 2, "status": "recording", "tracks": 0, "tracksUploaded": 0, "missingParticipants": 2, "uploadsComplete": false, "exported": false},
+    {"id": "take_a1b2c3d4_01", "sessionId": "a1b2c3d4", "number": 1, "status": "stopped", "tracks": 4, "tracksUploaded": 4, "missingParticipants": 0, "uploadsComplete": true, "exported": false}
+  ],
+  "rooms": [
+    {"id": "room_0a1b2c3d4e5f", "name": "The Podcast", "live": true},
+    {"id": "room_5f4e3d2c1b0a", "name": "Weekly sync", "live": false}
+  ]
+}
