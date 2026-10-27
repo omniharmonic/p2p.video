@@ -243,5 +243,10 @@ if [[ -n "${NOTARYTOOL_PROFILE:-}" ]]; then
     xcrun stapler validate "$DMG"
     spctl --assess --type open --context context:primary-signature --verbose=2 "$DMG"
 fi
-(cd "$BUILD_DIR" && shasum -a 256 "$(basename "$DMG")" "$ZIP_NAME" > SHA256SUMS.txt)
+# The website's download button links to releases/latest/download/<this name>, so every
+# release must also attach the disk image under a name without the version.
+LATEST_DMG="$BUILD_DIR/$APP_NAME-$(uname -m).dmg"
+cp -f "$DMG" "$LATEST_DMG"
+(cd "$BUILD_DIR" && shasum -a 256 "$(basename "$DMG")" "$ZIP_NAME" "$(basename "$LATEST_DMG")" > SHA256SUMS.txt)
 echo "Download: $DMG"
+echo "Attach to the release as well: $LATEST_DMG"

@@ -73,7 +73,11 @@ STUDIOLINK_MEDIA_TOOLS=/path/to/build/media-tools scripts/package-mac.sh
 
 The bundle is `p2p.video.app`, bundle identifier `video.p2p.app`, version 1.0.0
 (`CFBundleVersion` is `BUILD_NUMBER` in the script; bump it for every release). Outputs:
-`build/p2p.video-1.0.0-arm64.dmg`, `build/p2p.video-1.0.0-arm64.zip`, `build/SHA256SUMS.txt`.
+`build/p2p.video-1.0.0-arm64.dmg`, `build/p2p.video-1.0.0-arm64.zip`, `build/p2p.video-arm64.dmg`
+(the same disk image under a fixed name) and `build/SHA256SUMS.txt`. Attach all four to the GitHub release: the
+website's download button links to `releases/latest/download/p2p.video-arm64.dmg`, which 404s if the fixed-name copy
+is missing.
+
 `LICENSE.txt` (AGPL-3.0) and `THIRD_PARTY_NOTICES.md` are copied into `Contents/Resources`.
 
 ## Migrating from StudioLink [SL-REL-1]
